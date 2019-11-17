@@ -1,0 +1,9 @@
+Benötigte Daten:
+- Ort
+- Objekt
+- PersonenName
+- Objektkontrolle (Objekt, Kontrollgegenstände)
+- standard Kontrollgegenstände (id, name, labels, beschreibung, fotos)
+	- neue Kontrollgegenstände 
+- Standard Labels (id, name)
+	- neue Labels
