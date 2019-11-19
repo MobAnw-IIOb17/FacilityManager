@@ -2,5 +2,6 @@
 - Liste aller Schadensmeldungen mit deren Attributen
 - Liste aller Orte
 - Liste aller Objekte an einem Ort
+    (alternativ Liste aller Objekte an allen Orten, dann filtern wir selbst)
 
 - Methode zum Versenden bzw. Speichern und späteren Senden von neu erstellten Schadensmeldungen
