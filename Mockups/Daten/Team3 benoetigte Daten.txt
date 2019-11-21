@@ -1,9 +1,0 @@
-Benötigte Daten:
-- Ort in dem die angemeldeten Hausmeister-verwalteten Objekte stehen
-- Objekte die in dem Ausgewähltem Ort vorhanden sind
-- Name der Person die aktuell bei der App angemeldet ist
-- Objektkontrolle (Ort, Objekt, Name, Kontrollgegenstände)
-- standard Kontrollgegenstände (Id, Name, Labels, Fotos)
-	- neue Kontrollgegenstände anlegen
-- Standard Labels (Id, Name, Beschreibung)
-	- neue Labels anlegen
