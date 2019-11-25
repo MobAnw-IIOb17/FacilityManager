@@ -12,13 +12,13 @@ const routes: Routes = [
     path: 'tabs',
     component: TabsPage,
     children: [
-      { path: 'damage-reports', loadChildren: '../damage-reports/damage-reports.module#DamageReportsPageModule'},
+      { path: 'damage-details', loadChildren: '../damage-details/damage-details.module#DamageDetailsPageModule'},
       { path: 'object-manager', loadChildren: '../object-manager/object-manager.module#ObjectManagerPageModule'},
     ]
   },
   {
     path:'',
-    redirectTo:'/tabs/damage-reports',
+    redirectTo:'/tabs/damage-details',
     pathMatch:'full'
   }
 ];

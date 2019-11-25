@@ -12,4 +12,10 @@ export class DamageDetailsPage implements OnInit {
   ngOnInit() {
   }
 
+  place: string = "Görlitz";
+  address: string = "Brückenstraße 1";
+  location: string = "2. Stock, Zimmer 303";
+  tenant: string = "Der Weihnachtsmann";
+  date: Date = new Date('11/26/19');
+  description: string = "Kamin fehlt";
 }

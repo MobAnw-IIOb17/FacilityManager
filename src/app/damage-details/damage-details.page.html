@@ -5,5 +5,35 @@
 </ion-header>
 
 <ion-content>
+  <mat-list>
+    <mat-list-item>
+      <h3 matLine> Ort </h3>
+      <p matLine> {{place}}</p>
+    </mat-list-item>
 
+    <mat-list-item>
+      <h3 matLine> Adresse </h3>
+      <p matLine> {{address}}</p>
+    </mat-list-item>
+
+    <mat-list-item>
+      <h3 matLine> Lage </h3>
+      <p matLine> {{location}}</p>
+    </mat-list-item>
+
+    <mat-list-item>
+      <h3 matLine> Mieter </h3>
+      <p matLine> {{tenant}}</p>
+    </mat-list-item>
+
+    <mat-list-item>
+      <h3 matLine> Datum </h3>
+      <p matLine> {{date | date}}</p>
+    </mat-list-item>
+
+    <mat-list-item>
+      <h3 matLine> Beschreibung </h3>
+      <p matLine> {{description}}</p>
+    </mat-list-item>
+  </mat-list>
 </ion-content>
