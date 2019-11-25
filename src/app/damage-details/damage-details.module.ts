@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { DamageDetailsPage } from './damage-details.page';
-import {MatListModule} from '@angular/material';
+import { MatListModule } from '@angular/material';
 
 const routes: Routes = [
   {
