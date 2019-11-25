@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { DamageReportsPage } from './damage-reports.page';
 
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 const routes: Routes = [
   {
     path: '',
@@ -19,6 +22,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    MatInputModule,
+    MatFormFieldModule,
     RouterModule.forChild(routes)
   ],
   declarations: [DamageReportsPage]
