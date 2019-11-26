@@ -12,13 +12,13 @@ const routes: Routes = [
     path: 'tabs',
     component: TabsPage,
     children: [
-      { path: 'damage-details', loadChildren: '../damage-details/damage-details.module#DamageDetailsPageModule'},
+      { path: 'damage-reports', loadChildren: '../damage-reports/damage-reports.module#DamageReportsPageModule'},
       { path: 'object-manager-new', loadChildren: '../object-manager-new/object-manager-new.module#ObjectManagerNewPageModule' },
     ]
   },
   {
     path:'',
-    redirectTo:'/tabs/damage-details',
+    redirectTo:'/tabs/damage-reports', //default page (opens when app is started)
     pathMatch:'full'
   }
 ];
