@@ -9,11 +9,11 @@ import { Employee } from '../model/employee.model';
 })
 export class EmployeeService {
 
-  private employeeDb: any;
+  private employeeDb: Storage;
 
   constructor() {
     this.employeeDb = new Storage({
-      name: '__employeesDb',
+      name: '__facilityManagerDb',
       storeName: '_employees',
       driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
     });
