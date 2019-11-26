@@ -5,18 +5,20 @@
 </ion-header>
 
 <ion-content>
-  <form class="form">
-    <mat-form-field class="full-width">
-        <input matInput placeholder="Kontrollname eingeben">
-      </mat-form-field>
-
-    <mat-form-field visible=false class="full-width">
-      <input matInput placeholder="Eigenschaft">
-  </mat-form-field>
-
-    <button mat-fab  class="add-button">
-        <mat-icon svgIcon="add" aria-hidden="false" aria-label="Example thumbs up SVG icon">add</mat-icon>
-    </button>
-    
-  </form>
+  <ion-item id="propInput">
+    <ion-label position="floating">Neue Eigenschaft</ion-label>
+    <ion-input oninput="addPropertie(event)"></ion-input>
+  </ion-item>
+  <ion-item id="prop">
+      <ion-label position="floating" id="propName1">Neue Eigenschaft</ion-label>
+      <ion-input oninput="addPropertie(event)"></ion-input>
+    </ion-item>
+  <ion-button onclick="addPropertie(event,'Hallo')">Erstellen</ion-button>
 </ion-content>
+<script>
+  function addPropertie(event,String) {
+    propInput.hidden;
+    propName1.innerHTML= String;
+
+  }
+</script>
