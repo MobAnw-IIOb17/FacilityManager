@@ -1,7 +1,30 @@
 <ion-header>
+    <ion-toolbar>
+        <ion-title>Schadensmeldungen</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-label>Item 1<small><br>text</small></ion-label>
+            <p>some text</p>
+        </ion-item>
+        <ion-item>
+            <ion-label>Item 2<small><br>text</small></ion-label>
+            <p style="color:red;">some text</p>
+        </ion-item>
+        <ion-item>
+            <ion-label>Item 3<small><br>text</small></ion-label>
+            <p style="color:yellowgreen;">some text</p>
+        </ion-item>
+    </ion-list>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+        <ion-fab-button >
+            <ion-icon name="add" ></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 
     <form class="example-form">
         <mat-form-field class="example-full-width">
