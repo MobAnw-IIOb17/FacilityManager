@@ -7,8 +7,9 @@ const routes: Routes = [
   { path: 'object-manager-control-list', loadChildren: './object-manager-control-list/object-manager-control-list.module#ObjectManagerControlListPageModule' },
   { path: 'object-manager-control-new', loadChildren: './object-manager-control-new/object-manager-control-new.module#ObjectManagerControlNewPageModule' },
   { path: 'object-manager-control-view', loadChildren: './object-manager-control-view/object-manager-control-view.module#ObjectManagerControlViewPageModule' },
-
-
+  { path: 'damage-reports', loadChildren: './damage-reports/damage-reports.module#DamageReportsPageModule' },
+  { path: 'damage-details', loadChildren: './damage-details/damage-details.module#DamageDetailsPageModule' },
+  { path: 'damage-form', loadChildren: './damage-form/damage-form.module#DamageFormPageModule' },
 ];
 
 @NgModule({
