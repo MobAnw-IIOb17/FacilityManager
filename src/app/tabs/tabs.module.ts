@@ -13,6 +13,8 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       { path: 'damage-reports', loadChildren: '../damage-reports/damage-reports.module#DamageReportsPageModule'},
+      { path: 'damage-details', loadChildren: '../damage-details/damage-details.module#DamageDetailsPageModule' },
+      { path: 'damage-form', loadChildren: '../damage-form/damage-form.module#DamageFormPageModule' },
       { path: 'object-manager-new', loadChildren: '../object-manager-new/object-manager-new.module#ObjectManagerNewPageModule' },
     ]
   },
