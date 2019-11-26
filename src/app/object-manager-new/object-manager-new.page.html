@@ -5,26 +5,14 @@
 </ion-header>
 
 <ion-content>
-  <form class="form">
-    <mat-form-field class="full-width">
-        <input matInput placeholder="Stadt">
-      </mat-form-field>
-
-    <mat-form-field class="full-width">
-        <input matInput placeholder="Objekt">
-      </mat-form-field>
-
-    <mat-form-field class="full-width">
-        <input matInput placeholder="Zusatz">
-      </mat-form-field>
-
-    <button mat-fab  class="big-add-button">
-        <mat-icon svgIcon="add" aria-hidden="false" aria-label="Example thumbs up SVG icon">add</mat-icon>
-    </button>
-    <ion-searchbar showCancelButton="focus" position="floating" animated="true" spellcheck="true" inputmode="text" placeholder="Stadt"></ion-searchbar>
-    <ion-button href="object-manager-control-list">Erstellen</ion-button>
-  </form>
-
-
+  <ion-list>
+      <ion-searchbar id="#city_searchbar" (ionChange)="predictiveSearch($event)" showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" ></ion-searchbar>
+        <ion-list>
+          <ion-item *ngFor="let item of items">{{ item }}</ion-item>
+        </ion-list>
+      <ion-searchbar showCancelButton="focus" animated="true" spellcheck="true" placeholder="Objekt"></ion-searchbar>
+      <ion-searchbar showCancelButton="focus" animated="true" spellcheck="true" placeholder="Zusatz"></ion-searchbar>
+      <ion-button class="generate" href="object-manager-control-list">Erstellen</ion-button>
+    </ion-list>
 
 </ion-content>
