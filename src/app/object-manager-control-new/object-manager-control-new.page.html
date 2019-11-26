@@ -5,5 +5,21 @@
 </ion-header>
 
 <ion-content>
+  <form class="form">
+    <mat-form-field class="full-width">
+        <input matInput placeholder="Kontrollname eingeben">
+      </mat-form-field>
 
+    <mat-form-field visible=false class="full-width">
+        <input matInput placeholder="Eigenschaft eingeben">
+    </mat-form-field>
+    <mat-form-field visible=false class="full-width">
+      <input matInput placeholder="Eigenschaft">
+  </mat-form-field>
+
+    <button mat-fab  class="add-button">
+        <mat-icon svgIcon="add" aria-hidden="false" aria-label="Example thumbs up SVG icon">add</mat-icon>
+    </button>
+    
+  </form>
 </ion-content>
