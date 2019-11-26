@@ -5,15 +5,15 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ObjectManagerPage } from './object-manager.page';
+import { ObjectManagerNewPage } from './object-manager-new.page';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 
 const routes: Routes = [
   {
     path: '',
-    component: ObjectManagerPage
+    component: ObjectManagerNewPage
   }
 ];
 
@@ -27,6 +27,6 @@ const routes: Routes = [
     MatButtonModule,
     MatIconModule
   ],
-  declarations: [ObjectManagerPage]
+  declarations: [ObjectManagerNewPage]
 })
-export class ObjectManagerPageModule {}
+export class ObjectManagerNewPageModule {}
