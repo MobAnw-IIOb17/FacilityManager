@@ -1,39 +1,25 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>damage-details</ion-title>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <mat-list>
-    <mat-list-item>
-      <h3 matLine> Ort </h3>
-      <p matLine> {{place}}</p>
-    </mat-list-item>
-
-    <mat-list-item>
-      <h3 matLine> Adresse </h3>
-      <p matLine> {{address}}</p>
-    </mat-list-item>
-
-    <mat-list-item>
-      <h3 matLine> Lage </h3>
-      <p matLine> {{location}}</p>
-    </mat-list-item>
-
-    <mat-list-item>
-      <h3 matLine> Mieter </h3>
-      <p matLine> {{tenant}}</p>
-    </mat-list-item>
-
-    <mat-list-item>
-      <h3 matLine> Datum </h3>
-      <p matLine> {{date | date}}</p>
-    </mat-list-item>
-
-    <mat-list-item>
-      <h3 matLine> Beschreibung </h3>
-      <p matLine> {{description}}</p>
-    </mat-list-item>
-  </mat-list>
+  <ion-item>
+    <ion-label> Ort </ion-label>
+    <ion-label> {{place}} </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label> Adresse </ion-label>
+    <ion-label> {{address}} </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label> Lage </ion-label>
+    <ion-label> {{location}} </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label> Mieter </ion-label>
+    <ion-label> {{tenant}} </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label> Datum </ion-label>
+    <ion-label> {{date | date}} </ion-label>
+  </ion-item>
 </ion-content>
