@@ -5,20 +5,16 @@
 </ion-header>
 
 <ion-content>
-  <ion-item id="propInput">
-    <ion-label position="floating">Neue Eigenschaft</ion-label>
-    <ion-input oninput="addPropertie(event)"></ion-input>
+  <ion-item>
+    <ion-label position="floating">Kontrollname</ion-label>
+    <ion-input></ion-input>
   </ion-item>
-  <ion-item id="prop">
-      <ion-label position="floating" id="propName1">Neue Eigenschaft</ion-label>
-      <ion-input oninput="addPropertie(event)"></ion-input>
+  <ion-list id="newControlProperties">
+    <ion-item>
+      <ion-label position="floating">Eigenschaft</ion-label>
+      <ion-input></ion-input>
     </ion-item>
-  <ion-button onclick="addPropertie(event,'Hallo')">Erstellen</ion-button>
+  </ion-list>
+  <ion-button id="addProp" (click) ="addPropertie()"></ion-button>
+  <ion-button id="addControl" (click) ="commit">Erstellen</ion-button>
 </ion-content>
-<script>
-  function addPropertie(event,String) {
-    propInput.hidden;
-    propName1.innerHTML= String;
-
-  }
-</script>
