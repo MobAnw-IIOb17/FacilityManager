@@ -1,0 +1,9 @@
+/* Global App Theme */
+
+.form_input {
+    width: auto;
+    margin-left: 4.5%;
+    margin-right: 4.5%;
+    --color: var(--ion-color-dark);
+    --highlight-color-focused: var(--ion-color-secondary);
+}

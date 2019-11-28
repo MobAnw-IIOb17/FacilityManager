@@ -3,5 +3,54 @@
 </ion-header>
 
 <ion-content>
+    <form>
+        <ion-list>
+            <ion-item>
+                <ion-searchbar animated spellcheck="true" placeholder="Stadt"></ion-searchbar>
+            </ion-item>
+
+            <ion-item>
+                <ion-searchbar animated spellcheck="true" placeholder="Adresse"></ion-searchbar>
+            </ion-item>
+
+            <ion-item class="form_input">
+                <ion-label position="floating">Adresszusatz</ion-label>
+                <ion-input required></ion-input>
+            </ion-item>
+
+            <ion-item class="form_input">
+                <ion-label position="floating">Mieter</ion-label>
+                <ion-input required></ion-input>
+            </ion-item>
+
+            <ion-item class="form_input">
+                    <ion-label position="floating">Meldung</ion-label>
+                    <ion-textarea required auto-grow wrap="hard"></ion-textarea>
+            </ion-item>
+
+            <ion-item class="form_input">
+                    <ion-label position="floating">Mitarbeiter</ion-label>
+                    <ion-input readonly="true" value="Hans Georg IV" disabled="true"></ion-input>
+                </ion-item>
+        </ion-list>
+
+        <ion-label>Bilder</ion-label>
+
+        <section class="image_buttons">
+            <ion-button>
+                AUFNAHME
+                <ion-icon slot="end" name="camera"></ion-icon>
+            </ion-button>
+            
+            <ion-button>
+                GALERIE
+                <ion-icon slot="end" name="photos"></ion-icon>
+            </ion-button>
+        </section>
+
+        <section class="submit_button">
+            <ion-button type="submit" fill="outline" expand="block" color="medium">SENDEN</ion-button>
+        </section>
+    </form>
 
 </ion-content>
