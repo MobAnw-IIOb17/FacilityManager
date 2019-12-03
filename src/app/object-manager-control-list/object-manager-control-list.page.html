@@ -5,29 +5,69 @@
             <ion-back-button defaultHref="object-manager-new"></ion-back-button>
           </ion-buttons>
 
-          <ion-title>Kontrollliste</ion-title>
-          <div class="subtitle">
-              Görlitz Brückenstraße 1
-          </div>
+          <ion-title>       
+            <h2 style="margin: 0; padding: 0;">Kontrollliste</h2>
+            <p style="font-size: smaller; margin: 0; padding: 0;">Görlitz Brückenstraße 1</p>
+          </ion-title>
     </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
-  <!--
-  <ion-list no-lines>
-    <ion-list-header *ngFor="let details of searchResults?.controlobject">
-      <div style="background-color:#2f6b8c;padding-top:10px;padding-bottom:10px;padding-left:5px;color:white">{{details.city}} </div>
-      <button ion-item *ngFor='let detail of details | value' (click)="itemSelected(detail.id)"> 
-        <span style="text-transform: capitalize;">{{detail.name}}</span> 
-    </button> 
-    </ion-list-header>
-  </ion-list>
-  -->
+    <ion-list>
+        <!-- Sliding item with expandable options on both sides -->
+        <ion-item-sliding>
+          <ion-item-options side="start">
+            <ion-item-option color="danger" expandable>
+              Delete
+            </ion-item-option>
+          </ion-item-options>
+      
+          <ion-item>
+            <ion-label>
+              <h2>Gehweg</h2>
+              <p>Beschreibung von Gehweg</p>
+            </ion-label>
+            <ion-icon name="checkmark-circle" color="success" slot="end"></ion-icon>
+          </ion-item>
+      
+          <ion-item-options side="end">
+            <ion-item-option color="success" expandable>
+              Open
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+
+      <ion-list>
+          <!-- Sliding item with expandable options on both sides -->
+          <ion-item-sliding>
+            <ion-item-options side="start">
+              <ion-item-option color="danger" expandable>
+                Delete
+              </ion-item-option>
+            </ion-item-options>
+        
+            <ion-item>
+                <ion-label>
+                  <h2>Garten</h2>
+                  <p>Beschreibung von Garten</p>
+                </ion-label>
+              <ion-icon name="warning" color="warning" slot="end"></ion-icon>
+            </ion-item>
+        
+            <ion-item-options side="end">
+              <ion-item-option color="success" expandable>
+                Open
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
     <ion-fab-button taget="_self" href="object-manager-control-new" color="success">
         <ion-icon name="add" ></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
 </ion-content>
