@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-object-manager-control-new',
@@ -6,15 +8,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./object-manager-control-new.page.scss'],
 })
 export class ObjectManagerControlNewPage implements OnInit {
+  public myForm: FormGroup;
+  private LabelCount: number = 0  ;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder){
 
-  ngOnInit() {
+    this.myForm = formBuilder.group({
+      Label0: []
+    });
+
   }
   
-  addPropertie(){
-    console.log(document.getElementById("newControlProperties").innerHTML);
-    document.getElementById("newControlProperties").innerHTML += "<ion-item><ion-label position='floating'>Eigenschaft</ion-label><ion-input></ion-input></ion-item>";
-    console.log(document.getElementById("newControlProperties").innerHTML);
+  ngOnInit() {}
+
+  addControl(){
+    this.LabelCount++;
+    this.myForm.addControl('Label' + this.LabelCount, new FormControl());
   }
 }
