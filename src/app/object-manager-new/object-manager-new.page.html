@@ -6,9 +6,10 @@
 
 <ion-content>
   <ion-list>
-      <ion-searchbar id="#city_searchbar" (ionChange)="predictiveSearch($event)" showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" ></ion-searchbar>
-        <ion-list>
-          <ion-item *ngFor="let item of items">{{ item }}</ion-item>
+      <ion-list>
+      <ion-searchbar id="#city_searchbar" (ionBlur)="hideItems()" (ionFocus)="showItems()" (ionChange)="predictiveSearch($event)" showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" ></ion-searchbar>
+        
+          <ion-item *ngFor="let city of cities">{{ city }}</ion-item>
         </ion-list>
       <ion-searchbar showCancelButton="focus" animated="true" spellcheck="true" placeholder="Objekt"></ion-searchbar>
       <ion-searchbar showCancelButton="focus" animated="true" spellcheck="true" placeholder="Zusatz"></ion-searchbar>

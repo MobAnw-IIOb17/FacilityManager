@@ -9,6 +9,7 @@ import { DamageReportsPage } from './damage-reports.page';
 
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatListModule} from "@angular/material/list";
 
 const routes: Routes = [
   {
@@ -18,14 +19,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    MatInputModule,
-    MatFormFieldModule,
-    RouterModule.forChild(routes)
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        MatInputModule,
+        MatFormFieldModule,
+        RouterModule.forChild(routes),
+        MatListModule
+    ],
   declarations: [DamageReportsPage]
 })
 export class DamageReportsPageModule {}
