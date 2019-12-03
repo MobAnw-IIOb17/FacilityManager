@@ -1,14 +1,11 @@
-import {Deserializable} from './deserializable.model';
+import { Property } from './property.model';
+import { Employee } from './employee.model';
 
-export class Damage implements Deserializable{
-    id: string;
-    place: string;
-    address: string;
-    location: string;
-    tenant: string;
+export class Damage {
+    uid: string;
+    createDate: string;
+    property: Property;
+    employee: Employee;
     description: string;
-
-    deserialize(input: any): this {
-        return Object.assign(this, input);
-    }
+    images: string[];
 }

@@ -6,12 +6,16 @@
 
 <ion-content>
   <ion-list>
-      <ion-list>
-      <ion-searchbar id="#city_searchbar" (ionBlur)="hideItems()" (ionFocus)="showItems()" (ionChange)="predictiveSearch($event)" showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" ></ion-searchbar>
-        
-          <ion-item *ngFor="let city of cities">{{ city }}</ion-item>
+      
+      <ion-searchbar id="#city_searchbar" (ionBlur)="hideItems()" (ionFocus)="predictiveSearch($event, cities)" (ionInput)="predictiveSearch($event, cities)" showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" ></ion-searchbar>
+      <!-- (ionBlur)="hideItems()" -->
+      <ion-list id="#city_list">
+          <ion-item *ngFor="let city of cities" (click)="chooseCity(city)">{{ city }}</ion-item>
         </ion-list>
-      <ion-searchbar showCancelButton="focus" animated="true" spellcheck="true" placeholder="Objekt"></ion-searchbar>
+      <ion-searchbar id="#object_searchbar" showCancelButton="focus" animated="true" spellcheck="true" placeholder="Objekt"></ion-searchbar>
+      <ion-list id="#object_list">
+          <ion-item *ngFor="let object of objects" (click)="chooseObject(object)">{{ object }}</ion-item>
+        </ion-list>
       <ion-searchbar showCancelButton="focus" animated="true" spellcheck="true" placeholder="Zusatz"></ion-searchbar>
       <ion-button class="generate" href="object-manager-control-list">Erstellen</ion-button>
     </ion-list>

@@ -1,26 +1,47 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Damage} from '../model/damage.model';
-import {Observable, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
+import { Storage } from '@ionic/storage';
+
+import { Damage } from '../model/damage.model';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class DamageService {
 
-    constructor(protected httpClient: HttpClient) {
-    }
+  private static TO_SEND = 'toSend';
+  private static SEND = 'send';
+  private damageDb: Storage;
+  private toSend: Damage[];
+  private send: Damage[];
 
-    getDamages() {
-        return this.httpClient.get<Damage[]>(`../assets/damage-list.json`);
-    }
+  constructor() {
+    this.damageDb = new Storage({
+      name: '__facilityManagerDb',
+      storeName: '_damages',
+      driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
+    });
+    this.damageDb.get(DamageService.TO_SEND).then((toSend) => {
+      this.toSend = toSend;
+    });
+    this.damageDb.get(DamageService.SEND).then((send) => {
+      this.send = send;
+    });
+  }
 
-    public getDamagesById(id: number): Observable<Damage> {
-        return this.httpClient.get<Damage>(`../assets/damage-list.json/${id}`).pipe(
-            map(data => new Damage().deserialize(data)),
-            catchError(() => throwError('User not found'))
-        );
-    }
+  addDamage(damage: Damage): Promise<any> {
+    this.toSend.push(damage);
+    return this.damageDb.set(DamageService.TO_SEND, this.toSend);
+  }
+
+  getAllDamages(): Promise<Damage[]> {
+    const damages: Damage[] = [];
+    return this.damageDb.forEach((value: Damage[], key: string) => {
+      value.forEach((d: Damage) => {
+        damages.push(d);
+      });
+    }).then(() => {
+      return damages;
+    });
+  }
 }
