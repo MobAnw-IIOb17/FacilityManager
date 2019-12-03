@@ -9,6 +9,7 @@ import { PropertyService } from '../services/property.service';
 export class ObjectManagerNewPage implements OnInit {
 
   cities = [];
+  objects = [];
   city: string = 'Görlitz';
 
   constructor(private propertyService: PropertyService) { 
@@ -23,11 +24,19 @@ export class ObjectManagerNewPage implements OnInit {
     //this.cities = this.propertyService.getPropertiesByCity()
   }
 
-  hideItems() {
+  async hideItems() {
+    await this.delay(200);
     this.cities = [];
   }
 
-  chooseCity(chosenCity) {
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+  /**
+   * 
+   * @param chosenCity 
+   */
+  chooseCity(chosenCity: string) {
     this.city = chosenCity;
     console.log(this.city);
     document.getElementById('#city_searchbar').setAttribute('value', this.city);
@@ -47,6 +56,4 @@ export class ObjectManagerNewPage implements OnInit {
       return (i.toLowerCase().indexOf(val.toLowerCase()) > -1);
     });
   }
-
-
 }

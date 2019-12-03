@@ -18,12 +18,12 @@ export class DamageReportsPage implements OnInit {
 
   constructor(public damageService: DamageService, public nav: NavController, protected httpClient: HttpClient) { }
 
-  ngOnInit() {
-    const subscription = this.damageService.getDamages().subscribe(damages => {
-      this.damages = damages;
-      subscription.unsubscribe();
-    });
-  }
+ngOnInit() {
+  //   const subscription = this.damageService.getDamages().subscribe(damages => {
+  //     this.damages = damages;
+  //     subscription.unsubscribe();
+  //   });
+}
 
   openDamageById() {
     this.nav.navigateForward('/tabs/damage-details');
@@ -33,10 +33,11 @@ export class DamageReportsPage implements OnInit {
   //   this.nav.navigateForward('/tabs/damage-details', {id: id});
   // }
 
-  public getDamagesById(id: string): Observable<Damage> {
-    return this.httpClient.get<Damage>(`../assets/damage-list.json/${id}`).pipe(
-        map(data => new Damage().deserialize(data)),
-        catchError(() => throwError('User not found'))
-    );
-  }
+
+  // public getDamagesById(id: string): Observable<Damage> {
+  //   return this.httpClient.get<Damage>(`../assets/damage-list.json/${id}`).pipe(
+  //       map(data => new Damage().deserialize(data)),
+  //       catchError(() => throwError('User not found'))
+  //   );
+  // }
 }
