@@ -44,4 +44,15 @@ export class PropertyService {
       return properties;
     });
   }
+
+  getPropertyCities(): Promise<string[]> {
+    const cities: string[] = [];
+    return this.propertyDb.forEach((property: Property) => {
+      if (!cities.includes(property.city)) {
+        cities.push(property.city);
+      }
+    }).then(() => {
+      return cities;
+    });
+  }
 }
