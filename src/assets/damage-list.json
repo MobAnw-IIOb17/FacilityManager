@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "place": "City 1",
+    "address": "street",
+    "location": "house 1",
+    "tenant": "man",
+    "description": "text test"
+  },
+  {
+    "id": "2",
+    "place": "City 2",
+    "address": "street",
+    "location": "house 1",
+    "tenant": "man",
+    "description": "text test"
+  },
+  {
+    "id": "3",
+    "place": "City 3",
+    "address": "street",
+    "location": "house 1",
+    "tenant": "man",
+    "description": "text test"
+  },
+  {
+    "id": "4",
+    "place": "City 4",
+    "address": "street",
+    "location": "house 1",
+    "tenant": "man",
+    "description": "text test"
+  },
+  {
+    "id": "5",
+    "place": "City 5",
+    "address": "street",
+    "location": "house 1",
+    "tenant": "man",
+    "description": "text test"
+  }
+]
