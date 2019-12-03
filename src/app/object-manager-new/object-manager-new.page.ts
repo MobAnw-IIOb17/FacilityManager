@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PropertyService } from '../services/property.service';
 
 @Component({
   selector: 'app-object-manager-new',
@@ -7,17 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ObjectManagerNewPage implements OnInit {
 
-  orig = ['Eins','Zwei','Drei'];
-  items = [];
+  cities = [];
 
-  constructor() { }
+  constructor(private propertyService: PropertyService) { 
+    this.showItems();
+  }
 
   ngOnInit() {
   }
+
+  showItems() {
+    this.cities = ['Eins','Zwei','Drei'];
+  }
+
   predictiveSearch(event) {
-    
-    this.items = this.orig.filter((i) => {
-      return i.toLowerCase().includes(event.target.value.toLowerCase());
+    this.showItems();
+    var val = event.target.value;
+    this.cities = this.cities.filter((i) => {
+      return (i.toLowerCase().indexOf(val.toLowerCase()) > -1);
     });
+  }
+
+  hideItems() {
+    this.cities = [];
   }
 }
