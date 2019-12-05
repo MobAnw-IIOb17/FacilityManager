@@ -18,7 +18,7 @@
         <!-- Sliding item with expandable options on both sides -->
         <ion-item-sliding>
           <ion-item-options side="start">
-            <ion-item-option color="danger" expandable>
+            <ion-item-option color="danger" expandable (click)="deleteItem()">
               Delete
             </ion-item-option>
           </ion-item-options>
@@ -31,8 +31,8 @@
             <ion-icon name="checkmark-circle" color="success" slot="end"></ion-icon>
           </ion-item>
       
-          <ion-item-options side="end">
-            <ion-item-option color="success" expandable>
+          <ion-item-options side="end" (click)="editItem()">
+            <ion-item-option color="success">
               Open
             </ion-item-option>
           </ion-item-options>
@@ -42,7 +42,7 @@
       <ion-list>
           <!-- Sliding item with expandable options on both sides -->
           <ion-item-sliding>
-            <ion-item-options side="start">
+            <ion-item-options side="start" (click)="deleteItem()">
               <ion-item-option color="danger" expandable>
                 Delete
               </ion-item-option>
@@ -56,7 +56,7 @@
               <ion-icon name="warning" color="warning" slot="end"></ion-icon>
             </ion-item>
         
-            <ion-item-options side="end">
+            <ion-item-options side="end" (click)="editItem()">
               <ion-item-option color="success" expandable>
                 Open
               </ion-item-option>
@@ -64,8 +64,9 @@
           </ion-item-sliding>
         </ion-list>
 
+       <!--  href="/tabs/object-manager-control-new" -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
-    <ion-fab-button taget="_self" href="/tabs/object-manager-control-new" color="success">
+    <ion-fab-button taget="_self" color="success" (click)="openPopover($event)">
         <ion-icon name="add" ></ion-icon>
     </ion-fab-button>
   </ion-fab>
