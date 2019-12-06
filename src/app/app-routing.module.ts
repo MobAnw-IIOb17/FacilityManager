@@ -35,7 +35,7 @@ const routes: Routes = [
           },
           {
             path: 'object-manager-control-list',
-            loadChildren: '../object-manager-control-new/object-manager-control-new.module#ObjectManagerControlNewPageModule'
+            loadChildren: './object-manager-control-list/object-manager-control-list.module#ObjectManagerControlListPageModule'
           },
           {
             path: 'object-manager-control-new',

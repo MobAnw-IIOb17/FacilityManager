@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController, NavController, PopoverController } from '@ionic/angular';
-import { PopoverPageComponent } from '../popover-page/popover-page.component';
+import { ToastController, NavController } from '@ionic/angular';
+
 //import { EmployeeService } from '../services/employee.service';
 
 @Component({
@@ -11,9 +11,7 @@ import { PopoverPageComponent } from '../popover-page/popover-page.component';
 
 export class ObjectManagerControlListPage implements OnInit {
   
-  value = 0;
-  
-  constructor(public toastController: ToastController, public nav: NavController, public popoverController: PopoverController) {  }
+  constructor(public toastController: ToastController, public nav: NavController) {  }
 
   /*
   constructor(private employeeService: EmployeeService) {

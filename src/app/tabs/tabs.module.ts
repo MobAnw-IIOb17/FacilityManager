@@ -46,7 +46,7 @@ const routes: Routes = [
       },
       {
         path: 'settings',
-        loadChildren: './settings/settings.module#SettingsPageModule'
+        loadChildren: '../settings/settings.module#SettingsPageModule'
       }
     ]
   },
