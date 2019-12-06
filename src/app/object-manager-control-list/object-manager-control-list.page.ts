@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
-
+import { PopoverController } from '@ionic/angular';
+import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
 //import { EmployeeService } from '../services/employee.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 
 export class ObjectManagerControlListPage implements OnInit {
   
-  constructor(public toastController: ToastController, private router: Router) {  }
+  constructor(private toastController: ToastController, private router: Router, private popover:PopoverController) {  }
 
   /*
   constructor(private employeeService: EmployeeService) {
@@ -42,5 +43,14 @@ export class ObjectManagerControlListPage implements OnInit {
     });
     toast.present();
     this.router.navigateByUrl('/tabs/object-manager-control-view');
+  }
+
+  createPopOver() {
+    this.popover.create({
+      component:PopovercomponentPage,
+      showBackdrop:true
+    }).then((popoverElement)=>{
+      popoverElement.present();
+    })
   }
 }

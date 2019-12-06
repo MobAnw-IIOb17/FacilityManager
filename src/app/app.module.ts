@@ -11,6 +11,8 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { PopovercomponentPageModule } from './object-manager-control-list/popovercomponent/popovercomponent.module';
+
 /* Angular Material */
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatInputModule} from '@angular/material/input';
@@ -29,7 +31,8 @@ import {MatListModule} from '@angular/material';
     MatFormFieldModule,
     MatListModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    PopovercomponentPageModule
   ],
   providers: [
     StatusBar,
