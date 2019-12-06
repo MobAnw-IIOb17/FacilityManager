@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PropertyService } from '../services/property.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-object-manager-new',
@@ -12,7 +13,7 @@ export class ObjectManagerNewPage implements OnInit {
   objects = [];
   city: string = 'Görlitz';
 
-  constructor(private propertyService: PropertyService) { 
+  constructor(private propertyService: PropertyService, private router: Router) { 
     this.hideItems();
   }
 
@@ -55,5 +56,11 @@ export class ObjectManagerNewPage implements OnInit {
     this.cities = this.cities.filter((i) => {
       return (i.toLowerCase().indexOf(val.toLowerCase()) > -1);
     });
+  }
+
+  href="/tabs/object-manager-control-list"
+
+  openOMCListInTab() {
+    this.router.navigateByUrl('/tabs/object-manager-control-list');
   }
 }

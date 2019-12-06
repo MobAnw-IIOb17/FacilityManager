@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController, NavController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 //import { EmployeeService } from '../services/employee.service';
 
@@ -11,7 +12,7 @@ import { ToastController, NavController } from '@ionic/angular';
 
 export class ObjectManagerControlListPage implements OnInit {
   
-  constructor(public toastController: ToastController, public nav: NavController) {  }
+  constructor(public toastController: ToastController, private router: Router) {  }
 
   /*
   constructor(private employeeService: EmployeeService) {
@@ -40,6 +41,6 @@ export class ObjectManagerControlListPage implements OnInit {
       duration: 2000
     });
     toast.present();
-    this.nav.navigateForward('/tabs/object-manager-control-view');
+    this.router.navigateByUrl('/tabs/object-manager-control-view');
   }
 }
