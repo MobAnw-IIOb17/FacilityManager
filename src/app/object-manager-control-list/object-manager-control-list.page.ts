@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
 //import { EmployeeService } from '../services/employee.service';
@@ -13,7 +13,19 @@ import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
 
 export class ObjectManagerControlListPage implements OnInit {
   
-  constructor(private toastController: ToastController, private router: Router, private popover:PopoverController) {  }
+  data:any;
+  controlItemNames:Array<string> = ['Gehweg','Garten', 'Keller', 'Heizraum'];
+
+  constructor(private toastController: ToastController, private router: Router, private route: ActivatedRoute, private popover:PopoverController) { 
+    this.route.queryParams.subscribe(params => {
+      if (params && params.special) {
+        this.data = params.special;
+        console.log(params.special);
+        this.controlItemNames.push(params.special)
+        // this.data = JSON.parse(params.special);
+      }
+    })
+   }
 
   /*
   constructor(private employeeService: EmployeeService) {
