@@ -20,8 +20,16 @@ export class ObjectManagerNewPage implements OnInit {
   }
 
   showItems() {
-    this.cities = ['Eins','Zwei','Drei','Drei2'];
-    //this.cities = this.propertyService.getPropertiesByCity()
+    this.propertyService.getPropertyCities().then((cities) => {
+      console.log("promise");
+      if (cities.length !== 0) {
+        console.log("true");
+        this.cities = cities;
+      } else {
+        console.log("false");
+        this.cities = ['Eins','Zwei','Drei','Drei2'];
+      }
+    });
   }
 
   async hideItems() {
