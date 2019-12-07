@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {DamageService} from '../services/damage.service';
 import {Damage} from '../model/damage.model';
-import {NavController} from '@ionic/angular';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {DamageDetailsPage} from '../damage-details/damage-details.page';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-damage-reports',
@@ -16,7 +16,7 @@ import {DamageDetailsPage} from '../damage-details/damage-details.page';
 export class DamageReportsPage implements OnInit {
   damages: Damage[] = [];
 
-  constructor(public damageService: DamageService, public nav: NavController, protected httpClient: HttpClient) { }
+  constructor(public damageService: DamageService, private router: Router, protected httpClient: HttpClient) { }
 
 ngOnInit() {
   //   const subscription = this.damageService.getDamages().subscribe(damages => {
@@ -25,10 +25,9 @@ ngOnInit() {
   //   });
 }
 
-  openDamageById() {
-    this.nav.navigateForward('/tabs/damage-details');
+  openDmgFromInTab() {
+    this.router.navigateByUrl('/tabs/damage-details');
   }
-
   // openDamageById1(id: string) {
   //   this.nav.navigateForward('/tabs/damage-details', {id: id});
   // }

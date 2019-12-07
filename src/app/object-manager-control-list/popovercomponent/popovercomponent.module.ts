@@ -2,16 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ObjectManagerControlNewPage } from './object-manager-control-new.page';
+import { PopovercomponentPage } from './popovercomponent.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: ObjectManagerControlNewPage
+    component: PopovercomponentPage
   }
 ];
 
@@ -20,9 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ObjectManagerControlNewPage]
+  declarations: [PopovercomponentPage]
 })
-export class ObjectManagerControlNewPageModule {}
+export class PopovercomponentPageModule {}

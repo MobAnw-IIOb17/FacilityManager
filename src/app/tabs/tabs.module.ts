@@ -44,6 +44,10 @@ const routes: Routes = [
         path: 'object-manager-control-view',
         loadChildren: '../object-manager-control-view/object-manager-control-view.module#ObjectManagerControlViewPageModule'
       },
+      {
+        path: 'settings',
+        loadChildren: '../settings/settings.module#SettingsPageModule'
+      }
     ]
   },
   {
