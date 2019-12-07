@@ -7,14 +7,14 @@
 <ion-content>
   <ion-list>
       
-      <ion-searchbar id="#city_searchbar" (ionBlur)="hideItems()" (ionFocus)="predictiveSearch($event, cities)" (ionInput)="predictiveSearch($event, cities)" showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" ></ion-searchbar>
+      <ion-searchbar id="#city_searchbar" (ionBlur)="hideItems(cities)" (ionFocus)="predictiveCitySearch($event, cities, 'c')" (ionInput)="predictiveCitySearch($event, cities, 'c')" showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" ></ion-searchbar>
       <!-- (ionBlur)="hideItems()" -->
       <ion-list id="#city_list">
-          <ion-item *ngFor="let city of cities" (click)="chooseCity(city)">{{ city }}</ion-item>
+          <ion-item *ngFor="let city of cities" (click)="chooseItem(city, cities, 'city')">{{ city }}</ion-item>
         </ion-list>
-      <ion-searchbar id="#object_searchbar" showCancelButton="focus" animated="true" spellcheck="true" placeholder="Objekt"></ion-searchbar>
+      <ion-searchbar id="#object_searchbar" (ionBlur)="hideItems(objects)" (ionFocus)="predictiveCitySearch($event, objects, 'o')" (ionInput)="predictiveCitySearch($event, objects, 'o')" showCancelButton="focus" animated="true" spellcheck="true" placeholder="Objekt"></ion-searchbar>
       <ion-list id="#object_list">
-          <ion-item *ngFor="let object of objects" (click)="chooseObject(object)">{{ object }}</ion-item>
+          <ion-item *ngFor="let object of objects" (click)="chooseItem(object, objects, 'object')">{{ object }}</ion-item>
         </ion-list>
       <ion-searchbar showCancelButton="focus" animated="true" spellcheck="true" placeholder="Zusatz"></ion-searchbar>
       <ion-button class="generate" (click)='openOMCListInTab()'>Erstellen</ion-button>
