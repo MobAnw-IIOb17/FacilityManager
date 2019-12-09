@@ -20,21 +20,21 @@ export class PopovercomponentPage implements OnInit {
     this.popover.dismiss();
   }
 
-  async add(itemname:string) {
-    if(itemname === 'new') {
+  async add(selectedItem:string) {
+    if(selectedItem === 'new') {
       this.popover.dismiss();
       this.router.navigateByUrl('/tabs/object-manager-control-new');
     } else {
       const toast = await this.toastController.create({
-        message: itemname,
+        message: selectedItem,
         duration: 1000
       });
       toast.present();
 
       let navigationExtras: NavigationExtras = {
         queryParams: {
-         // special: JSON.stringify(this.itemname)
-          special: itemname
+         // special: JSON.stringify(this.selectedItem)
+          special: selectedItem
         }
       };
       this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);

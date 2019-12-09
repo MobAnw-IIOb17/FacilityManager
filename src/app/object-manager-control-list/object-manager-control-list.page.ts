@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
 //import { EmployeeService } from '../services/employee.service';
@@ -37,26 +37,48 @@ export class ObjectManagerControlListPage implements OnInit {
 
   ngOnInit() {
   }
-
-  async deleteItem() {
-    console.log("DELETE");
+/** Löscht das übegebene Item aus dem Array controlItemNames
+ * 
+ * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
+ */
+  async deleteItem(selectedItem:string) {
+    console.log("DELETE item");
     const toast = await this.toastController.create({
-      message: 'swipe DELETE',
+      message: 'swipe DELETE item',
       duration: 2000
     });
     toast.present();
+
+    const index:number = this.controlItemNames.indexOf(selectedItem);
+    if (index !== -1) {
+        this.controlItemNames.splice(index, 1);
+    } 
   }
 
-  async editItem() {
+  /** Öffnet die nächste Seite VIEW mit dem übergebenen Item
+   * 
+   * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
+   */
+  async editItem(selectedItem:string) {
     console.log("OPEN");
     const toast = await this.toastController.create({
       message: 'swipe OPEN',
-      duration: 2000
+      duration: 1000
     });
     toast.present();
-    this.router.navigateByUrl('/tabs/object-manager-control-view');
+
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+       // special: JSON.stringify(this.itemname)
+        special: selectedItem
+      }
+    };
+    this.router.navigate(['/tabs/object-manager-control-view'], navigationExtras);
   }
 
+  /**
+   * Öffnet ein Popover für die Auswahl und hinzufügen von Kontrollitems
+   */
   createPopOver() {
     this.popover.create({
       component:PopovercomponentPage,
