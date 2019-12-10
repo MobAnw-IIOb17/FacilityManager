@@ -1,13 +1,13 @@
 <ion-header>
+    <ion-toolbar>
+        <ion-title>Schadensmeldungen</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content class="reports">
     <ion-list >
-        <ion-item-group >
-            <ion-list-header default>
-                <h1>Meldebescheinigungen</h1>
-            </ion-list-header>
-            <a ion-item  (click)="openDamage(damage.uid)" *ngFor="let damage of damages ">
+        <ion-item-group>
+            <a ion-item  (click)="openDamage(damage)" *ngFor="let damage of damages ">
                 <h2>{{damage.uid}}</h2>
                 <span class="ion-text-left">{{damage.description}}</span>
             </a>

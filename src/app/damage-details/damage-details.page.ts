@@ -1,4 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import { Damage } from '../model/damage.model';
+import { Property } from '../model/property.model';
+import { Employee } from '../model/employee.model';
+import { Router} from '@angular/router';
 
 @Component({
     selector: 'app-damage-details',
@@ -7,18 +11,46 @@ import {Component, OnInit} from '@angular/core';
 })
 
 export class DamageDetailsPage implements OnInit {
+    damage: Damage;
 
-    constructor() {
+    constructor(private router: Router) {
     }
 
     ngOnInit() {
-
+        if (this.router.getCurrentNavigation().extras.state) {
+            this.damage = this.router.getCurrentNavigation().extras.state.damage;
+        } else {
+            this.tollerTest();
+        }
     }
 
-    place: string = "Görlitz";
-    address: string = "Brückenstraße 1";
-    location: string = "2. Stock, Zimmer 303";
-    tenant: string = "Der Weihnachtsmann";
-    date: Date = new Date('11/26/19');
-    description: string = "Kamin fehlt";
+    tollerTest(){
+        console.log('toller Test');
+        let sesamstrasse: Property = {
+            uid: 'xyz',
+            deleted: '0',
+            hidden: '0',
+            title: '',
+            street: 'Sesamstraße 3',
+            zip: '02766',
+            city: 'Görlitz',
+            owner: 'Maier'
+        }
+
+        let gunter: Employee = {
+            uid: '007',
+            name: 'Gunter',
+            deleted: '0',
+            hidden: '0'
+        }
+
+        this.damage = {
+            uid: 'xyz',
+            createDate: 'Heute',
+            property: sesamstrasse,
+            employee: gunter,
+            description: 'Kaputt',
+            images: []
+        }
+    }
 }

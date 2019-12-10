@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DamageService} from '../services/damage.service';
 import {Damage} from '../model/damage.model';
-import {NavController} from '@ionic/angular';
-import {DamageDetailsPage} from '../damage-details/damage-details.page';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-damage-reports',
@@ -13,16 +12,19 @@ import {DamageDetailsPage} from '../damage-details/damage-details.page';
 export class DamageReportsPage implements OnInit {
   damages: Damage[] = [];
 
-  constructor(public damageService: DamageService, private nav: NavController) {
+  constructor(public damageService: DamageService, private router: Router) {
   }
 
   async ngOnInit() {
     this.damages = await this.damageService.getAllDamages() as Damage[];
   }
 
-  openDamage(uid: string) {
-    this.nav.push(DamageDetailsPage, {
-      uid
-    });
+  openDamage(damage: Damage) {
+    let navigationExtras: NavigationExtras = {
+      state: {
+        damage
+      }
+    };
+    this.router.navigateByUrl('/tabs/damage-details', navigationExtras);
   }
 }

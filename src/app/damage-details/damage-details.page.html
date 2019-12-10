@@ -1,12 +1,20 @@
 <ion-header>
+  <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/tabs/damage-reports"></ion-back-button>
+        </ion-buttons>
+
+        <ion-title>Schadensdetails</ion-title>
+    </ion-toolbar>
 </ion-header>
+
 
 <ion-content>
   <ion-item>
     <ion-label>
       <ion-text>
         <h2>Ort</h2>
-        <p>{{place}}</p>
+        <p>{{damage.property.city}}</p>
       </ion-text>
     </ion-label>
   </ion-item>
@@ -14,15 +22,7 @@
     <ion-label>
       <ion-text>
         <h2>Adresse</h2>
-        <p>{{address}}</p>
-      </ion-text>
-    </ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-label>
-      <ion-text>
-        <h2>Lage</h2>
-        <p>{{location}}</p>
+        <p>{{damage.property.street}}</p>
       </ion-text>
     </ion-label>
   </ion-item>
@@ -30,7 +30,7 @@
     <ion-label>
       <ion-text>
         <h2>Mieter</h2>
-        <p>{{tenant}}</p>
+        <p>{{damage.property.owner}}</p>
       </ion-text>
     </ion-label>
   </ion-item>
@@ -38,7 +38,7 @@
     <ion-label>
       <ion-text>
         <h2>Datum</h2>
-        <p>{{date | date}}</p>
+        <p>{{damage.createDate}}</p>
       </ion-text>
     </ion-label>
   </ion-item>
@@ -46,7 +46,14 @@
     <ion-label>
       <ion-text>
         <h2>Beschreibung</h2>
-        <p>{{description}}</p>
+        <p>{{damage.description}}</p>
+      </ion-text>
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>
+      <ion-text>
+        <h2>Bilder</h2>
       </ion-text>
     </ion-label>
   </ion-item>
