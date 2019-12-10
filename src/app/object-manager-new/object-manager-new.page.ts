@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { PropertyService } from '../services/property.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, Validator, AbstractControl, FormControl} from '@angular/forms';
-import { CityValidator } from '../custom-validators/city.validator';
 import { ToastController } from '@ionic/angular';
 
 @Component({
