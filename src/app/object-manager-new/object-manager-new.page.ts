@@ -26,7 +26,7 @@ export class ObjectManagerNewPage implements OnInit {
   * Benötigt Verzögerung, damit man ein Item aus der Liste auswählen kann, ansonsten würde die Liste verschwinden bevor man ein Item anklicken kann
   */
   async hideItems(list: Array<string>) {
-    await this.delay(200);
+    await this.delay(100);
     this.clearAList(list);
   }
 
@@ -50,7 +50,12 @@ export class ObjectManagerNewPage implements OnInit {
       list.pop();
     }
   }
-
+  
+/**
+ * Kopiert sourceList in targetList
+ * @param targetList Liste in die rein kopiert wird
+ * @param sourceList Liste von der kopiert wird
+ */
   copyAList(targetList: Array<string>, sourceList: Array<string>) {
     this.clearAList(targetList);
     for (var i: number = 0; i < sourceList.length; i++) {
@@ -59,14 +64,15 @@ export class ObjectManagerNewPage implements OnInit {
   }
 
   /**
- * 
+ * Füllen der City-Liste (mit Referenz) mit den Werten aus der Datenbank, wenn diese keinen gültigen Wert liefert, werden feste Werte verwendet
+ * @param list referenzierte City-Liste
  */
   async showCityItems(list: Array<string>) {
     return this.propertyService.getPropertyCities().then((items) => {
       if (items.length !== 0) {
         this.copyAList(list, items);
       } else {
-        this.copyAList(list, ['Görlitz', 'Zittau', 'Löbau', 'Bautzen']);
+        this.copyAList(list, ['Görlitz', 'Zittau', '']);
       }
     });
   }
@@ -94,10 +100,14 @@ export class ObjectManagerNewPage implements OnInit {
     document.getElementById('#' + s + '_searchbar').setAttribute('value', chosenString);
     this.clearAList(list);
     if (s == 'city') {
-      document.getElementById('#object_searchbar').setAttribute('value', '');
+      this.deleteSubObjects();
     }
     this.city = document.getElementById('#city_searchbar').getAttribute('value');
     this.object = document.getElementById('#object_searchbar').getAttribute('value');
+  }
+
+  deleteSubObjects() {
+    document.getElementById('#object_searchbar').setAttribute('value', '');
   }
 
   /**
