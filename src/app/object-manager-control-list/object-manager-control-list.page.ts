@@ -29,8 +29,7 @@ export class ObjectManagerControlListPage implements OnInit {
       if (this.router.getCurrentNavigation().extras.state) {
         this.city = this.router.getCurrentNavigation().extras.state.city;
         this.object = this.router.getCurrentNavigation().extras.state.object;
-        console.log(this.data);
-        document.getElementById('#object_title').innerHTML = this.city + ' ' + this.object;
+        document.getElementById('#object_title').innerHTML = this.object + ', ' + this.city;
       }
     })
    }

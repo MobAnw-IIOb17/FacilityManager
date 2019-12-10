@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PropertyService } from '../services/property.service';
 import { Router, NavigationExtras } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, Validator, AbstractControl, FormControl} from '@angular/forms';
+import { FormGroup} from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -13,16 +13,14 @@ export class ObjectManagerNewPage implements OnInit {
 
   public validateForm: FormGroup;
   cities = [];
-  firmCities: string[];
+  firmCities = [];
   objects = [];
   city: string = '';
-  object: string = '';
-  
+  object: string = '';  
+  firmObjects = [];
 
   constructor(private toastController: ToastController, private propertyService: PropertyService, private router: Router) {
       this.loadCities();
-      this.hideItems(this.cities);
-
   }
 
   ngOnInit() {
@@ -35,7 +33,7 @@ export class ObjectManagerNewPage implements OnInit {
   async hideItems(list: Array<string>) {
     await this.delay(150);
     this.clearAList(list);
-    this.chooseItem('', list, 'city');
+    //this.chooseItem('', list, 'city');
   }
 
   /**
@@ -71,14 +69,6 @@ export class ObjectManagerNewPage implements OnInit {
     }
   }
 
-  /**
- * Füllen der City-Liste (mit Referenz) mit den Werten aus der Datenbank, wenn diese keinen gültigen Wert liefert, werden feste Werte verwendet
- * @param list referenzierte City-Liste
- */
-  showCityItems() {
-    this.copyAList(this.cities, this.firmCities);
-  }
-
   loadCities() {
       this.propertyService.getPropertyCities().then((items) => {
         var cityDummy = ['Görlitz', 'Zittau', 'Großschönau'];
@@ -90,74 +80,105 @@ export class ObjectManagerNewPage implements OnInit {
       });
   }
 
-  showObjectItems(list: Array<string>) {
-      this.propertyService.getPropertiesByCity(this.city).then((items) => {
-        if (items.length !== 0) {
-          var propertyList: Array<string>;
-          for (var i: number = 0; i < items.length; i++) {
-            propertyList[0] = items[0].street;
-          }
-          this.copyAList(list, propertyList);
-        } else {
-          this.copyAList(list, ['Brückenstraße 1', 'Bahnhofsstraße 20']);
-        }
-      });
-  }
-
-
   /**
-   * Verändert den Inhalt der Stad-Searchbar bei Auswahl einer Stadt
-   * @param chosenCity die Stadt die ausgewählt wurde, wird in die Serachbar für die Stadt eingeschrieben
-   * @bugs: 
+   * 
+   * @param list Parameter 
+   * @param show gibt an, ob die geladene Liste gleich angezeigt wird
    */
-  chooseItem(chosenString: string, list: Array<string>, s: string = 'city') {
-    document.getElementById('#' + s + '_searchbar').setAttribute('value', chosenString);
-    this.clearAList(list);
-    if (s == 'city') {
-      this.deleteSubObjects();
-    }
-    this.city = document.getElementById('#city_searchbar').getAttribute('value');
-    this.object = document.getElementById('#object_searchbar').getAttribute('value');
-  }
-
-  deleteSubObjects() {
-    document.getElementById('#object_searchbar').setAttribute('value', '');
+  loadObjects(list: Array<string> = this.firmObjects, show: boolean = false) {
+    this.propertyService.getPropertiesByCity(this.city).then((items) => {
+      if (items.length !== 0) {
+        var help = [];
+        for (var i: number = 0; i < items.length; i++) {
+          help[0] = items[0].street;
+        }
+        this.copyAList(list, help);
+      } else {
+        this.clearAList(list);
+      }
+      if (show) {
+        this.copyAList(this.objects, this.firmObjects);
+      }
+    });
   }
 
   /**
-   * Sortiert die entsprechende Liste nach der Eingabe aus dem Event
+   * 
+   * @param chosenString 
+   * @param firmList 
+   * @param s 
+   */
+  chooseItem(chosenString: string, firmList: Array<string>, s: string) {
+    document.getElementById('#' + s + '_searchbar').setAttribute('value', chosenString);
+    var show: boolean = false;
+    if (s == 'city') {
+      if (!firmList.includes(chosenString)) {
+        this.city = '';
+      } else {
+        this.city = chosenString;
+        this.clearAList(this.cities);
+      }
+      show = true;
+      this.object = '';
+      this.clearAList(this.firmObjects);
+      document.getElementById('#object_searchbar').setAttribute('value', '');
+    } else {
+      if (!firmList.includes(chosenString)) {
+        this.object = '';
+        this.clearAList(this.firmObjects);
+      } else {
+        this.object = chosenString;
+        this.clearAList(this.objects);
+      }
+    }
+    this.loadObjects(this.firmObjects, show);
+  }
+
+  /**
+   * Schreibt das Ergebnis des Filterns der Liste firmList mit dem Text des event Ereignisses in die list Liste
    * @param event wird benötigt,um den Inhalt der Searchbar zu ermitteln
    * @param list Liste, welche sortiert werden soll
-   * @param s Indikator, welche lokale Liste geladen werden soll
+   * @param firmList Liste, welche sortiert wird
    */
-  async predictiveCitySearch(event, list: Array<string>, s: string = 'c') {
-    switch (s) {
-      case 'c': this.showCityItems();
-        break;
-      case 'o': await this.showObjectItems(list);
-        break;
-    }
+  predictiveCitySearch(event, list: Array<string>, firmList: Array<string>) {
+    this.copyAList(list, firmList);
     var val = event.target.value;
-    this.copyAList(list, list.filter((values) => {return (values.toLowerCase().includes(val.toLowerCase()))}));
-  }
-
-  href = '/tabs/object-manager-control-list';
-  async openOMCListInTab() {
-    if (this.firmCities.includes(this.city)) {
-      let navigationExtras: NavigationExtras = {
-        state: {
-          city: this.city,
-          object: this.object
-        }
-      };
-      this.router.navigateByUrl(this.href, navigationExtras);
-    } else {
-      const toast = await this.toastController.create({
-        message: "Bitte wählen Sie eine verfügbare Stadt",
-        duration: 2000
-      });
-      toast.present();
+    if (val != '') {
+      this.copyAList(list, firmList.filter((values) => {return (values.toLowerCase().includes(val.toLowerCase()))}));
     }
-
   }
+
+  /**
+   * Zeigt einen Toast mit dem Eingabetext für 2 Sekunden.
+   * @param text anzuzeigender Text
+   */
+  async showToast(text: string) {
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  /**
+   * Ruft die nächste Seite auf und übergibt die ausgewählte Stadt und das ausgewählte Objekt
+   */
+  openOMCListInTab() {
+    if (this.firmCities.includes(this.city)) {
+      if (this.firmObjects.includes(this.object)) {
+        let navigationExtras: NavigationExtras = {
+          state: {
+            city: this.city,
+            object: this.object
+          }
+        };
+        this.router.navigateByUrl('/tabs/object-manager-control-list', navigationExtras);
+      } else {
+        this.showToast('Bitte wählen Sie eine verfügbare Straße');
+      }
+    } else {
+      this.showToast('Bitte wählen Sie eine verfügbare Stadt');
+    }
+  }
+
 }
