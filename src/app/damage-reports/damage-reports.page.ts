@@ -11,31 +11,13 @@ import {DamageDetailsPage} from '../damage-details/damage-details.page';
     providers: [DamageService]
 })
 export class DamageReportsPage implements OnInit {
-    damages: Damage[] = [
-        {
-            uid: 'uid',
-            createDate: 'string',
-            property: null,
-            employee: null,
-            description: 'description',
-            images: null
-        },
-        {
-            uid: 'uid',
-            createDate: 'string',
-            property: null,
-            employee: null,
-            description: 'description',
-            images: null
-        }];
+    damages: Damage[] = [];
 
-    constructor(public damageService: DamageService,    private nav: NavController) {
+    constructor(public damageService: DamageService, private nav: NavController) {
     }
 
     async ngOnInit() {
-        // this.damages = await this.damageService.getAllDamages() as Damage[];
-        // this.damages = '../assets/damage-list.json';
-        console.log(this.damages);
+        this.damages = await this.damageService.getAllDamages() as Damage[];
     }
 
     openDamage(uid: string) {
