@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-object-manager-control-view',
@@ -9,8 +10,9 @@ import { ActivatedRoute } from '@angular/router';
 export class ObjectManagerControlViewPage implements OnInit {
 
   data:any
+  private myFormNew: FormGroup;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.route.queryParams.subscribe(params => {
       if (params && params.special) {
         this.data = params.special;
@@ -18,9 +20,18 @@ export class ObjectManagerControlViewPage implements OnInit {
         // this.data = JSON.parse(params.special);
       }
     })
-   }
-
+    this.myFormNew = formBuilder.group({
+    });
+   } 
   ngOnInit() {
   }
+  checkCheckbox(c){
+    console.log(c);
+  }
+  openCamera(){
 
+  }
+  openPhotos(){
+    
+  }
 }

@@ -7,19 +7,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content ng-app = "scopeTest">
-  <ion-item>
-    <ion-label position="floating">Kontrollname</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-list>
-    <form [formGroup]="myForm">
-        <ion-item *ngFor="let control of myForm.controls | keyvalue">
-          <ion-label position="floating">Eigenschaft</ion-label>
-          <ion-input required type="text" [formControlName]="control.key"></ion-input>
-        </ion-item>
-    </form>
-  </ion-list>
-  <ion-button (click) ="addControl()">Neue Eigenschaft</ion-button>
-  <ion-button (click) ="commit">Erstellen</ion-button>
+<ion-content>
+  <form [formGroup]="myForm">
+    <ion-item>
+      <ion-label position="floating">Kontrollname</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+    <ion-item *ngFor="let control of myForm.controls | keyvalue">
+      <ion-label position="floating">Eigenschaft</ion-label>
+      <ion-input required type="text" [formControlName]="control.key"></ion-input>
+      <ion-icon name="trash" slot="end" (click)="removeControl(this.control)"></ion-icon>
+    </ion-item>
+    <ion-button (click) ="addControl()" [disabled]="myForm.invalid">Neue Eigenschaft</ion-button>
+    <ion-button (click) ="commit" [disabled]="myForm.invalid">Erstellen</ion-button>
+  </form>
 </ion-content>
