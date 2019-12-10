@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DamageService} from '../services/damage.service';
 import {Damage} from '../model/damage.model';
 import {NavController} from '@ionic/angular';
-import {HttpClient} from '@angular/common/http';
+import {DamageDetailsPage} from '../damage-details/damage-details.page';
 
 @Component({
     selector: 'app-damage-reports',
@@ -11,16 +11,36 @@ import {HttpClient} from '@angular/common/http';
     providers: [DamageService]
 })
 export class DamageReportsPage implements OnInit {
-    damages: Damage[] = [];
+    damages: Damage[] = [
+        {
+            uid: 'uid',
+            createDate: 'string',
+            property: null,
+            employee: null,
+            description: 'description',
+            images: null
+        },
+        {
+            uid: 'uid',
+            createDate: 'string',
+            property: null,
+            employee: null,
+            description: 'description',
+            images: null
+        }];
 
-    constructor(public damageService: DamageService, public nav: NavController, protected httpClient: HttpClient) {
+    constructor(public damageService: DamageService,    private nav: NavController) {
     }
 
     async ngOnInit() {
-        this.damages = await this.damageService.getAllDamages().then(res => this.damages = res);
+        // this.damages = await this.damageService.getAllDamages() as Damage[];
+        // this.damages = '../assets/damage-list.json';
+        console.log(this.damages);
     }
 
-    openDamageById() {
-        this.nav.navigateForward('/tabs/damage-details');
+    openDamage(uid: string) {
+        this.nav.push(DamageDetailsPage, {
+            uid
+        });
     }
 }
