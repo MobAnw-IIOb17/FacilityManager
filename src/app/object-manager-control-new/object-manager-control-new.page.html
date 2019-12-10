@@ -17,6 +17,7 @@
         <ion-item *ngFor="let control of myForm.controls | keyvalue">
           <ion-label position="floating">Eigenschaft</ion-label>
           <ion-input required type="text" [formControlName]="control.key"></ion-input>
+          <ion-icon name="trash" slot="end" (click)="removeControl(this.control)"></ion-icon>
         </ion-item>
     </form>
   </ion-list>
