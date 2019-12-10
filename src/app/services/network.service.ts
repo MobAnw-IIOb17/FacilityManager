@@ -1,31 +1,25 @@
 import { Injectable } from '@angular/core';
 
-import { Network } from '@ionic-native/network/ngx';
+import {Network} from '@ionic-native/network';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class NetworkService {
-  connectSubscription;
 
-  constructor(private network: Network) { }
+  constructor() { }
 
-  startConnectWatch() {
-    this.connectSubscription = this.network.onConnect().subscribe(() => {
-      console.log('network connected!');
-      // We just got a connection but we need to wait briefly
-      // before we determine the connection type. Might need to wait.
-      // prior to doing any api requests as well.
-      setTimeout(() => {
-        if (this.network.type === 'wifi') {
-          console.log('we got a wifi connection, woohoo!');
-        }
-      }, 3000);
-    });
+  /**
+   * @returns `true` if online, `false` if offline
+   */
+  isOnline() {
+    return Network.type !== 'none';
   }
 
-  stopConnectWatch() {
-    this.connectSubscription.unsubscribe();
+  onOnline() {
+    alert('hello, i\'m the network service'); // for debugging purposes
+    // TODO: send data to webservice
   }
 
 }
