@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl} from '@angular/forms';
 
 
 @Component({
@@ -9,12 +9,12 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 })
 export class ObjectManagerControlNewPage implements OnInit {
   public myForm: FormGroup;
-  private LabelCount: number = 0  ;
+  private PropertiesCount: number = 0  ;
 
   constructor(private formBuilder: FormBuilder){
 
     this.myForm = formBuilder.group({
-      Label0: []
+      Propertie0: []
     });
 
   }
@@ -22,7 +22,10 @@ export class ObjectManagerControlNewPage implements OnInit {
   ngOnInit() {}
 
   addControl(){
-    this.LabelCount++;
-    this.myForm.addControl('Label' + this.LabelCount, new FormControl());
+    this.PropertiesCount++;
+    this.myForm.addControl('Propertie' + this.PropertiesCount, new FormControl());
+  }
+  removeControl(control){
+    this.myForm.removeControl(control.key);
   }
 }
