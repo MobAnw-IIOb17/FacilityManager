@@ -13,7 +13,9 @@ import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
 
 export class ObjectManagerControlListPage implements OnInit {
   
-  data:any;
+  data: any;
+  city: string;
+  object: string;
   controlItemNames:Array<string> = ['Gehweg','Garten', 'Keller', 'Heizraum'];
 
   constructor(private toastController: ToastController, private router: Router, private route: ActivatedRoute, private popover:PopoverController) { 
@@ -23,6 +25,12 @@ export class ObjectManagerControlListPage implements OnInit {
         console.log(params.special);
         this.controlItemNames.push(params.special)
         // this.data = JSON.parse(params.special);
+      }
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.city = this.router.getCurrentNavigation().extras.state.city;
+        this.object = this.router.getCurrentNavigation().extras.state.object;
+        console.log(this.data);
+        document.getElementById('#object_title').innerHTML = this.city + ' ' + this.object;
       }
     })
    }

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PropertyService } from '../services/property.service';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, Validator, AbstractControl, FormControl} from '@angular/forms';
+import { CityValidator } from '../custom-validators/city.validator';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-object-manager-new',
@@ -9,13 +12,18 @@ import { Router } from '@angular/router';
 })
 export class ObjectManagerNewPage implements OnInit {
 
+  public validateForm: FormGroup;
   cities = [];
+  firmCities: string[];
   objects = [];
-  city: string = 'Görlitz';
+  city: string = '';
   object: string = '';
+  
 
-  constructor(private propertyService: PropertyService, private router: Router) {
-    this.hideItems(this.cities);
+  constructor(private toastController: ToastController, private propertyService: PropertyService, private router: Router) {
+      this.loadCities();
+      this.hideItems(this.cities);
+
   }
 
   ngOnInit() {
@@ -26,8 +34,9 @@ export class ObjectManagerNewPage implements OnInit {
   * Benötigt Verzögerung, damit man ein Item aus der Liste auswählen kann, ansonsten würde die Liste verschwinden bevor man ein Item anklicken kann
   */
   async hideItems(list: Array<string>) {
-    await this.delay(100);
+    await this.delay(150);
     this.clearAList(list);
+    this.chooseItem('', list, 'city');
   }
 
   /**
@@ -50,7 +59,7 @@ export class ObjectManagerNewPage implements OnInit {
       list.pop();
     }
   }
-  
+
 /**
  * Kopiert sourceList in targetList
  * @param targetList Liste in die rein kopiert wird
@@ -67,29 +76,35 @@ export class ObjectManagerNewPage implements OnInit {
  * Füllen der City-Liste (mit Referenz) mit den Werten aus der Datenbank, wenn diese keinen gültigen Wert liefert, werden feste Werte verwendet
  * @param list referenzierte City-Liste
  */
-  async showCityItems(list: Array<string>) {
-    return this.propertyService.getPropertyCities().then((items) => {
-      if (items.length !== 0) {
-        this.copyAList(list, items);
-      } else {
-        this.copyAList(list, ['Görlitz', 'Zittau', '']);
-      }
-    });
+  showCityItems() {
+    this.copyAList(this.cities, this.firmCities);
   }
 
-  async showObjectItems(list: Array<string>) {
-    return this.propertyService.getPropertiesByCity(this.city).then((items) => {
-      if (items.length !== 0) {
-        var propertyList: Array<string>;
-        for (var i: number = 0; i < items.length; i++) {
-          propertyList[0] = items[0].street;
+  loadCities() {
+      this.propertyService.getPropertyCities().then((items) => {
+        var cityDummy = ['Görlitz', 'Zittau', 'Großschönau'];
+        if (items.length !== 0) {
+          this.firmCities = items;
+        } else {
+          this.firmCities = cityDummy;
         }
-        this.copyAList(list, propertyList);
-      } else {
-        this.copyAList(list, ['Brückenstraße 1', 'Bahnhofsstraße 20']);
-      }
-    });
+      });
   }
+
+  showObjectItems(list: Array<string>) {
+      this.propertyService.getPropertiesByCity(this.city).then((items) => {
+        if (items.length !== 0) {
+          var propertyList: Array<string>;
+          for (var i: number = 0; i < items.length; i++) {
+            propertyList[0] = items[0].street;
+          }
+          this.copyAList(list, propertyList);
+        } else {
+          this.copyAList(list, ['Brückenstraße 1', 'Bahnhofsstraße 20']);
+        }
+      });
+  }
+
 
   /**
    * Verändert den Inhalt der Stad-Searchbar bei Auswahl einer Stadt
@@ -118,7 +133,7 @@ export class ObjectManagerNewPage implements OnInit {
    */
   async predictiveCitySearch(event, list: Array<string>, s: string = 'c') {
     switch (s) {
-      case 'c': await this.showCityItems(list);
+      case 'c': this.showCityItems();
         break;
       case 'o': await this.showObjectItems(list);
         break;
@@ -128,7 +143,22 @@ export class ObjectManagerNewPage implements OnInit {
   }
 
   href = '/tabs/object-manager-control-list';
-  openOMCListInTab() {
-    this.router.navigateByUrl(this.href);
+  async openOMCListInTab() {
+    if (this.firmCities.includes(this.city)) {
+      let navigationExtras: NavigationExtras = {
+        state: {
+          city: this.city,
+          object: this.object
+        }
+      };
+      this.router.navigateByUrl(this.href, navigationExtras);
+    } else {
+      const toast = await this.toastController.create({
+        message: "Bitte wählen Sie eine verfügbare Stadt",
+        duration: 2000
+      });
+      toast.present();
+    }
+
   }
 }

@@ -5,10 +5,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-      
-      <ion-searchbar id="#city_searchbar" (ionBlur)="hideItems(cities)" (ionChange)="deleteSubObjects()" (ionFocus)="predictiveCitySearch($event, cities, 'c')" (ionInput)="predictiveCitySearch($event, cities, 'c')" showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" ></ion-searchbar>
-      <!-- (ionBlur)="hideItems()" -->
+  <form>
+      <ion-searchbar id="#city_searchbar"(ionBlur)="hideItems(cities)" (ionChange)="deleteSubObjects()" (ionFocus)="predictiveCitySearch($event, cities, 'c')" (ionInput)="predictiveCitySearch($event, cities, 'c')" showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" ></ion-searchbar>
       <ion-list id="#city_list">
           <ion-item *ngFor="let city of cities" (click)="chooseItem(city, cities, 'city')">{{ city }}</ion-item>
         </ion-list>
@@ -17,7 +15,6 @@
           <ion-item *ngFor="let object of objects" (click)="chooseItem(object, objects, 'object')">{{ object }}</ion-item>
         </ion-list>
       <ion-searchbar showCancelButton="focus" animated="true" spellcheck="true" placeholder="Zusatz"></ion-searchbar>
-      <ion-button class="generate" (click)='openOMCListInTab()'>Erstellen</ion-button>
-    </ion-list>
-
+      <ion-button class="generate" (click)="openOMCListInTab()">Erstellen</ion-button>
+  </form>
 </ion-content>
