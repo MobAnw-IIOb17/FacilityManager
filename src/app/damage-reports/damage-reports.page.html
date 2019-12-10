@@ -2,14 +2,15 @@
 </ion-header>
 
 <ion-content class="reports">
-    <ion-list>
-        <ion-item-group>
-            <ion-item (click)="openDamageById()" *ngFor="let damage of damages">
-                <ion-label>
-                    <h2>{{damage.place}}</h2>
-                    <span item-left text-left>{{damage.description}}</span>
-                </ion-label>
-            </ion-item>
+    <ion-list >
+        <ion-item-group >
+            <ion-list-header default>
+                <h1>Meldebescheinigungen</h1>
+            </ion-list-header>
+            <a ion-item  (click)="openDamage(damage.uid)" *ngFor="let damage of damages ">
+                <h2>{{damage.uid}}</h2>
+                <span class="ion-text-left">{{damage.description}}</span>
+            </a>
         </ion-item-group>
     </ion-list>
 
@@ -18,9 +19,4 @@
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>
     </ion-fab>
-
-    <!--    <ion-fab-button color="secondary" taget="_self" href="/tabs/damage-details">-->
-    <!--        <ion-icon name="delete" ></ion-icon>-->
-    <!--    </ion-fab-button>-->
-
 </ion-content>
