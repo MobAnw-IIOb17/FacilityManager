@@ -26,7 +26,6 @@ export class ObjectManagerControlNewPage implements OnInit {
     this.myForm.addControl('Propertie' + this.PropertiesCount, new FormControl());
   }
   removeControl(control){
-    console.log(control);
     this.myForm.removeControl(control.key);
   }
 }
