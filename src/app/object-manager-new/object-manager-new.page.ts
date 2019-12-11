@@ -87,12 +87,8 @@ export class ObjectManagerNewPage implements OnInit {
    */
   loadObjects(list: Array<string> = this.firmObjects, show: boolean = false) {
     this.propertyService.getPropertiesByCity(this.city).then((items) => {
-      if (items.length !== 0) {
-        var help = [];
-        for (var i: number = 0; i < items.length; i++) {
-          help[0] = items[0].street;
-        }
-        this.copyAList(list, help);
+      if (items.length !== 0) {   
+        this.copyAList(list, items.map((val) => val.street));
       } else {
         this.clearAList(list);
       }
