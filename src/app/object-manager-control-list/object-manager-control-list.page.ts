@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToastController, PopoverController } from '@ionic/angular';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
+import { PropertyService } from '../services/property.service';
+import { Property } from '../model/property.model';
 
 //import { EmployeeService } from '../services/employee.service';
 
@@ -13,26 +15,25 @@ import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
 
 export class ObjectManagerControlListPage implements OnInit {
   
-  data: any;
-  city = '';
-  object = ''
+  popOverData:string;
+  property:Property =  new Property();
   controlItemNames:Array<string> = ['Gehweg','Garten', 'Keller', 'Heizraum'];
 
-  constructor(private toastController: ToastController, private router: Router, private route: ActivatedRoute, private popover:PopoverController) { 
+  constructor(private toastController: ToastController, 
+    private router: Router, 
+    private route: ActivatedRoute, 
+    private popover: PopoverController) { 
     this.route.queryParams.subscribe(params => {
       if (params) {
-        if(params.special) {
-          this.data = params.special;
-          this.controlItemNames.push(params.special)
+        if(params.popoverParam) {
+          this.popOverData = params.popoverParam;
+          this.controlItemNames.push(params.popoverParam)
           // this.data = JSON.parse(params.special);
         }
-        if (params.city) {
-          this.city = params.city;  
-        }
         if (params.object) {
-          this.object = params.object;
+          this.property = params.object;
+          console.log("property: " + this.property.street);
         }
-        document.getElementById('#object_title').innerHTML = this.object + ', ' + this.city;
       }
     })
    }
@@ -47,18 +48,19 @@ export class ObjectManagerControlListPage implements OnInit {
 
   ngOnInit() {
   }
-/** Löscht das übegebene Item aus dem Array controlItemNames
- * 
- * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
- */
+  /** Löscht das übegebene Item aus dem Array controlItemNames
+   * 
+   * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
+   */
   async deleteItem(selectedItem:string) {
+    /*
     console.log("DELETE item");
     const toast = await this.toastController.create({
       message: 'swipe DELETE item',
       duration: 2000
     });
     toast.present();
-
+    */
     const index:number = this.controlItemNames.indexOf(selectedItem);
     if (index !== -1) {
         this.controlItemNames.splice(index, 1);
@@ -68,14 +70,17 @@ export class ObjectManagerControlListPage implements OnInit {
   /** Öffnet die nächste Seite VIEW mit dem übergebenen Item
    * 
    * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
+   * @param slidingItem Setzt das geswipte Item zurück
    */
   async editItem(selectedItem:string, slidingItem) {
+    /*
     console.log("OPEN");
     const toast = await this.toastController.create({
       message: 'swipe OPEN',
       duration: 1000
     });
     toast.present();
+    */
     slidingItem.close();
 
     let navigationExtras: NavigationExtras = {

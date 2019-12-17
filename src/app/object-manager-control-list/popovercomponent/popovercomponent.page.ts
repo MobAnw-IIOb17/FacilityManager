@@ -34,7 +34,7 @@ export class PopovercomponentPage implements OnInit {
       let navigationExtras: NavigationExtras = {
         queryParams: {
          // special: JSON.stringify(this.selectedItem)
-          special: selectedItem
+          popoverParam: selectedItem
         }
       };
       this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);

@@ -27,10 +27,14 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'object-manager-new',
+        path: 'object-manager-reports',
         children: [
           {
             path: '',
+            loadChildren: './object-manager-reports/object-manager-reports.module#ObjectManagerReportsPageModule'
+          },
+          {
+            path: 'object-manager-new',
             loadChildren: './object-manager-new/object-manager-new.module#ObjectManagerNewPageModule'
           },
           {
