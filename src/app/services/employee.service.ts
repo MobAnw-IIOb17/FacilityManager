@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Storage} from '@ionic/storage';
 
 import {Employee} from '../model/employee.model';
+import {SettingsService} from './settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class EmployeeService {
 
   private employeeDb: Storage;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private settingsService: SettingsService) {
     this.employeeDb = new Storage({
       name: '__facilityManagerDb',
       storeName: '_employees',
@@ -51,6 +52,20 @@ export class EmployeeService {
         resolve();
       });
     });
+  }
+
+  getCurrentEmployee(): Promise<Employee> {
+    return new Promise<Employee>(resolve => {
+      this.settingsService.getSetting('employeeId').then((eId) => {
+        this.getEmployee(eId).then((e) => {
+          resolve(e);
+        });
+      });
+    });
+  }
+
+  setCurrentEmployee(employee: Employee) {
+    this.settingsService.putSetting('employeeId', employee.uid);
   }
 
   private async insertIntoDb(data: Employee[]) {
