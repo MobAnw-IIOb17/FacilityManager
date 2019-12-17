@@ -12,7 +12,7 @@
 
 <ion-content>
   <form [formGroup]="myFormNew">
-    <ion-item *ngFor="let Label of myFormNew.Labels | keyvalue">
+    <ion-item *ngFor="let label of myFormNew.labels | keyvalue">
       <ion-label>{{Name}}</ion-label>
       <ion-checkbox slot='start' (ionChange)='checkCheckbox()'></ion-checkbox>
       <ion-input placeholder='Beschreibung des Problems'></ion-input>

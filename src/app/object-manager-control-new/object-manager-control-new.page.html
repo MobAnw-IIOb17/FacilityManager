@@ -19,6 +19,6 @@
       <ion-icon name="trash" slot="end" (click)="removeControl(this.control)"></ion-icon>
     </ion-item>
     <ion-button (click) ="addControl()" [disabled]="myForm.invalid">Neue Eigenschaft</ion-button>
-    <ion-button (click) ="commit" [disabled]="myForm.invalid">Erstellen</ion-button>
+    <ion-button [disabled]="myForm.invalid" (click)="submit()">Erstellen</ion-button>
   </form>
 </ion-content>
