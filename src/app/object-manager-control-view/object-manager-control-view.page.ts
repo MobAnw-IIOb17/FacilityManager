@@ -9,7 +9,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class ObjectManagerControlViewPage implements OnInit {
 
-  data:String;
+  data: string;
   private myFormNew: FormGroup;
   labels = [];
 
