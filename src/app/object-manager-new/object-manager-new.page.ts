@@ -13,12 +13,12 @@ import { Property } from '../model/property.model';
 export class ObjectManagerNewPage implements OnInit {
 
   public validateForm: FormGroup;
-  cities = [];
-  firmCities = [];
-  objects = [];
+  cities: Array<string> = [];
+  firmCities: Array<string> = [];
+  objects: Array<string> = [];
   city: string = '';
-  object = new Property();  
-  firmObjects = [];
+  object: Property = new Property();  
+  firmObjects: Array<string> = [];
 
   constructor(private toastController: ToastController, private propertyService: PropertyService, private router: Router) {
       this.loadCities();
