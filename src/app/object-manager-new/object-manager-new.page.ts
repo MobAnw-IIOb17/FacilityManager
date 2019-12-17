@@ -3,6 +3,7 @@ import { PropertyService } from '../services/property.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { FormGroup} from '@angular/forms';
 import { ToastController } from '@ionic/angular';
+import { Property } from '../model/property.model';
 
 @Component({
   selector: 'app-object-manager-new',
@@ -12,12 +13,12 @@ import { ToastController } from '@ionic/angular';
 export class ObjectManagerNewPage implements OnInit {
 
   public validateForm: FormGroup;
-  cities = [];
-  firmCities = [];
-  objects = [];
+  cities: Array<string> = [];
+  firmCities: Array<string> = [];
+  objects: Array<string> = [];
   city: string = '';
-  object: string = '';  
-  firmObjects = [];
+  object: Property = new Property();  
+  firmObjects: Array<string> = [];
 
   constructor(private toastController: ToastController, private propertyService: PropertyService, private router: Router) {
       this.loadCities();
@@ -71,11 +72,10 @@ export class ObjectManagerNewPage implements OnInit {
 
   loadCities() {
       this.propertyService.getPropertyCities().then((items) => {
-        var cityDummy = ['Görlitz', 'Zittau', 'Großschönau'];
         if (items.length !== 0) {
           this.firmCities = items;
         } else {
-          this.firmCities = cityDummy;
+          this.firmCities = [];
         }
       });
   }
@@ -115,15 +115,15 @@ export class ObjectManagerNewPage implements OnInit {
         this.clearAList(this.cities);
       }
       show = true;
-      this.object = '';
+      this.object.street = '';
       this.clearAList(this.firmObjects);
       document.getElementById('#object_searchbar').setAttribute('value', '');
     } else {
       if (!firmList.includes(chosenString)) {
-        this.object = '';
+        this.object.street = '';
         this.clearAList(this.firmObjects);
       } else {
-        this.object = chosenString;
+        this.object.street = chosenString;
         this.clearAList(this.objects);
       }
     }
@@ -161,10 +161,9 @@ export class ObjectManagerNewPage implements OnInit {
    */
   openOMCListInTab() {
     if (this.firmCities.includes(this.city)) {
-      if (this.firmObjects.includes(this.object)) {
+      if (this.firmObjects.includes(this.object.street)) {
         let navigationExtras: NavigationExtras = {
           queryParams: {
-            city: this.city,
             object: this.object
           }
         };
