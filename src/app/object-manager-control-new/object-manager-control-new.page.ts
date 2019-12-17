@@ -20,6 +20,9 @@ export class ObjectManagerControlNewPage implements OnInit {
   }
   
   ngOnInit() {}
+  submit(){
+
+  }
 
   addControl(){
     this.PropertiesCount++;
