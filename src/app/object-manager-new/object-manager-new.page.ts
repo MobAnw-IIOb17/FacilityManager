@@ -13,12 +13,14 @@ import { Property } from '../model/property.model';
 export class ObjectManagerNewPage implements OnInit {
 
   public validateForm: FormGroup;
-  cities: Array<string> = [];
   firmCities: Array<string> = [];
-  objects: Array<string> = [];
+  cities: Array<string> = [];
   city: string = '';
+  
+  firmObjects: Array<Property> = [];
+  objects: Array<Property> = [];
   object: Property = new Property();  
-  firmObjects: Array<string> = [];
+  
 
   constructor(private toastController: ToastController, private propertyService: PropertyService, private router: Router) {
       this.loadCities();
@@ -51,7 +53,7 @@ export class ObjectManagerNewPage implements OnInit {
    * Call-by-Reference
    * @param list Liste, welche geleert werden soll
    */
-  clearAList(list: Array<string>) {
+  clearAList(list: Array<any>) {
     var size: number = list.length;
     for (var i: number = 0; i <= size; i++) {
       list.pop();
@@ -63,7 +65,7 @@ export class ObjectManagerNewPage implements OnInit {
  * @param targetList Liste in die rein kopiert wird
  * @param sourceList Liste von der kopiert wird
  */
-  copyAList(targetList: Array<string>, sourceList: Array<string>) {
+  copyAList(targetList: Array<any>, sourceList: Array<any>) {
     this.clearAList(targetList);
     for (var i: number = 0; i < sourceList.length; i++) {
       targetList.push(sourceList[i]);
@@ -85,10 +87,10 @@ export class ObjectManagerNewPage implements OnInit {
    * @param list Parameter 
    * @param show gibt an, ob die geladene Liste gleich angezeigt wird
    */
-  loadObjects(list: Array<string> = this.firmObjects, show: boolean = false) {
+  loadObjects(list: Array<Property> = this.firmObjects, show: boolean = false) {
     this.propertyService.getPropertiesByCity(this.city).then((items) => {
       if (items.length !== 0) {   
-        this.copyAList(list, items.map((val) => val.street));
+        this.copyAList(list, items.map((val) => val));
       } else {
         this.clearAList(list);
       }
@@ -104,30 +106,37 @@ export class ObjectManagerNewPage implements OnInit {
    * @param firmList 
    * @param s 
    */
-  chooseItem(chosenString: string, firmList: Array<string>, s: string) {
-    document.getElementById('#' + s + '_searchbar').setAttribute('value', chosenString);
+  chooseItem(chosenObject: string, firmList: Array<any>, s: string) {
+    document.getElementById('#' + s + '_searchbar').setAttribute('value', chosenObject);
     var show: boolean = false;
     if (s == 'city') {
-      if (!firmList.includes(chosenString)) {
+      if (!firmList.includes(chosenObject)) {
         this.city = '';
       } else {
-        this.city = chosenString;
+        this.city = chosenObject;
         this.clearAList(this.cities);
       }
       show = true;
-      this.object.street = '';
+      this.object = null;
       this.clearAList(this.firmObjects);
       document.getElementById('#object_searchbar').setAttribute('value', '');
     } else {
-      if (!firmList.includes(chosenString)) {
-        this.object.street = '';
+      if (!firmList.includes(this.getPropertyByCityAndStreet(firmList, this.city, chosenObject))) {
+        this.object = null;
         this.clearAList(this.firmObjects);
       } else {
-        this.object.street = chosenString;
+        this.object = this.getPropertyByCityAndStreet(firmList, this.city, chosenObject);
         this.clearAList(this.objects);
       }
-    }
+      document.getElementById('#object_searchbar').setAttribute('value', chosenObject);
+      }
     this.loadObjects(this.firmObjects, show);
+  }
+
+  getPropertyByCityAndStreet(list: Array<Property>, cityName: string, streetName: string) {
+    var prop = new Property();
+    prop = list.filter((values) => {return (values.city == cityName && values.street == streetName)})[0];
+    return prop
   }
 
   /**
@@ -161,10 +170,10 @@ export class ObjectManagerNewPage implements OnInit {
    */
   openOMCListInTab() {
     if (this.firmCities.includes(this.city)) {
-      if (this.firmObjects.includes(this.object.street)) {
+      if (this.propertyListContainsProperty(this.firmObjects, this.object)) {
         let navigationExtras: NavigationExtras = {
           queryParams: {
-            object: this.object
+            object: this.object.uid
           }
         };
         this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
@@ -174,6 +183,26 @@ export class ObjectManagerNewPage implements OnInit {
     } else {
       this.showToast('Bitte wählen Sie eine verfügbare Stadt');
     }
+  }
+
+  propertyListContainsProperty(list: Array<Property>, prop: Property) {
+    if (!(list == null || prop == null)) {
+      return list.map((val) => {
+        if (
+          val.city == prop.city &&
+          val.deleted == prop.deleted &&
+          val.hidden == prop.hidden &&
+          val.owner == prop.owner &&
+          val.street == prop.street &&
+          val.title == prop.title &&
+          val.uid == prop.uid &&
+          val.zip == prop.zip
+        ) return true;
+        return false;
+      })
+    }
+    return false;
+
   }
 
 }
