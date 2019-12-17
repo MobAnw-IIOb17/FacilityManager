@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { FormGroup, FormBuilder, FormControl} from '@angular/forms';
+import { Router, NavigationExtras } from '@angular/router';
 
 
 @Component({
@@ -10,8 +11,12 @@ import { FormGroup, FormBuilder, FormControl} from '@angular/forms';
 export class ObjectManagerControlNewPage implements OnInit {
   public myForm: FormGroup;
   private PropertiesCount: number = 0  ;
+  label = [];
+  name: string;
+  text: string = "";
+  
 
-  constructor(private formBuilder: FormBuilder){
+  constructor(private formBuilder: FormBuilder,  private router: Router){
 
     this.myForm = formBuilder.group({
       Propertie0: []
@@ -20,8 +25,28 @@ export class ObjectManagerControlNewPage implements OnInit {
   }
   
   ngOnInit() {}
+  setValue(s: string, name){
+    var x = document.getElementsByTagName("ion-input");
+    for(var i = 0; i<x.length;i++){
+      if(x[i].name == name){
+        x[i].setAttribute("value",s);
+        break;
+      }
+    }
+  }
   submit(){
-
+    var x = document.getElementsByTagName("ion-input"); 
+    this.name = x[0].getAttribute("value");
+    for(var i = 1; i<x.length;i++){
+        this.label.push(x[i].value);
+    }
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+       labels: this.label,
+       name: this.name
+      }
+    };
+    this.router.navigate(['/tabs/object-manager-control-view'], navigationExtras);
   }
 
   addControl(){
