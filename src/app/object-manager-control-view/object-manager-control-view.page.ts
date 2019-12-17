@@ -11,6 +11,7 @@ export class ObjectManagerControlViewPage implements OnInit {
 
   data:any
   private myFormNew: FormGroup;
+  Labels = ['Garten', 'Briefkasten'];
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.route.queryParams.subscribe(params => {
@@ -34,4 +35,6 @@ export class ObjectManagerControlViewPage implements OnInit {
   openPhotos(){
     
   }
+
+
 }

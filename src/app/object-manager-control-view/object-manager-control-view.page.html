@@ -12,13 +12,14 @@
 
 <ion-content>
   <form [formGroup]="myFormNew">
-    <ion-item *ngFor="let Label of myFormNew.Labels | keyvalue">
-      <ion-label>{{Name}}</ion-label>
+    <ion-item *ngFor="let Label of Labels">
+      <ion-label>{{ Label }}</ion-label>
       <ion-checkbox slot='start' (ionChange)='checkCheckbox()'></ion-checkbox>
       <ion-input placeholder='Beschreibung des Problems'></ion-input>
       <ion-icon name='camera' slot='end' (click)='openCamera()'></ion-icon>
       <ion-icon name="photos" slot='end' (click)='openPhotos()'></ion-icon>
     </ion-item>
-    <ion-button type='submit' [disabled]='myFormNew.invalid'>Fertig</ion-button>
+    <ion-button class="generate_button" type='submit' [disabled]='myFormNew.invalid'>Fertig</ion-button>
   </form>
+
 </ion-content>
