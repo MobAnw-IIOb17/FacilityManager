@@ -7,7 +7,7 @@
 
           <ion-title>       
             <h2 style="margin: 0; padding: 0;">Kontrollliste</h2>
-            <p style="font-size: smaller; margin: 0; padding: 0;" id="#object_title">Görlitz Brückenstraße 1</p>
+            <p style="font-size: smaller; margin: 0; padding: 0;" id="#object_title">{{city}}, {{object}}</p>
           </ion-title>
     </ion-toolbar>
 </ion-header>
@@ -23,7 +23,7 @@
           </ion-item-options>
       
           <ion-item>
-            <ion-label>
+            <ion-label (click)="editItem(item)">
               {{item}}
             </ion-label>
             <ion-icon name="list" slot="end"></ion-icon>
@@ -32,7 +32,7 @@
           </ion-item>
       
           <ion-item-options side="end" (ionSwipe)="editItem(item)">
-            <ion-item-option color="success">
+            <ion-item-option color="success" expandable>
               Öffnen
             </ion-item-option>
           </ion-item-options>
