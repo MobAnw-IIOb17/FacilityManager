@@ -14,21 +14,24 @@ import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
 export class ObjectManagerControlListPage implements OnInit {
   
   data: any;
-  city: string;
-  object: string;
+  city = '';
+  object = ''
   controlItemNames:Array<string> = ['Gehweg','Garten', 'Keller', 'Heizraum'];
 
   constructor(private toastController: ToastController, private router: Router, private route: ActivatedRoute, private popover:PopoverController) { 
     this.route.queryParams.subscribe(params => {
-      if (params && params.special) {
-        this.data = params.special;
-        console.log(params.special);
-        this.controlItemNames.push(params.special)
-        // this.data = JSON.parse(params.special);
-      }
-      if (this.router.getCurrentNavigation().extras.state) {
-        this.city = this.router.getCurrentNavigation().extras.state.city;
-        this.object = this.router.getCurrentNavigation().extras.state.object;
+      if (params) {
+        if(params.special) {
+          this.data = params.special;
+          this.controlItemNames.push(params.special)
+          // this.data = JSON.parse(params.special);
+        }
+        if (params.city) {
+          this.city = params.city;  
+        }
+        if (params.object) {
+          this.object = params.object;
+        }
         document.getElementById('#object_title').innerHTML = this.object + ', ' + this.city;
       }
     })
