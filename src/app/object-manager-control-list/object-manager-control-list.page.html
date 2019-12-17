@@ -7,7 +7,7 @@
 
           <ion-title>
             <h2 style="margin: 0; padding: 0;">Kontrollliste</h2>
-            <p style="font-size: smaller; margin: 0; padding: 0;" id="#object_title">{{city}}, {{object}}</p>
+            <p style="font-size: smaller; margin: 0; padding: 0;" id="#object_title">{{property.city}}, {{property.street}}</p>
           </ion-title>
     </ion-toolbar>
 </ion-header>
@@ -26,7 +26,7 @@
             <ion-label>
               {{item}}
             </ion-label>
-            <ion-icon name="list" slot="end"></ion-icon>
+            <ion-icon name="open" slot="end"></ion-icon>
             <!-- <ion-icon name="checkmark-circle" color="success" slot="end"></ion-icon> -->
             <!-- <ion-icon name="warning" color="warning" slot="end"></ion-icon> -->
           </ion-item>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToastController, PopoverController } from '@ionic/angular';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
+import { PropertyService } from '../services/property.service';
+import { Property } from '../model/property.model';
 
 //import { EmployeeService } from '../services/employee.service';
 
@@ -13,24 +15,24 @@ import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
 
 export class ObjectManagerControlListPage implements OnInit {
   
-  data: any;
-  city = '';
-  object = ''
+  popOverData:string;
+  property:Property =  new Property();
   controlItemNames:Array<string> = ['Gehweg','Garten', 'Keller', 'Heizraum'];
 
-  constructor(private toastController: ToastController, private router: Router, private route: ActivatedRoute, private popover:PopoverController) { 
+  constructor(private toastController: ToastController, 
+    private router: Router, 
+    private route: ActivatedRoute, 
+    private popover: PopoverController) { 
     this.route.queryParams.subscribe(params => {
       if (params) {
         if(params.popoverParam) {
-          this.data = params.popoverParam;
+          this.popOverData = params.popoverParam;
           this.controlItemNames.push(params.popoverParam)
           // this.data = JSON.parse(params.special);
         }
-        if (params.city) {
-          this.city = params.city;  
-        }
         if (params.object) {
-          this.object = params.object;
+          this.property = params.object;
+          console.log("property: " + this.property.street);
         }
       }
     })
