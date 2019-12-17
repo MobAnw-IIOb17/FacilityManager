@@ -22,7 +22,7 @@
         (ionInput)="predictiveCitySearch($event, objects, firmObjects)"
         showCancelButton="focus" animated="true" spellcheck="true" placeholder="Objekt"></ion-searchbar>
       <ion-list id="#object_list">
-          <ion-item *ngFor="let object of objects" (click)="chooseItem(object, firmObjects, 'object')">{{ object }}</ion-item>
+          <ion-item *ngFor="let object of objects" (click)="chooseItem(object.street, firmObjects, 'object')">{{ object.street }}</ion-item>
         </ion-list>
       <!-- <ion-searchbar showCancelButton="focus" animated="true" spellcheck="true" placeholder="Zusatz"></ion-searchbar> -->
       <ion-button class="generate_button" (click)="openOMCListInTab()">Erstellen</ion-button>

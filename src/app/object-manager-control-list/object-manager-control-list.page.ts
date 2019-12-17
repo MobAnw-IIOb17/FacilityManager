@@ -14,15 +14,18 @@ import { Property } from '../model/property.model';
 })
 
 export class ObjectManagerControlListPage implements OnInit {
+  [x: string]: any;
   
-  popOverData:string;
-  property:Property =  new Property();
-  controlItemNames:Array<string> = ['Gehweg','Garten', 'Keller', 'Heizraum'];
+  popOverData: string;
+  propertyUid: string;
+  property = new Property();
+  controlItemNames: Array<string> = ['Gehweg','Garten', 'Keller', 'Heizraum'];
 
   constructor(private toastController: ToastController, 
     private router: Router, 
     private route: ActivatedRoute, 
-    private popover: PopoverController) { 
+    private popover: PopoverController,
+    private propertyService: PropertyService) { 
     this.route.queryParams.subscribe(params => {
       if (params) {
         if(params.popoverParam) {
@@ -31,8 +34,9 @@ export class ObjectManagerControlListPage implements OnInit {
           // this.data = JSON.parse(params.special);
         }
         if (params.object) {
-          this.property = params.object;
-          console.log("property: " + this.property.street);
+          this.propertyUid = params.object;
+          console.log("property: " + this.propertyUid);
+          this.propertyService.getProperty(this.propertyUid).then((item) => { this.property = item});
         }
       }
     })
