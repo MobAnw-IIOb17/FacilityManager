@@ -8,4 +8,5 @@ export class Damage {
     employee: Employee;
     description: string;
     images: string[];
+    location: string;
 }
