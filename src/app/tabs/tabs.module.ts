@@ -29,6 +29,10 @@ const routes: Routes = [
         loadChildren: '../damage-form/damage-form.module#DamageFormPageModule'
       },
       {
+        path: 'object-manager-reports',
+        loadChildren: '../object-manager-reports/object-manager-reports.module#ObjectManagerReportsPageModule'
+      },
+      {
         path: 'object-manager-new',
         loadChildren: '../object-manager-new/object-manager-new.module#ObjectManagerNewPageModule'
       },
