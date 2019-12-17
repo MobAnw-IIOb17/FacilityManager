@@ -15,15 +15,15 @@
 
 <ion-content>
     <ion-list>
-        <ion-item-sliding #slidingItem *ngFor="let item of controlItemNames;">
+        <ion-item-sliding #slidingItem *ngFor="let item of controlItemNames" (click)="editItem(item, slidingItem)">
           <ion-item-options side="start" (ionSwipe)="deleteItem(item)">
             <ion-item-option color="danger" expandable>
-              Löschen
+              <ion-icon name="trash" slot="end"></ion-icon>
             </ion-item-option>
           </ion-item-options>
 
           <ion-item>
-            <ion-label (click)="editItem(item)">
+            <ion-label>
               {{item}}
             </ion-label>
             <ion-icon name="list" slot="end"></ion-icon>
@@ -32,8 +32,8 @@
           </ion-item>
 
           <ion-item-options side="end" (ionSwipe)="editItem(item, slidingItem)">
-            <ion-item-option color="success">
-              Öffnen
+            <ion-item-option color="success" expandable>
+              <ion-icon name="open" slot="end"></ion-icon>
             </ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
