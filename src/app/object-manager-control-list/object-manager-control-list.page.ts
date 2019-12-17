@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { ToastController, PopoverController } from '@ionic/angular';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
-import { PopoverController } from '@ionic/angular';
 import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
+
 //import { EmployeeService } from '../services/employee.service';
 
 @Component({
@@ -69,13 +69,14 @@ export class ObjectManagerControlListPage implements OnInit {
    * 
    * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
    */
-  async editItem(selectedItem:string) {
+  async editItem(selectedItem:string, slidingItem) {
     console.log("OPEN");
     const toast = await this.toastController.create({
       message: 'swipe OPEN',
       duration: 1000
     });
     toast.present();
+    slidingItem.close();
 
     let navigationExtras: NavigationExtras = {
       queryParams: {

@@ -15,7 +15,7 @@
 
 <ion-content>
     <ion-list>
-        <ion-item-sliding *ngFor="let item of controlItemNames;">
+        <ion-item-sliding #slidingItem *ngFor="let item of controlItemNames;">
           <ion-item-options side="start" (ionSwipe)="deleteItem(item)">
             <ion-item-option color="danger" expandable>
               Löschen
@@ -31,7 +31,7 @@
             <!-- <ion-icon name="warning" color="warning" slot="end"></ion-icon> -->
           </ion-item>
       
-          <ion-item-options side="end" (ionSwipe)="editItem(item)">
+          <ion-item-options side="end" (ionSwipe)="editItem(item, slidingItem)">
             <ion-item-option color="success">
               Öffnen
             </ion-item-option>
