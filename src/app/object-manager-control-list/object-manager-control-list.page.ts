@@ -21,9 +21,9 @@ export class ObjectManagerControlListPage implements OnInit {
   constructor(private toastController: ToastController, private router: Router, private route: ActivatedRoute, private popover:PopoverController) { 
     this.route.queryParams.subscribe(params => {
       if (params) {
-        if(params.special) {
-          this.data = params.special;
-          this.controlItemNames.push(params.special)
+        if(params.popoverParam) {
+          this.data = params.popoverParam;
+          this.controlItemNames.push(params.popoverParam)
           // this.data = JSON.parse(params.special);
         }
         if (params.city) {
@@ -32,7 +32,6 @@ export class ObjectManagerControlListPage implements OnInit {
         if (params.object) {
           this.object = params.object;
         }
-        document.getElementById('#object_title').innerHTML = this.object + ', ' + this.city;
       }
     })
    }
@@ -47,18 +46,19 @@ export class ObjectManagerControlListPage implements OnInit {
 
   ngOnInit() {
   }
-/** Löscht das übegebene Item aus dem Array controlItemNames
- * 
- * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
- */
+  /** Löscht das übegebene Item aus dem Array controlItemNames
+   * 
+   * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
+   */
   async deleteItem(selectedItem:string) {
+    /*
     console.log("DELETE item");
     const toast = await this.toastController.create({
       message: 'swipe DELETE item',
       duration: 2000
     });
     toast.present();
-
+    */
     const index:number = this.controlItemNames.indexOf(selectedItem);
     if (index !== -1) {
         this.controlItemNames.splice(index, 1);
@@ -68,14 +68,17 @@ export class ObjectManagerControlListPage implements OnInit {
   /** Öffnet die nächste Seite VIEW mit dem übergebenen Item
    * 
    * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
+   * @param slidingItem Setzt das geswipte Item zurück
    */
   async editItem(selectedItem:string, slidingItem) {
+    /*
     console.log("OPEN");
     const toast = await this.toastController.create({
       message: 'swipe OPEN',
       duration: 1000
     });
     toast.present();
+    */
     slidingItem.close();
 
     let navigationExtras: NavigationExtras = {
