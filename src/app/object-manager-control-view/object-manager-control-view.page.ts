@@ -9,15 +9,24 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class ObjectManagerControlViewPage implements OnInit {
 
-  data:any
+  data:String;
   private myFormNew: FormGroup;
+  labels = [];
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.route.queryParams.subscribe(params => {
-      if (params && params.special) {
+      console.log(params.name+" "+params.labels);
+      if (params) {
+        if(params.name){
+          this.data = params.name;
+        }
+        if(params.labels){
+          this.labels = params.labels;
+
+        }
+      }
+      if(params && params.special){
         this.data = params.special;
-        console.log(params.special);
-        // this.data = JSON.parse(params.special);
       }
     })
     this.myFormNew = formBuilder.group({

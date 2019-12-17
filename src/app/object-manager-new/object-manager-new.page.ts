@@ -163,12 +163,12 @@ export class ObjectManagerNewPage implements OnInit {
     if (this.firmCities.includes(this.city)) {
       if (this.firmObjects.includes(this.object)) {
         let navigationExtras: NavigationExtras = {
-          state: {
+          queryParams: {
             city: this.city,
             object: this.object
           }
         };
-        this.router.navigateByUrl('/tabs/object-manager-control-list', navigationExtras);
+        this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
       } else {
         this.showToast('Bitte wählen Sie eine verfügbare Straße');
       }
