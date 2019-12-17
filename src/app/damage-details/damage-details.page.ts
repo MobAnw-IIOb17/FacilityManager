@@ -20,36 +20,35 @@ export class DamageDetailsPage implements OnInit {
         if (this.router.getCurrentNavigation().extras.state) {
             this.damage = this.router.getCurrentNavigation().extras.state.damage;
         } else {
-            this.tollerTest();
+            this.makeUndefinedDamage();
         }
     }
 
-    tollerTest(){
-        console.log('toller Test');
-        let sesamstrasse: Property = {
-            uid: 'xyz',
-            deleted: '0',
-            hidden: '0',
-            title: '',
-            street: 'Sesamstraße 3',
-            zip: '02766',
-            city: 'Görlitz',
-            owner: 'Maier'
+    makeUndefinedDamage(){
+        let undefinedProperty: Property = {
+            uid: 'undefinedUid',
+            deleted: 'undefinedDeleted',
+            hidden: 'undefinedHidden',
+            title: 'undefinedTitle',
+            street: 'undefinedStreet',
+            zip: 'undefinedZip',
+            city: 'undefinedCity',
+            owner: 'undefinedMaier'
         }
 
-        let gunter: Employee = {
-            uid: '007',
-            name: 'Gunter',
-            deleted: '0',
-            hidden: '0'
+        let undefinedEmployee: Employee = {
+            uid: 'undefinedUid',
+            name: 'undefinedName',
+            deleted: 'undefinedDeleted',
+            hidden: 'undefinedHidden'
         }
 
         this.damage = {
-            uid: 'xyz',
-            createDate: 'Heute',
-            property: sesamstrasse,
-            employee: gunter,
-            description: 'Kaputt',
+            uid: 'undefinedUid',
+            createDate: 'undefinedCreateDate',
+            property: undefinedProperty,
+            employee: undefinedEmployee,
+            description: 'undefinedDescription',
             images: []
         }
     }

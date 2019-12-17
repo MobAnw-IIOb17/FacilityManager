@@ -13,11 +13,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { PopovercomponentPageModule } from './object-manager-control-list/popovercomponent/popovercomponent.module';
 
-/* Angular Material */
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatListModule} from '@angular/material';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,10 +21,6 @@ import {MatListModule} from '@angular/material';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    BrowserAnimationsModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatListModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
     PopovercomponentPageModule
