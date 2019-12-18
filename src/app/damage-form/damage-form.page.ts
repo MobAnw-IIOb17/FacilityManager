@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import {AppCameraService} from '../services/app-camera.service';
 
 @Component({
   selector: 'app-damage-form',
@@ -7,23 +7,9 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
   styleUrls: ['./damage-form.page.scss'],
 })
 export class DamageFormPage implements OnInit {
-  options: CameraOptions = {
-    quality: 100,
-    destinationType: this.camera.DestinationType.FILE_URI,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE
-  };
 
-  constructor(private camera: Camera) { }
+  constructor(public appCameraService: AppCameraService) { }
 
   ngOnInit() {
-  }
-
-  takePicture() {
-    this.camera.getPicture(this.options).then((imageData) => {
-      console.log(imageData);
-    }, (err) => {
-      // Handle error
-    });
   }
 }
