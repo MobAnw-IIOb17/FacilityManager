@@ -35,7 +35,6 @@ export class ObjectManagerControlListPage implements OnInit {
         }
         if (params.object) {
           this.propertyUid = params.object;
-          console.log("property: " + this.propertyUid);
           this.propertyService.getProperty(this.propertyUid).then((item) => { this.property = item});
         }
       }
