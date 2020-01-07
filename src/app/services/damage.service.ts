@@ -97,17 +97,17 @@ export class DamageService {
    */
   private sendDamage(damage: Damage) {
     this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/damage/',
-        '{"pid": "0", "crdate": ' + damage.createDate + ', "tstamp": ' + damage.createDate + ', "hidden": "0", ' +
-        '"archived": "0", "sent_on": "0", "cruser_id": "0", "description": ' + damage.description +
-        ', "deleted": "0", "object_uid": ' + damage.property.uid + ', "employee_uid": ' + damage.employee.uid +
-        ', "phone": "", "tenant": "", "location": ' + damage.location +
-        ', "date": ' + timestamp + ', "images": ' + damage.images + ', "seen": "0" }')
-        .subscribe(data => {
-          alert(JSON.stringify(data));
-        }, error => {
-          alert(error);
-        });
-    }
+      '{"pid": "0", "crdate": ' + damage.createDate + ', "tstamp": ' + damage.createDate + ', "hidden": "0", ' +
+      '"archived": "0", "sent_on": "0", "cruser_id": "0", "description": ' + damage.description +
+      ', "deleted": "0", "object_uid": ' + damage.property.uid + ', "employee_uid": ' + damage.employee.uid +
+      ', "phone": "", "tenant": "", "location": ' + damage.location +
+      ', "date": ' + timestamp + ', "images": ' + damage.images + ', "seen": "0" }')
+      .subscribe(data => {
+        alert(JSON.stringify(data));
+      }, error => {
+        alert(error);
+      });
+  }
 
   /**
    * This is a helper method to mark a damage report as sent by moving it to the `sent` array
@@ -126,10 +126,10 @@ export class DamageService {
    * @param array the array that the item should be deleted from
    */
   private deleteItemFromArray(item: any, array: any[]) {
-      array.forEach((arrayItem, index) => {
-        if (arrayItem === item) {
-          array.splice(index, 1);
-        }
-      });
-    }
+    array.forEach((arrayItem, index) => {
+      if (arrayItem === item) {
+        array.splice(index, 1);
+      }
+    });
+  }
 }

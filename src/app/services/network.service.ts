@@ -4,6 +4,7 @@ import {Network} from '@ionic-native/network';
 import {HttpClient} from '@angular/common/http';
 import {DamageService} from './damage.service';
 import {EmployeeService} from './employee.service';
+import {PropertyService} from "./property.service";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,8 @@ export class NetworkService {
      */
   constructor(private http: HttpClient,
               private damageService: DamageService,
-              private employeeService: EmployeeService) { }
+              private employeeService: EmployeeService,
+              private propertyService: PropertyService) { }
 
   /**
    * This method can be used to test whether the app has online access or not.
@@ -38,8 +40,9 @@ export class NetworkService {
      * It sends pending damage reports and syncs the wrapper databases.
      */
   onOnline() {
-      this.testPost(); // this.damageService.sendPendingDamages();
+      this.damageService.sendPendingDamages();
       this.employeeService.updateEmployees();
+      this.propertyService.updateProperties();
   }
 
     /**
