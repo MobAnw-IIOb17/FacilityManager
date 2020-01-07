@@ -173,7 +173,9 @@ export class ObjectManagerNewPage implements OnInit {
       if (this.propertyListContainsProperty(this.firmObjects, this.object)) {
         let navigationExtras: NavigationExtras = {
           queryParams: {
-            object: this.object.uid
+            objectUid: this.object.uid,
+            objectCity: this.object.city,
+            objectStreet: this.object.street
           }
         };
         this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
