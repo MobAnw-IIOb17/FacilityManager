@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { ObjectManagerControlListPage } from './object-manager-control-list.page';
 
+import { NetworkListenerDirective } from '../directives/network-listener.directive';
+
 const routes: Routes = [
   {
     path: '',
@@ -15,12 +17,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [ObjectManagerControlListPage]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        RouterModule.forChild(routes)
+    ],
+  declarations: [ObjectManagerControlListPage, NetworkListenerDirective]
 })
 export class ObjectManagerControlListPageModule {}

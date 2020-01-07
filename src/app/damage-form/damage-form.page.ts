@@ -17,6 +17,7 @@ export class DamageFormPage implements OnInit {
   ngOnInit() {
   }
 
+<<<<<<< HEAD
   addPictureCamera() {
     var ImageData = this.appCameraService.takePicture();
     this.pictures.push('data:image/jpeg;base64,'+ImageData);
@@ -33,4 +34,6 @@ export class DamageFormPage implements OnInit {
     newPicture.setAttribute("[src]", '"pictures['+ (this.pictures.length-1) +']" *ngIf="pictures['+ (this.pictures.length-1) +']"');
     col.appendChild(document.createElement("ion-thumbnail").appendChild(newPicture));
   }
+=======
+>>>>>>> 9e0f9824ecca8ea73316f7e3db6bb10173c8da72
 }
