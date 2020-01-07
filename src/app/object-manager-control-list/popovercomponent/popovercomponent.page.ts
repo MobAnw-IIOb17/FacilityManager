@@ -10,8 +10,7 @@ import { Checklist } from 'src/app/model/checklist.model';
 })
 export class PopovercomponentPage implements OnInit {
 
-  controlItemNames: Array<Checklist> = [];
-  // = ['Dachboden','Keller','Hof','Briefkästen','Fassade','Fahrradraum'];
+  notUsedControllistItems: Array<Checklist> = [];
 
   constructor(private popover:PopoverController, private router: Router, private toastController: ToastController) {
   }
@@ -19,22 +18,16 @@ export class PopovercomponentPage implements OnInit {
   ngOnInit() {
   }
 
-  closePopover() {
-    this.popover.dismiss();
-  }
-
+  /**
+   * Fügt das angeklickte Item im Popover zu der Liste in der Hauptseite hinzu.
+   * 
+   * @param selectedItem Item welches übergeben wird
+   */
   async add(selectedItem) {
-    console.log(selectedItem);
     if(selectedItem == 'new') {
       this.popover.dismiss();
       this.router.navigateByUrl('/tabs/object-manager-control-new');
     } else {
-      const toast = await this.toastController.create({
-        message: selectedItem.name,
-        duration: 1000
-      });
-      toast.present();
-
       let navigationExtras: NavigationExtras = {
         queryParams: {
           popOverData: JSON.stringify(selectedItem)
