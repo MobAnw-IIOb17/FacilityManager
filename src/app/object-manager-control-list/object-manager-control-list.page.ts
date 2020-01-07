@@ -45,7 +45,7 @@ export class ObjectManagerControlListPage implements OnInit {
         }
       }
     })
-    this.objectChecklistService.getChecklist('184').then((items) => {
+    this.objectChecklistService.getDefaultChecklist('184').then((items) => {
       console.log(items);
     })
    }
