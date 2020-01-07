@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
+import { Base64 } from '@ionic-native/base64/ngx';
 
 import { IonicModule } from '@ionic/angular';
 
 import { DamageDetailsPage } from './damage-details.page';
-import { MatListModule } from '@angular/material';
 
 const routes: Routes = [
   {
@@ -21,7 +21,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    MatListModule
+    Base64
   ],
   declarations: [DamageDetailsPage]
 })

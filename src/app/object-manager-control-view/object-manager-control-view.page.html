@@ -5,7 +5,7 @@
     </ion-buttons>
 
     <ion-title>       
-      <h2 style="margin: 0; padding: 0;">Kontrolle - {{data}}</h2>
+      <h2 style="margin: 0; padding: 0;">Kontrolle - {{name}}</h2>
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -13,9 +13,9 @@
 <ion-content>
   <form [formGroup]="myFormNew">
     <ion-item *ngFor="let label of labels">
-      <ion-label>{{ label }}</ion-label>
-      <ion-checkbox slot='start' (ionChange)='checkCheckbox()'></ion-checkbox>
-      <ion-input placeholder='Beschreibung des Problems'></ion-input>
+      <ion-label>{{ label.name }}</ion-label>
+      <ion-checkbox slot='start' (ionChange)='checkCheckbox($event.target)'></ion-checkbox>
+      <ion-input name = 'description' placeholder='Beschreibung des Problems'></ion-input>
       <ion-icon name='camera' slot='end' (click)='openCamera()'></ion-icon>
       <ion-icon name="photos" slot='end' (click)='openPhotos()'></ion-icon>
     </ion-item>

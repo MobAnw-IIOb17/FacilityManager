@@ -12,8 +12,7 @@
     </ion-toolbar>
 </ion-header>
 
-
-<ion-content>
+<ion-content appNetworkListener>
     <ion-list>
         <ion-item-sliding #slidingItem *ngFor="let item of controlItemNames" (click)="editItem(item, slidingItem)">
           <ion-item-options side="start" (ionSwipe)="deleteItem(item)">
@@ -24,7 +23,7 @@
 
           <ion-item>
             <ion-label>
-              {{item}}
+              {{item.name}}
             </ion-label>
             <ion-icon name="open" slot="end"></ion-icon>
             <!-- <ion-icon name="checkmark-circle" color="success" slot="end"></ion-icon> -->

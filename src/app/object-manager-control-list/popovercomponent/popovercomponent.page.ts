@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController, ToastController } from '@ionic/angular';
 import { Router, NavigationExtras } from '@angular/router';
+import { Checklist } from 'src/app/model/checklist.model';
 
 @Component({
   selector: 'app-popovercomponent',
@@ -9,9 +10,11 @@ import { Router, NavigationExtras } from '@angular/router';
 })
 export class PopovercomponentPage implements OnInit {
 
-  controlPopOverNames = ['Dachboden','Keller','Hof','Briefkästen','Fassade','Fahrradraum'];
+  controlItemNames: Array<Checklist> = [];
+  // = ['Dachboden','Keller','Hof','Briefkästen','Fassade','Fahrradraum'];
 
-  constructor(private popover:PopoverController, private router: Router, private toastController: ToastController) { }
+  constructor(private popover:PopoverController, private router: Router, private toastController: ToastController) {
+  }
 
   ngOnInit() {
   }
@@ -20,21 +23,21 @@ export class PopovercomponentPage implements OnInit {
     this.popover.dismiss();
   }
 
-  async add(selectedItem:string) {
-    if(selectedItem === 'new') {
+  async add(selectedItem) {
+    console.log(selectedItem);
+    if(selectedItem == 'new') {
       this.popover.dismiss();
       this.router.navigateByUrl('/tabs/object-manager-control-new');
     } else {
       const toast = await this.toastController.create({
-        message: selectedItem,
+        message: selectedItem.name,
         duration: 1000
       });
       toast.present();
 
       let navigationExtras: NavigationExtras = {
         queryParams: {
-         // special: JSON.stringify(this.selectedItem)
-          popoverParam: selectedItem
+          popOverData: JSON.stringify(selectedItem)
         }
       };
       this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);

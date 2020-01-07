@@ -6,7 +6,7 @@
     <form>
         <ion-list>
             <ion-item>
-                <ion-searchbar animated spellcheck="true" placeholder="Stadt"></ion-searchbar>
+                <ion-searchbar animated spellcheck="true" placeholder="Stadt" value="xxx"></ion-searchbar>
             </ion-item>
 
             <ion-item>
@@ -14,8 +14,8 @@
             </ion-item>
 
             <ion-item class="form_input">
-                <ion-label position="floating">Adresszusatz</ion-label>
-                <ion-input required></ion-input>
+                <ion-label position="floating">Lage</ion-label>
+                <ion-input required id="desc_input"></ion-input>
             </ion-item>
 
             <ion-item class="form_input">
@@ -25,19 +25,24 @@
 
             <ion-item class="form_input">
                     <ion-label position="floating">Meldung</ion-label>
-                    <ion-textarea required auto-grow wrap="hard"></ion-textarea>
+                    <ion-textarea required auto-grow wrap="hard" id="desc_input"></ion-textarea>
             </ion-item>
 
             <ion-item class="form_input">
                     <ion-label position="floating">Mitarbeiter</ion-label>
                     <ion-input readonly="true" value="Hans Georg IV" disabled="true"></ion-input>
-                </ion-item>
+            </ion-item>
+
+            <ion-item class="form_input">
+                    <ion-label position="floating">Datum</ion-label>
+                    <ion-input id="date_input" readonly="true" value="" disabled="true"></ion-input>
+            </ion-item>
         </ion-list>
 
         <ion-label>Bilder</ion-label>
 
         <section class="image_buttons">
-            <ion-button>
+            <ion-button (click)='addPictureCamera()'>
                 AUFNAHME
                 <ion-icon slot="end" name="camera"></ion-icon>
             </ion-button>
@@ -46,6 +51,9 @@
                 GALERIE
                 <ion-icon slot="end" name="photos"></ion-icon>
             </ion-button>
+
+            <ion-grid id="form_gallery">
+            </ion-grid>
         </section>
 
         <section class="submit_button">
