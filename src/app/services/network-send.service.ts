@@ -42,6 +42,10 @@ export class NetworkSendService {
       this.propertyService.updateProperties();
   }
 
+  test() {
+    alert('i am online, whohooo');
+  }
+
   /**
    * Call this method when user is initiating a manual sync in the app.
    * Updates employees and properties and sends pending damage reports and pending checklists.
