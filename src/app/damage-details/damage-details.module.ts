@@ -20,8 +20,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    Base64
+    RouterModule.forChild(routes)
   ],
   declarations: [DamageDetailsPage]
 })
