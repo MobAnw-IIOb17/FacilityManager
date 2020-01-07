@@ -61,7 +61,8 @@ export class DamageReportsPage implements OnInit {
       property: undefinedProperty,
       employee: undefinedEmployee,
       description: 'undefinedDescription',
-      images: []
+      images: [],
+      location: 'undefinedLocation'
     }
 
     this.damages.push(this.damage);
