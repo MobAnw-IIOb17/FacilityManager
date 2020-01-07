@@ -19,11 +19,11 @@ import { _countGroupLabelsBeforeOption } from '@angular/material';
 export class ObjectManagerControlListPage implements OnInit {
   [x: string]: any;
   
-  propertyUid;
   property = new Property();
   propertyCity = '';
   propertyStreet = '';
   controlItemNames: Array<Checklist> = [];
+  deletedControlItemNames: Array<Checklist> = [];
 
   constructor(private toastController: ToastController, 
     private router: Router, 
@@ -31,26 +31,18 @@ export class ObjectManagerControlListPage implements OnInit {
     private popover: PopoverController,
     private propertyService: PropertyService,
     private objectChecklistService: ObjectChecklistService) {
-      console.log("constructor");
       this.route.queryParams.subscribe(params => {
-        console.log("constructor2");
         if (params) {
           if(params.popOverData) {
             var parsedObject = JSON.parse(params.popOverData);
-            console.log(parsedObject);
             this.controlItemNames.push(parsedObject);
           }
-          if (params.objectUid) {
-            this.propertyUid = params.objectUid;
-            this.propertyCity = params.objectCity;
-            this.propertyStreet = params.objectStreet;
-            this.propertyService.getProperty(this.propertyUid).then((item) => { this.property = item});
+          if (params.object) {
+            this.property = JSON.parse(params.object);
           }
         }
       })
-      this.objectChecklistService.getDefaultChecklist('184').then((item) => {
-        console.log(item);
-        console.log(item.checklist);
+      this.objectChecklistService.getDefaultChecklist('184').then((item) => { //property.uid
         this.controlItemNames = item.checklist;
       })
    }
@@ -89,7 +81,7 @@ export class ObjectManagerControlListPage implements OnInit {
    * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
    * @param slidingItem Setzt das geswipte Item zurück
    */
-  async editItem(selectedItem:string, slidingItem) {
+  async editItem(selectedItem, slidingItem) {
     /*
     console.log("OPEN");
     const toast = await this.toastController.create({
