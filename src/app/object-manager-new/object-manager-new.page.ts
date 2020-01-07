@@ -149,7 +149,8 @@ export class ObjectManagerNewPage implements OnInit {
     this.copyAList(list, firmList);
     var val = event.target.value;
     if (val != '') {
-      this.copyAList(list, firmList.filter((values) => {return (values.toLowerCase().includes(val.toLowerCase()))}));
+      //problem mit der firmlist
+      this.copyAList(list, firmList.filter((values) => {return values.toLowerCase().includes(val.toLowerCase())}));
     }
   }
 
@@ -173,9 +174,7 @@ export class ObjectManagerNewPage implements OnInit {
       if (this.propertyListContainsProperty(this.firmObjects, this.object)) {
         let navigationExtras: NavigationExtras = {
           queryParams: {
-            objectUid: this.object.uid,
-            objectCity: this.object.city,
-            objectStreet: this.object.street
+            object: JSON.stringify(this.object)
           }
         };
         this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);

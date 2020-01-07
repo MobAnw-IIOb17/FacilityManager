@@ -4,15 +4,13 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="reports">
-    <ion-list >
-        <ion-item-group>
-            <a ion-item  (click)="openDamage(damage)" *ngFor="let damage of damages ">
-                <h2>{{damage.uid}}</h2>
-                <span class="ion-text-left">{{damage.description}}</span>
-            </a>
-        </ion-item-group>
-    </ion-list>
+<ion-content>
+    <ion-item (click)="openDamage(damage)" *ngFor="let damage of damages">
+        <ion-label>
+            <h2>{{damage.uid}}</h2>
+            <p>{{damage.description}}</p>
+        </ion-label>
+    </ion-item>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button color="secondary" taget="_self" (click)="this.router.navigate(['/tabs/damage-form'])">
