@@ -7,7 +7,7 @@
  * @var {JSON} checklist
  *  a json string containing the already existing checklist items
  */
-interface ObjectDefaultChecklist {
+export interface ObjectDefaultChecklist {
     object_uid: number;
     update: string;
     checklist: JSON;
