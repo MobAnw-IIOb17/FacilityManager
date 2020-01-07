@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {DamageService} from '../services/damage.service';
 import {Damage} from '../model/damage.model';
 import { Router, NavigationExtras } from '@angular/router';
+import {Property} from '../model/property.model';
+import {Employee} from '../model/employee.model';
 
 @Component({
   selector: 'app-damage-reports',
@@ -11,12 +13,17 @@ import { Router, NavigationExtras } from '@angular/router';
 })
 export class DamageReportsPage implements OnInit {
   damages: Damage[] = [];
+  damage: Damage;
 
   constructor(public damageService: DamageService, private router: Router) {
   }
 
   async ngOnInit() {
     this.damages = await this.damageService.getAllDamages() as Damage[];
+
+    if (this.damages.length == 0) {
+      this.makeUndefinedDamage();
+    }
   }
 
   openDamage(damage: Damage) {
@@ -26,5 +33,39 @@ export class DamageReportsPage implements OnInit {
       }
     };
     this.router.navigateByUrl('/tabs/damage-details', navigationExtras);
+  }
+
+
+  makeUndefinedDamage(){
+    let undefinedProperty: Property = {
+      uid: 'undefinedUid',
+      deleted: 'undefinedDeleted',
+      hidden: 'undefinedHidden',
+      title: 'undefinedTitle',
+      street: 'undefinedStreet',
+      zip: 'undefinedZip',
+      city: 'undefinedCity',
+      owner: 'undefinedMaier'
+    }
+
+    let undefinedEmployee: Employee = {
+      uid: 'undefinedUid',
+      name: 'undefinedName',
+      deleted: 'undefinedDeleted',
+      hidden: 'undefinedHidden'
+    }
+
+    this.damage = {
+      uid: 'undefinedUid',
+      createDate: 'undefinedCreateDate',
+      property: undefinedProperty,
+      employee: undefinedEmployee,
+      description: 'undefinedDescription',
+      images: []
+    }
+
+    this.damages.push(this.damage);
+    this.damages.push(this.damage);
+    this.damages.push(this.damage);
   }
 }

@@ -19,40 +19,32 @@ import { _countGroupLabelsBeforeOption } from '@angular/material';
 export class ObjectManagerControlListPage implements OnInit {
   [x: string]: any;
   
-  popOverData: string;
-  propertyUid: string;
   property = new Property();
   propertyCity = '';
   propertyStreet = '';
   controlItemNames: Array<Checklist> = [];
+  deletedControlItemNames: Array<Checklist> = [];
 
   constructor(private toastController: ToastController, 
     private router: Router, 
     private route: ActivatedRoute, 
     private popover: PopoverController,
     private propertyService: PropertyService,
-    private objectChecklistService: ObjectChecklistService) { 
-    this.route.queryParams.subscribe(params => {
-      if (params) {
-        if(params.popoverParam) {
-          console.log(params.popoverParam);
-          this.popOverData = params.popoverParam;
-          this.controlItemNames.push(params.popoverParam)
-          // this.data = JSON.parse(params.special);
+    private objectChecklistService: ObjectChecklistService) {
+      this.route.queryParams.subscribe(params => {
+        if (params) {
+          if(params.popOverData) {
+            var parsedObject = JSON.parse(params.popOverData);
+            this.controlItemNames.push(parsedObject);
+          }
+          if (params.object) {
+            this.property = JSON.parse(params.object);
+          }
         }
-        if (params.objectUid) {
-          this.propertyUid = params.objectUid;
-          this.propertyCity = params.objectCity;
-          this.propertyStreet = params.objectStreet;
-          this.propertyService.getProperty(this.propertyUid).then((item) => { this.property = item});
-        }
-      }
-    })
-    this.objectChecklistService.getDefaultChecklist('184').then((item) => {
-      console.log(item);
-      console.log(item.checklist);
-      this.controlItemNames = item.checklist;
-    })
+      })
+      this.objectChecklistService.getDefaultChecklist('184').then((item) => { //property.uid
+        this.controlItemNames = item.checklist;
+      })
    }
 
   /*
@@ -89,7 +81,7 @@ export class ObjectManagerControlListPage implements OnInit {
    * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
    * @param slidingItem Setzt das geswipte Item zurück
    */
-  async editItem(selectedItem:string, slidingItem) {
+  async editItem(selectedItem, slidingItem) {
     /*
     console.log("OPEN");
     const toast = await this.toastController.create({
@@ -99,11 +91,9 @@ export class ObjectManagerControlListPage implements OnInit {
     toast.present();
     */
     slidingItem.close();
-
     let navigationExtras: NavigationExtras = {
-      queryParams: {
-       // special: JSON.stringify(this.itemname)
-        checklistItem: selectedItem
+      queryParams: {   
+        checklistItem: JSON.stringify(selectedItem)
       }
     };
     this.router.navigate(['/tabs/object-manager-control-view'], navigationExtras);

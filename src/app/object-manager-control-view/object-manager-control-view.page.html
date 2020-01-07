@@ -13,7 +13,7 @@
 <ion-content>
   <form [formGroup]="myFormNew">
     <ion-item *ngFor="let label of labels">
-      <ion-label>{{ label }}</ion-label>
+      <ion-label>{{ label.name }}</ion-label>
       <ion-checkbox slot='start' (ionChange)='checkCheckbox($event.target)'></ion-checkbox>
       <ion-input name = 'description' placeholder='Beschreibung des Problems'></ion-input>
       <ion-icon name='camera' slot='end' (click)='openCamera()'></ion-icon>
