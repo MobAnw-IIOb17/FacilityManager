@@ -10,9 +10,12 @@ import { Property } from './property.model';
  *  the employee that does the checking
  * @var {Checklist[]} checklist
  *  the checklist containing all to be checked items in the named object/property
+ * @var {boolean} sent
+ *  flag to be set true as soon as the object checklist is sent
  */
 export class ObjectChecklist {
     property: Property;
     employee: Employee;
     checklist: Checklist[];
+    sent = false;
 }

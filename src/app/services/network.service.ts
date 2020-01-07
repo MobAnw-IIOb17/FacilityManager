@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {DamageService} from './damage.service';
 import {EmployeeService} from './employee.service';
 import {PropertyService} from "./property.service";
+import {ObjectChecklistService} from "./object-checklist.service";
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +21,13 @@ export class NetworkService {
      * The constructor adds all needed services.
      * @param http the HttpClient which right now is only needed for testing posting to the webservice
      * @param damageService the DamageService the NetworkService connects to for initiating the sending of pending damages
+     * @param objectChecklistService the objectChecklistService to send pending object checklists
      * @param employeeService the EmployeeService the NetworkService connects to for initiating database syncing
+     * @param propertyService the propertyService to update properties
      */
   constructor(private http: HttpClient,
               private damageService: DamageService,
+              private objectChecklistService: ObjectChecklistService,
               private employeeService: EmployeeService,
               private propertyService: PropertyService) { }
 
@@ -41,8 +45,17 @@ export class NetworkService {
      */
   onOnline() {
       this.damageService.sendPendingDamages();
+      this.objectChecklistService.sendPendingChecklists();
       this.employeeService.updateEmployees();
       this.propertyService.updateProperties();
+  }
+
+  /**
+   * Call this method when user is initiating a manual sync in the app.
+   * Updates employees and properties and sends pending damage reports and pending checklists.
+   */
+  sync() {
+    this.onOnline();
   }
 
     /**

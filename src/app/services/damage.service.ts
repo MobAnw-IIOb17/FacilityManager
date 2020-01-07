@@ -6,6 +6,7 @@ import { Damage } from '../model/damage.model';
 
 import {HttpClient} from '@angular/common/http';
 import {timestamp} from 'rxjs/operators';
+import {NetworkService} from './network.service';
 
 @Injectable({
   providedIn: 'root'
@@ -39,8 +40,9 @@ export class DamageService {
    * `TO_SEND` and `SEND` for distinguishing between pending damage reports and already sent ones.
    * It also creates two arrays for storing the damage reports of each of these two columns.
    * @param http the http client to interact with the webservice
+   * @param networkService networkService for checking if internet is available
    */
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private networkService: NetworkService) {
     this.damageDb = new Storage({
       name: '__facilityManagerDb',
       storeName: '_damages',
@@ -57,12 +59,17 @@ export class DamageService {
   /**
    * This method adds a new damage to the database by first pushing it to the `toSend` array and then
    * syncing the array with the database.
+   * If there is online access, it directly sends the damage report to the webservice.
    * @param damage the damage object to be added to the database
    * @return promise containing the execution of the database adding method
    */
   addDamage(damage: Damage): Promise<any> {
-    this.toSend.push(damage);
-    return this.damageDb.set(DamageService.TO_SEND, this.toSend);
+    if (this.networkService.isOnline) {
+      this.sendDamage(damage);
+    } else {
+      this.toSend.push(damage);
+      return this.damageDb.set(DamageService.TO_SEND, this.toSend);
+    }
   }
 
   /**

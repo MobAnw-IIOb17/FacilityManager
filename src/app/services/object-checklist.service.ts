@@ -7,6 +7,8 @@ import {ObjectChecklist} from '../model/object-checklist.model';
 import {Property} from '../model/property.model';
 import {PropertyService} from './property.service';
 import {ObjectDefaultChecklist} from '../model/object-default-checklist.model';
+import {NetworkService} from './network.service';
+import {timestamp} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -28,34 +30,44 @@ export class ObjectChecklistService {
   private static TO_SEND = 'toSend';
   private static SENT = 'sent';
   private checklistDb: Storage;
+  private toSend: ObjectChecklist[];
+  private sent: ObjectChecklist[];
 
   /**
    * The constructor creates a new ionic storage as employee database.
    * @param http the HttpClient to interact with the webservice
    * @param propertyService the PropertyService to connect the checklists to the respective objects/properties
+   * @param networkService the NetworkService to check if there is online access available
    */
-  constructor(private http: HttpClient, private propertyService: PropertyService) {
+  constructor(private http: HttpClient,
+              private propertyService: PropertyService,
+              private networkService: NetworkService) {
     this.checklistDb = new Storage({
       name: '__facilityManagerDb',
       storeName: '_checklists',
       driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
     });
+    this.checklistDb.get(ObjectChecklistService.TO_SEND).then((toSend) => {
+      this.toSend = toSend;
+    });
+    this.checklistDb.get(ObjectChecklistService.SENT).then((sent) => {
+      this.sent = sent;
+    });
   }
 
   /**
-   * This method adds a new ObjectChecklist to the database.
-   * TODO: maybe more detailed description
+   * This method adds a new checklist to the database by first pushing it to the `toSend` array and then
+   * syncing the array with the database.
+   * If there is online access, it directly sends the object checklist to the webservice.
    * @param checklist the checklist to be added
    */
   addChecklist(checklist: ObjectChecklist): Promise<void> {
-    return new Promise<void>(resolve => {
-      this.checklistDb.get(ObjectChecklistService.TO_SEND).then((array: ObjectChecklist[]) => {
-        array.push(checklist);
-        this.checklistDb.set(ObjectChecklistService.TO_SEND, array).then(() => {
-          resolve();
-        });
-      });
-    });
+    if (this.networkService.isOnline) {
+      this.sendChecklist(checklist);
+    } else {
+      this.toSend.push(checklist);
+      return this.checklistDb.set(ObjectChecklistService.TO_SEND, this.toSend);
+    }
   }
 
   /**
@@ -72,6 +84,7 @@ export class ObjectChecklistService {
       });
       this.checklistDb.get(ObjectChecklistService.SENT).then((a: ObjectChecklist[]) => {
         a.forEach((oc: ObjectChecklist) => {
+          oc.sent = true;
           checklists.push(oc);
         });
       });
@@ -102,6 +115,54 @@ export class ObjectChecklistService {
   }
 
   /**
+   * Sends all checklists contained in toSend and moves them to sent.
+   */
+  sendPendingChecklists() {
+    this.toSend.forEach(function(value) {
+      this.sendChecklist(value);
+      this.markChecklistAsSent(value);
+    });
+  }
+
+  /**
+   * This method sends a checklist to the webservice.
+   * @param objectChecklist the checklist to be sent
+   */
+  private sendChecklist(objectChecklist: ObjectChecklist) {
+    this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/control/',
+      '{"object_uid": ' + objectChecklist.property.uid + ', "update": ' + timestamp + ' "checklist": '
+        + objectChecklist.checklist + '}')
+      .subscribe(data => {
+        alert(JSON.stringify(data));
+      }, error => {
+        alert(error);
+      });
+  }
+
+  /**
+   * This method marks a checklist as sent by moving it from toSend to sent.
+   * @param objectChecklist the checklist to be marked as sent
+   */
+  private markChecklistAsSent(objectChecklist: ObjectChecklist) {
+    this.sent.push(objectChecklist);
+    this.deleteItemFromArray(objectChecklist, this.toSend);
+    return this.checklistDb.set(ObjectChecklistService.SENT, this.sent);
+  }
+
+  /**
+   * This is a helper method to delete an item from an array.
+   * @param item the item that should be deleted, e.g. a damage object
+   * @param array the array that the item should be deleted from
+   */
+  private deleteItemFromArray(item: any, array: any[]) {
+    array.forEach((arrayItem, index) => {
+      if (arrayItem === item) {
+        array.splice(index, 1);
+      }
+    });
+  }
+
+  /**
    * A helper method to convert the JSON data from the checklist webservice to an ObjectChecklist.
    * @param data the ObjectDefaultChecklist to be converted into an ObjectChecklist
    * @return a promise with the converted ObjectChecklist
@@ -128,7 +189,8 @@ export class ObjectChecklistService {
     return {
       property: p,
       employee: null,
-      checklist: c
+      checklist: c,
+      sent: false,
     };
   }
 }
