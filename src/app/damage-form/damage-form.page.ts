@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {AppCameraService} from '../services/app-camera.service';
 
 @Component({
   selector: 'app-damage-form',
@@ -8,8 +7,9 @@ import {AppCameraService} from '../services/app-camera.service';
 })
 export class DamageFormPage implements OnInit {
 
-  constructor(public appCameraService: AppCameraService) { }
+  constructor() { }
 
   ngOnInit() {
   }
+
 }

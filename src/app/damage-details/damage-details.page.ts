@@ -33,7 +33,7 @@ export class DamageDetailsPage implements OnInit {
             street: 'undefinedStreet',
             zip: 'undefinedZip',
             city: 'undefinedCity',
-            owner: 'undefinedOwner'
+            owner: 'undefinedMaier'
         }
 
         let undefinedEmployee: Employee = {
