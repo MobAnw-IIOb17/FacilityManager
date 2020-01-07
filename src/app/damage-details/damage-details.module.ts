@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-import { Base64 } from '@ionic-native/base64';
+import { Base64 } from '@ionic-native/base64/ngx';
 
 import { IonicModule } from '@ionic/angular';
 
