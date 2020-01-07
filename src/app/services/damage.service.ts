@@ -5,7 +5,7 @@ import { Storage } from '@ionic/storage';
 import { Damage } from '../model/damage.model';
 
 import {HttpClient} from '@angular/common/http';
-import {timestamp} from 'rxjs/operators';
+import {delay, timestamp} from 'rxjs/operators';
 import {NetworkQueryService} from './network-query.service';
 
 @Injectable({
@@ -32,8 +32,9 @@ export class DamageService {
   private static TO_SEND = 'toSend';
   private static SENT = 'sent';
   private damageDb: Storage;
-  private toSend: Damage[];
-  private sent: Damage[];
+  private toSend: Damage[] = [];
+  private sent: Damage[] = [];
+  private DELAY_TIME = 0.1;
 
   /**
    * The constructor creates a new ionic storage as damage database with two columns:
@@ -91,6 +92,12 @@ export class DamageService {
    * This method sends all not yet sent damages to the webservice and puts them to `SENT`.
    */
   sendPendingDamages() {
+    if (this.toSend === []) {
+      delay(this.DELAY_TIME);
+      if (this.toSend === []) {
+        return;
+      }
+    }
     this.toSend.forEach(function(value) {
       this.sendDamage(value);
       this.markDamageAsSent(value);

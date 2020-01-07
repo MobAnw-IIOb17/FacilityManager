@@ -7,7 +7,7 @@ import {ObjectChecklist} from '../model/object-checklist.model';
 import {Property} from '../model/property.model';
 import {PropertyService} from './property.service';
 import {ObjectDefaultChecklist} from '../model/object-default-checklist.model';
-import {timestamp} from 'rxjs/operators';
+import {delay, timestamp} from 'rxjs/operators';
 import {NetworkQueryService} from './network-query.service';
 
 @Injectable({
@@ -20,18 +20,26 @@ import {NetworkQueryService} from './network-query.service';
  *
  * @var {string} TO_SEND
  *  marker to set an item as to be sent
- * @var {string} sent
+ * @var {string} SENT
  *  marker to set an item as sent
  * @var {Storage} checklistDb
  *  the internal database containing the checklists for all the objects/properties
+ * @var {ObjectChecklist[]} toSend
+ *  an array with all the object checklists pending to send
+ * @var {ObjectChecklist[]} sent
+ *  an array with all object checklists that are already sent
+ * @var {Storage} defaultChecklistDb
+ *  internal database to save the default checklists from the webservice
  */
 export class ObjectChecklistService {
 
   private static TO_SEND = 'toSend';
   private static SENT = 'sent';
   private checklistDb: Storage;
-  private toSend: ObjectChecklist[];
-  private sent: ObjectChecklist[];
+  private toSend: ObjectChecklist[] = [];
+  private sent: ObjectChecklist[] = [];
+  private defaultChecklistDb: Storage;
+  private DELAY_TIME = 0.1;
 
   /**
    * The constructor creates a new ionic storage as employee database.
@@ -52,6 +60,12 @@ export class ObjectChecklistService {
     });
     this.checklistDb.get(ObjectChecklistService.SENT).then((sent) => {
       this.sent = sent;
+    });
+
+    this.defaultChecklistDb = new Storage({
+      name: '__facilityManagerDb',
+      storeName: '_defaultChecklists',
+      driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
     });
   }
 
@@ -93,24 +107,24 @@ export class ObjectChecklistService {
   }
 
   /**
-   * Gets the default checklist of an object/property from the webservice.
-   * @param objectId the id of the object of which we want to get the checklist
-   * @return a promise containing a new ObjectChecklist extracted from the default checklist provided by the webservice
+   * Fetches all default checklists from the webservice and writes them in the database.
+   */
+  async updateChecklists() {
+    const array: Property[] = await this.propertyService.getAllProperties();
+    for (const arrayItem of array) {
+      await this.getDefaultChecklistFromWebservice(arrayItem.uid);
+    }
+  }
+
+  /**
+   * Returns an object checklist from the default database.
+   * @param objectId the object-uid to which the checklist belongs
    */
   getDefaultChecklist(objectId: string): Promise<ObjectChecklist> {
     return new Promise<ObjectChecklist>(resolve => {
-      this.http.get<ObjectDefaultChecklist>('http://dev.inform-objektservice.de/hmdinterface/rest/control/' + objectId + '/')
-        .subscribe(data => {
-          this.convertObject(data).then(oc => {
-            this.checklistDb.set(data.object_uid.toString(), oc).then(() => {
-              resolve(oc);
-            });
-          });
-        }, error => {
-          this.checklistDb.get(objectId).then(c => {
-            resolve(c);
-          });
-        });
+      this.defaultChecklistDb.get(objectId).then(checklist => {
+        return checklist;
+      });
     });
   }
 
@@ -118,6 +132,12 @@ export class ObjectChecklistService {
    * Sends all checklists contained in toSend and moves them to sent.
    */
   sendPendingChecklists() {
+    if (this.toSend === []) {
+      delay(this.DELAY_TIME);
+      if (this.toSend === []) {
+        return;
+      }
+    }
     this.toSend.forEach(function(value) {
       this.sendChecklist(value);
       this.markChecklistAsSent(value);
@@ -140,10 +160,32 @@ export class ObjectChecklistService {
   }
 
   /**
+   * Gets the default checklist of an object/property from the webservice.
+   * @param objectId the id of the object of which we want to get the checklist
+   * @return a promise containing a new ObjectChecklist extracted from the default checklist provided by the webservice
+   */
+  private getDefaultChecklistFromWebservice(objectId: string): Promise<ObjectChecklist> {
+    return new Promise<ObjectChecklist>(resolve => {
+      this.http.get<ObjectDefaultChecklist>('http://dev.inform-objektservice.de/hmdinterface/rest/control/' + objectId + '/')
+        .subscribe(data => {
+          this.convertObject(data).then(oc => {
+            this.defaultChecklistDb.set(data.object_uid.toString(), oc).then(() => {
+              resolve(oc);
+            });
+          });
+        }, error => {
+          this.defaultChecklistDb.get(objectId).then(c => {
+            resolve(c);
+          });
+        });
+    });
+  }
+
+  /**
    * This method marks a checklist as sent by moving it from toSend to sent.
    * @param objectChecklist the checklist to be marked as sent
    */
-  private markChecklistAsSent(objectChecklist: ObjectChecklist) {
+  private markChecklistAsSent(objectChecklist: ObjectChecklist): Promise<void> {
     this.sent.push(objectChecklist);
     this.deleteItemFromArray(objectChecklist, this.toSend);
     return this.checklistDb.set(ObjectChecklistService.SENT, this.sent);

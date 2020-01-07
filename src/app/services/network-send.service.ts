@@ -40,6 +40,7 @@ export class NetworkSendService {
       this.objectChecklistService.sendPendingChecklists();
       this.employeeService.updateEmployees();
       this.propertyService.updateProperties();
+      this.objectChecklistService.updateChecklists();
   }
 
   test() {
@@ -51,7 +52,11 @@ export class NetworkSendService {
    * Updates employees and properties and sends pending damage reports and pending checklists.
    */
   sync() {
-    this.onOnline();
+    if (Network.type !== 'none') {
+      this.onOnline();
+    } else {
+      alert('Keine Netzwerkverbindung. Bitte versuchen Sie es später erneut.');
+    }
   }
 
     /**
