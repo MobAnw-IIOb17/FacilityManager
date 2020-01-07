@@ -5,6 +5,8 @@ import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
 import { PropertyService } from '../services/property.service';
 import { ObjectChecklistService } from '../services/object-checklist.service';
 import { Property } from '../model/property.model';
+import { Checklist } from '../model/checklist.model';
+import { _countGroupLabelsBeforeOption } from '@angular/material';
 
 //import { EmployeeService } from '../services/employee.service';
 
@@ -22,7 +24,7 @@ export class ObjectManagerControlListPage implements OnInit {
   property = new Property();
   propertyCity = '';
   propertyStreet = '';
-  controlItemNames: Array<string> = ['Gehweg','Garten', 'Keller', 'Heizraum'];
+  controlItemNames: Array<Checklist> = [];
 
   constructor(private toastController: ToastController, 
     private router: Router, 
@@ -33,6 +35,7 @@ export class ObjectManagerControlListPage implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params) {
         if(params.popoverParam) {
+          console.log(params.popoverParam);
           this.popOverData = params.popoverParam;
           this.controlItemNames.push(params.popoverParam)
           // this.data = JSON.parse(params.special);
@@ -45,8 +48,10 @@ export class ObjectManagerControlListPage implements OnInit {
         }
       }
     })
-    this.objectChecklistService.getChecklist('184').then((items) => {
-      console.log(items);
+    this.objectChecklistService.getDefaultChecklist('184').then((item) => {
+      console.log(item);
+      console.log(item.checklist);
+      this.controlItemNames = item.checklist;
     })
    }
 
@@ -64,7 +69,7 @@ export class ObjectManagerControlListPage implements OnInit {
    * 
    * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
    */
-  async deleteItem(selectedItem:string) {
+  async deleteItem(selectedItem) {
     /*
     console.log("DELETE item");
     const toast = await this.toastController.create({
@@ -74,9 +79,9 @@ export class ObjectManagerControlListPage implements OnInit {
     toast.present();
     */
     const index:number = this.controlItemNames.indexOf(selectedItem);
-    if (index !== -1) {
-        this.controlItemNames.splice(index, 1);
-    } 
+    if (index !== -1) { 
+      this.controlItemNames.splice(index, 1);
+    }
   }
 
   /** Öffnet die nächste Seite VIEW mit dem übergebenen Item
@@ -98,18 +103,21 @@ export class ObjectManagerControlListPage implements OnInit {
     let navigationExtras: NavigationExtras = {
       queryParams: {
        // special: JSON.stringify(this.itemname)
-        special: selectedItem
+        checklistItem: selectedItem
       }
     };
     this.router.navigate(['/tabs/object-manager-control-view'], navigationExtras);
   }
 
   /**
-   * Öffnet ein Popover für die Auswahl und hinzufügen von Kontrollitems
+   * Öffnet ein Popover für die Auswahl und Hinzufügen von Kontrollitems
    */
   createPopOver() {
     this.popover.create({
       component:PopovercomponentPage,
+      componentProps: {
+        controlPopOverNames: this.controlItemNames
+      },
       showBackdrop:true
     }).then((popoverElement)=>{
       popoverElement.present();

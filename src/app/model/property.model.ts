@@ -1,6 +1,6 @@
 /**
- * This class describes a Property.
- * Properties are objects like building complexes, buildings or parts of buildings.
+ * This class is a wrapper for the "Object" object of the Webservice which we call "Property" as "Object" is a signal word.
+ * Objects/Properties are objects like building complexes, buildings or parts of buildings.
  *
  * @var {string} uid
  *  the unique identifier of the object
