@@ -37,7 +37,7 @@
         <ion-label>Bilder</ion-label>
 
         <section class="image_buttons">
-            <ion-button (click)='appCameraService.takePicture()'>
+            <ion-button (click)='addPictureCamera()'>
                 AUFNAHME
                 <ion-icon slot="end" name="camera"></ion-icon>
             </ion-button>
@@ -46,6 +46,9 @@
                 GALERIE
                 <ion-icon slot="end" name="photos"></ion-icon>
             </ion-button>
+
+            <ion-grid id="form_gallery">
+            </ion-grid>
         </section>
 
         <section class="submit_button">
