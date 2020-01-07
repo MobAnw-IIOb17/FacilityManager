@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Base64 } from '@ionic-native/base64/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AppCameraService {
     mediaType: this.camera.MediaType.PICTURE
   };
 
-  constructor(private camera: Camera) { }
+  constructor(private camera: Camera, private base64: Base64) { }
 
   setCameraOptions(cameraOptions: CameraOptions) {
     this.options = cameraOptions;
