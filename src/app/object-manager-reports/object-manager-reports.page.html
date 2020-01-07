@@ -6,6 +6,24 @@
 
 <ion-content>
 
+  <ion-list>
+    <ion-item *ngFor="let item of objectItems">
+      <ion-label>
+          <h2>{{item.street}}</h2>
+          <p>Objektkontrolle</p>
+      </ion-label>
+
+      <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='item.deleted === "1"'>
+          <p style="font-weight: 600; text-align: right;">gesendet</p>
+          <p style="text-align: right;">01.11.19 15:40</p>
+      </ion-label>   
+
+      <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='item.deleted === "0"'>
+          <p style="font-weight: 600; text-align: right; color: #FF9800;">ausstehend</p>        
+      </ion-label>  
+    </ion-item>
+  </ion-list>
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
     <ion-fab-button taget="_self" color="secondary" (click)="navToControlManagerNewPage()">
         <ion-icon name="add" ></ion-icon>
