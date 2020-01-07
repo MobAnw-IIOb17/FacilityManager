@@ -19,8 +19,7 @@ import { _countGroupLabelsBeforeOption } from '@angular/material';
 export class ObjectManagerControlListPage implements OnInit {
   [x: string]: any;
   
-  popOverData: string;
-  propertyUid: string;
+  propertyUid;
   property = new Property();
   propertyCity = '';
   propertyStreet = '';
@@ -31,28 +30,29 @@ export class ObjectManagerControlListPage implements OnInit {
     private route: ActivatedRoute, 
     private popover: PopoverController,
     private propertyService: PropertyService,
-    private objectChecklistService: ObjectChecklistService) { 
-    this.route.queryParams.subscribe(params => {
-      if (params) {
-        if(params.popoverParam) {
-          console.log(params.popoverParam);
-          this.popOverData = params.popoverParam;
-          this.controlItemNames.push(params.popoverParam)
-          // this.data = JSON.parse(params.special);
+    private objectChecklistService: ObjectChecklistService) {
+      console.log("constructor");
+      this.route.queryParams.subscribe(params => {
+        console.log("constructor2");
+        if (params) {
+          if(params.popOverData) {
+            var parsedObject = JSON.parse(params.popOverData);
+            console.log(parsedObject);
+            this.controlItemNames.push(parsedObject);
+          }
+          if (params.objectUid) {
+            this.propertyUid = params.objectUid;
+            this.propertyCity = params.objectCity;
+            this.propertyStreet = params.objectStreet;
+            this.propertyService.getProperty(this.propertyUid).then((item) => { this.property = item});
+          }
         }
-        if (params.objectUid) {
-          this.propertyUid = params.objectUid;
-          this.propertyCity = params.objectCity;
-          this.propertyStreet = params.objectStreet;
-          this.propertyService.getProperty(this.propertyUid).then((item) => { this.property = item});
-        }
-      }
-    })
-    this.objectChecklistService.getDefaultChecklist('184').then((item) => {
-      console.log(item);
-      console.log(item.checklist);
-      this.controlItemNames = item.checklist;
-    })
+      })
+      this.objectChecklistService.getDefaultChecklist('184').then((item) => {
+        console.log(item);
+        console.log(item.checklist);
+        this.controlItemNames = item.checklist;
+      })
    }
 
   /*

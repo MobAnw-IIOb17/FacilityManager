@@ -23,9 +23,9 @@ export class PopovercomponentPage implements OnInit {
     this.popover.dismiss();
   }
 
-  async add(selectedItem: Checklist) {
+  async add(selectedItem) {
     console.log(selectedItem);
-    if(selectedItem.name === 'new') {
+    if(selectedItem == 'new') {
       this.popover.dismiss();
       this.router.navigateByUrl('/tabs/object-manager-control-new');
     } else {
@@ -37,8 +37,7 @@ export class PopovercomponentPage implements OnInit {
 
       let navigationExtras: NavigationExtras = {
         queryParams: {
-         // special: JSON.stringify(this.selectedItem)
-          popoverParam: selectedItem
+          popOverData: JSON.stringify(selectedItem)
         }
       };
       this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
