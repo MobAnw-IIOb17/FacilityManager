@@ -7,7 +7,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ObjectManagerControlNewPage } from './object-manager-control-new.page';
-import {NetworkListenerDirective} from '../directives/network-listener.directive';
 
 const routes: Routes = [
   {
