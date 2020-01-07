@@ -1,14 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import {AppCameraService} from '../services/app-camera.service';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { AppCameraService } from '../services/app-camera.service';
+import { Damage } from '../model/damage.model';
+import { Property } from '../model/property.model';
 
 @Component({
   selector: 'app-damage-form',
   templateUrl: './damage-form.page.html',
   styleUrls: ['./damage-form.page.scss'],
 })
-export class DamageFormPage implements OnInit {
+export class DamageFormPage implements OnInit, AfterViewInit {
 
-  public pictures: String[] = [];
+  public pictures: string[] = [];
+  public date;
+  public prop: Property;
 
   constructor(
     public appCameraService: AppCameraService
@@ -17,7 +21,12 @@ export class DamageFormPage implements OnInit {
   ngOnInit() {
   }
 
-<<<<<<< HEAD
+  ngAfterViewInit() {
+    this.date = new Date;
+    document.getElementById('date_input')
+    .setAttribute("value", ""+this.date.getDate()+"."+(this.date.getMonth()+1)+"."+this.date.getFullYear());
+  }
+
   addPictureCamera() {
     var ImageData = this.appCameraService.takePicture();
     this.pictures.push('data:image/jpeg;base64,'+ImageData);
@@ -34,6 +43,15 @@ export class DamageFormPage implements OnInit {
     newPicture.setAttribute("[src]", '"pictures['+ (this.pictures.length-1) +']" *ngIf="pictures['+ (this.pictures.length-1) +']"');
     col.appendChild(document.createElement("ion-thumbnail").appendChild(newPicture));
   }
-=======
->>>>>>> 9e0f9824ecca8ea73316f7e3db6bb10173c8da72
+
+  submitForm() {
+    var dmg = new Damage();
+    dmg.uid = null; //TODO
+    dmg.createDate = this.date.toString();
+    dmg.property = this.prop;
+    dmg.employee = null; //TODO
+    dmg.description = document.getElementById('desc_input').getAttribute("value");
+    dmg.images = this.pictures;
+    dmg.location = document.getElementById('loc_input').getAttribute("value");
+  }
 }
