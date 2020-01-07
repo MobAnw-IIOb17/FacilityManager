@@ -24,7 +24,7 @@
             </ion-item>
 
             <ion-item class="form_input">
-                    <ion-label position="floating">Meldung</ion-label>
+                    <ion-label position="floating">Beschreibung</ion-label>
                     <ion-textarea required auto-grow wrap="hard" id="desc_input"></ion-textarea>
             </ion-item>
 
@@ -42,7 +42,7 @@
         <ion-label>Bilder</ion-label>
 
         <section class="image_buttons">
-            <ion-button (click)='addPictureCamera()'>
+            <ion-button (click)='galleryService.addCameraPicture()'>
                 AUFNAHME
                 <ion-icon slot="end" name="camera"></ion-icon>
             </ion-button>
@@ -51,11 +51,9 @@
                 GALERIE
                 <ion-icon slot="end" name="photos"></ion-icon>
             </ion-button>
-
-            <ion-grid id="gallery">
-                <ion-row></ion-row>
-            </ion-grid>
         </section>
+
+        <ion-grid id="gallery"></ion-grid>
 
         <section class="submit_button">
             <ion-button type="submit" fill="outline" expand="block" color="medium">SENDEN</ion-button>

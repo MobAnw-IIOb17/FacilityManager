@@ -61,6 +61,7 @@ export class DamageReportsPage implements OnInit {
       property: undefinedProperty,
       employee: undefinedEmployee,
       description: 'undefinedDescription',
+      location: 'undefinedLocation',
       images: []
     }
 
