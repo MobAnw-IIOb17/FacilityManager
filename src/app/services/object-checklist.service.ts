@@ -6,6 +6,7 @@ import {ChecklistItem} from '../model/checklist-item.model';
 import {ObjectChecklist} from '../model/object-checklist.model';
 import {Property} from '../model/property.model';
 import {PropertyService} from './property.service';
+import {ObjectDefaultChecklist} from '../model/object-default-checklist.model';
 
 @Injectable({
   providedIn: 'root'
