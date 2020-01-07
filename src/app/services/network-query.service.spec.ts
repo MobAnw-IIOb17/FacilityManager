@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { NetworkService } from './network.service';
+import { NetworkQueryService } from './network-query.service';
 
-describe('NetworkService', () => {
+describe('NetworkQueryService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: NetworkService = TestBed.get(NetworkService);
+    const service: NetworkQueryService = TestBed.get(NetworkQueryService);
     expect(service).toBeTruthy();
   });
 });

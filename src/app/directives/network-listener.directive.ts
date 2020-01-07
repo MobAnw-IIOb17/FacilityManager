@@ -1,5 +1,5 @@
 import {Directive, HostListener} from '@angular/core';
-import { NetworkService } from '../services/network.service';
+import { NetworkSendService } from '../services/network-send.service';
 
 /**
  * This directive provides a network listener which should be included in each part of the app's gui.
@@ -18,11 +18,11 @@ export class NetworkListenerDirective {
   /**
    * The constructor does nothing more than to include the app's network service.
    */
-  constructor( networkService: NetworkService ) {
+  constructor( networkService: NetworkSendService ) {
     this.networkService = networkService;
   }
 
-  private networkService: NetworkService;
+  private networkService: NetworkSendService;
 
   /**
    * This is the host listener for the online event.

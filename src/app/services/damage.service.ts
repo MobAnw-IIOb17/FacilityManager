@@ -6,7 +6,7 @@ import { Damage } from '../model/damage.model';
 
 import {HttpClient} from '@angular/common/http';
 import {timestamp} from 'rxjs/operators';
-import {NetworkService} from './network.service';
+import {NetworkQueryService} from './network-query.service';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +42,7 @@ export class DamageService {
    * @param http the http client to interact with the webservice
    * @param networkService networkService for checking if internet is available
    */
-  constructor(private http: HttpClient, private networkService: NetworkService) {
+  constructor(private http: HttpClient, private networkService: NetworkQueryService) {
     this.damageDb = new Storage({
       name: '__facilityManagerDb',
       storeName: '_damages',

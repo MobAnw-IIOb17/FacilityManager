@@ -7,8 +7,8 @@ import {ObjectChecklist} from '../model/object-checklist.model';
 import {Property} from '../model/property.model';
 import {PropertyService} from './property.service';
 import {ObjectDefaultChecklist} from '../model/object-default-checklist.model';
-import {NetworkService} from './network.service';
 import {timestamp} from 'rxjs/operators';
+import {NetworkQueryService} from './network-query.service';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +41,7 @@ export class ObjectChecklistService {
    */
   constructor(private http: HttpClient,
               private propertyService: PropertyService,
-              private networkService: NetworkService) {
+              private networkService: NetworkQueryService) {
     this.checklistDb = new Storage({
       name: '__facilityManagerDb',
       storeName: '_checklists',
