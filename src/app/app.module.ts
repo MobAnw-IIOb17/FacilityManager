@@ -7,7 +7,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicStorageModule } from '@ionic/storage';
-import { Camera } from '@ionic-native/camera/ngx';
+import { Camera } from '@ionic-native/camera';
+import { Base64 } from '@ionic-native/base64';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,7 +31,8 @@ import { PopovercomponentPageModule } from './object-manager-control-list/popove
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    Camera
+    Camera,
+    Base64
   ],
   bootstrap: [AppComponent]
 })
