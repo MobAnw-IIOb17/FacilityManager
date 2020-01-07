@@ -12,7 +12,7 @@
   <form>
       <ion-searchbar id="#city_searchbar"
         (ionBlur)=  "hideItems(cities)"
-        (ionChange)="chooseItem($event.target.value , firmCities, 'city')"
+        (ionChange)="chooseItem($event.target.value, firmCities, 'city')"
         (ionFocus)= "predictiveCitySearch($event, cities, firmCities)"
         (ionInput)= "predictiveCitySearch($event, cities, firmCities)"
       showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" ></ion-searchbar>
@@ -21,7 +21,7 @@
         </ion-list>
       <ion-searchbar id="#object_searchbar"
         (ionBlur)= "hideItems(objects)"
-        (ionChange)="chooseItem($event.target.value , firmObjects, 'object')"
+        (ionChange)="chooseItem($event.target.value, firmObjects, 'object')"
         (ionFocus)="predictiveCitySearch($event, objects, firmObjects)"
         (ionInput)="predictiveCitySearch($event, objects, firmObjects)"
         showCancelButton="focus" animated="true" spellcheck="true" placeholder="Objekt"></ion-searchbar>
