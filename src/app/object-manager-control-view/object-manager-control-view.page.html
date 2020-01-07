@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content appNetworkListener>
   <form [formGroup]="myFormNew">
     <ion-item *ngFor="let label of labels">
       <ion-label>{{ label }}</ion-label>
