@@ -14,7 +14,7 @@
 
 <ion-content appNetworkListener>
     <ion-list>
-        <ion-item-sliding #slidingItem *ngFor="let item of controlItemNames" (click)="editItem(item, slidingItem)">
+        <ion-item-sliding #slidingItem *ngFor="let item of usedControllistItems" (click)="editItem(item, slidingItem)">
           <ion-item-options side="start" (ionSwipe)="deleteItem(item)">
             <ion-item-option color="danger" expandable>
               <ion-icon name="trash" slot="end"></ion-icon>

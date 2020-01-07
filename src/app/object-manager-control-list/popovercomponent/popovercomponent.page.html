@@ -6,9 +6,9 @@
 
 <ion-content>
     <ion-list>
-      <ion-item *ngFor="let item of controlPopOverNames;" (click)="add(item)">
+      <ion-item *ngFor="let item of notUsedControllistItems;" (click)="add(item)">
         <ion-label>
-            {{item.name}}
+            {{ item.name }}
         </ion-label>
         <ion-icon name="add-circle" color="success" slot="end"></ion-icon>
       </ion-item>

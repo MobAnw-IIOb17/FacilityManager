@@ -10,6 +10,7 @@ import { Property } from '../model/property.model';
   templateUrl: './object-manager-new.page.html',
   styleUrls: ['./object-manager-new.page.scss'],
 })
+
 export class ObjectManagerNewPage implements OnInit {
 
   public validateForm: FormGroup;
@@ -65,7 +66,7 @@ export class ObjectManagerNewPage implements OnInit {
  * @param targetList Liste in die rein kopiert wird
  * @param sourceList Liste von der kopiert wird
  */
-  copyAList(targetList: Array<any>, sourceList: Array<any>) {
+  public copyAList(targetList: Array<any>, sourceList: Array<any>) {
     this.clearAList(targetList);
     for (var i: number = 0; i < sourceList.length; i++) {
       targetList.push(sourceList[i]);
@@ -205,5 +206,4 @@ export class ObjectManagerNewPage implements OnInit {
     return false;
 
   }
-
 }

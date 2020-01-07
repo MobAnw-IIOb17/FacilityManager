@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController, PopoverController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
-import { PropertyService } from '../services/property.service';
 import { ObjectChecklistService } from '../services/object-checklist.service';
 import { Property } from '../model/property.model';
 import { Checklist } from '../model/checklist.model';
 import { _countGroupLabelsBeforeOption } from '@angular/material';
-
-//import { EmployeeService } from '../services/employee.service';
 
 @Component({
   selector: 'app-object-manager-control-list',
@@ -18,24 +15,21 @@ import { _countGroupLabelsBeforeOption } from '@angular/material';
 
 export class ObjectManagerControlListPage implements OnInit {
   [x: string]: any;
-  
   property = new Property();
-  propertyCity = '';
-  propertyStreet = '';
-  controlItemNames: Array<Checklist> = [];
-  deletedControlItemNames: Array<Checklist> = [];
+  controllistItems: Array<Checklist> = [];
+  usedControllistItems: Array<Checklist> = [];
 
-  constructor(private toastController: ToastController, 
+  constructor(
     private router: Router, 
     private route: ActivatedRoute, 
     private popover: PopoverController,
-    private propertyService: PropertyService,
     private objectChecklistService: ObjectChecklistService) {
       this.route.queryParams.subscribe(params => {
         if (params) {
           if(params.popOverData) {
-            var parsedObject = JSON.parse(params.popOverData);
-            this.controlItemNames.push(parsedObject);
+            console.log(params);
+            var parsedControllist = JSON.parse(params.popOverData);
+            this.usedControllistItems.push(parsedControllist);
           }
           if (params.object) {
             this.property = JSON.parse(params.object);
@@ -43,53 +37,59 @@ export class ObjectManagerControlListPage implements OnInit {
         }
       })
       this.objectChecklistService.getDefaultChecklist('184').then((item) => { //property.uid
-        this.controlItemNames = item.checklist;
+        this.copyAList(this.controllistItems, item.checklist);
+        this.copyAList(this.usedControllistItems, item.checklist);
       })
+      /*
+      * Die Parameter in der Adresszeile müssen noch entfernt werden
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          popOverData: null
+        }
+      };
+      this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
+      */
    }
 
-  /*
-  constructor(private employeeService: EmployeeService) {
-    this.employeeService.getAllEmployees().then((list) => {
-      list[0].uid;
-    })
+   ngOnInit() {
   }
-*/
 
-  ngOnInit() {
-  }
-  /** Löscht das übegebene Item aus dem Array controlItemNames
-   * 
-   * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
-   */
-  async deleteItem(selectedItem) {
-    /*
-    console.log("DELETE item");
-    const toast = await this.toastController.create({
-      message: 'swipe DELETE item',
-      duration: 2000
-    });
-    toast.present();
+   /**
+    * vorerst kopiert, noch AUSLAGERN!!
     */
-    const index:number = this.controlItemNames.indexOf(selectedItem);
-    if (index !== -1) { 
-      this.controlItemNames.splice(index, 1);
+  clearAList(list: Array<any>) {
+    var size: number = list.length;
+    for (var i: number = 0; i <= size; i++) {
+      list.pop();
+    }
+  }
+  copyAList(targetList: Array<any>, sourceList: Array<any>) {
+    this.clearAList(targetList);
+    for (var i: number = 0; i < sourceList.length; i++) {
+      targetList.push(sourceList[i]);
     }
   }
 
-  /** Öffnet die nächste Seite VIEW mit dem übergebenen Item
+
+  /**
+   * Löscht das übegebene Item aus dem Array usedControllistItems
+   * 
+   * @param selectedItem Das Item was selectiert bzw. geschoben/swiped wurde
+   */
+  async deleteItem(selectedItem) {
+    const index:number = this.usedControllistItems.indexOf(selectedItem);
+    if (index !== -1) { 
+      this.usedControllistItems.splice(index, 1);
+    }
+  }
+
+  /**
+   * Öffnet die nächste Seite VIEW mit dem übergebenen Item
    * 
    * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
    * @param slidingItem Setzt das geswipte Item zurück
    */
   async editItem(selectedItem, slidingItem) {
-    /*
-    console.log("OPEN");
-    const toast = await this.toastController.create({
-      message: 'swipe OPEN',
-      duration: 1000
-    });
-    toast.present();
-    */
     slidingItem.close();
     let navigationExtras: NavigationExtras = {
       queryParams: {   
@@ -101,12 +101,22 @@ export class ObjectManagerControlListPage implements OnInit {
 
   /**
    * Öffnet ein Popover für die Auswahl und Hinzufügen von Kontrollitems
+   * Zeigt nur die nicht verwendeten Items (manuell gelöschte) aus der Vorlage aus der Datenbank
    */
   createPopOver() {
+    var missingControllistItems: Array<Checklist> = [];
+    this.copyAList(missingControllistItems, this.controllistItems.filter((item) => {
+      for(var i:number = 0; i < this.usedControllistItems.length; i++) {
+        if (this.usedControllistItems[i].name == item.name) {
+          return false;
+        }
+      }
+      return true;
+    }));
     this.popover.create({
       component:PopovercomponentPage,
       componentProps: {
-        controlPopOverNames: this.controlItemNames
+        notUsedControllistItems: missingControllistItems
       },
       showBackdrop:true
     }).then((popoverElement)=>{
