@@ -51,10 +51,18 @@ export class ObjectManagerReportsPage implements OnInit {
     });
   }
 
+  /**
+   * Route zur Nächsten Seite um eine Kontrolle zu erstellen
+   */
   navToControlManagerNewPage() {
     this.router.navigateByUrl('/tabs/object-manager-new');
   }
 
+  /**
+   * Beim Zeihen nach unten werden alle Elemente aktualisert
+   * 
+   * @param event Event 
+   */
   doRefresh(event) {
     console.log('Begin async operation');
 
@@ -67,6 +75,13 @@ export class ObjectManagerReportsPage implements OnInit {
     }, 800);
   }
 
+  /**
+   * Öffnet ein PopOver oben Rechts mit einem Menu für die Auswahl
+   *  - Aktualisieren
+   *  - Sortieren nach Stadt, Datum, Status
+   * 
+   * unter onDidDismiss() wird die Rückgabe des popover verarbeitet
+   */
   async openPopover() {
     const popover = await this.popoverController.create({
       component: ReportsPopovercomponentComponent,
@@ -75,14 +90,17 @@ export class ObjectManagerReportsPage implements OnInit {
 
     popover.onDidDismiss().then((dataReturned) => {
       if(dataReturned !== null) {
+        this.dataReturned = dataReturned.data;
         if(dataReturned.data === "refresh") {
           this.Data1();
         }
         if(dataReturned.data === "city") {
-          this.Data1();
+          this.objectItems.sort((a, b) => (a.city > b.city) ? 1 : -1)
         }
         if(dataReturned.data === "date") {
-          this.Data1();
+        }
+        if(dataReturned.data === "status") {
+          this.objectItems.sort((a, b) => (a.deleted > b.deleted) ? 1 : -1)
         }
         console.log("Return: " + this.dataReturned)
       }
