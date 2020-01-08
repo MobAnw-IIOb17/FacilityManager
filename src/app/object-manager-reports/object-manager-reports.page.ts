@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Property } from '../model/property.model';
+import { PopoverController } from '@ionic/angular';
+import { ReportsPopovercomponentComponent } from './reports-popovercomponent/reports-popovercomponent.component';
 
 @Component({
   selector: 'app-object-manager-reports',
@@ -10,8 +12,9 @@ import { Property } from '../model/property.model';
 export class ObjectManagerReportsPage implements OnInit {
 
   objectItems: Array<Property> = []
+  dataReturned:any
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private popoverController:PopoverController) { }
 
   ngOnInit() {
     this.objectItems.push({
@@ -62,6 +65,30 @@ export class ObjectManagerReportsPage implements OnInit {
       console.log('Async operation has ended');
       event.target.complete();
     }, 800);
+  }
+
+  async openPopover() {
+    const popover = await this.popoverController.create({
+      component: ReportsPopovercomponentComponent,
+      event
+    });
+
+    popover.onDidDismiss().then((dataReturned) => {
+      if(dataReturned !== null) {
+        if(dataReturned.data === "refresh") {
+          this.Data1();
+        }
+        if(dataReturned.data === "city") {
+          this.Data1();
+        }
+        if(dataReturned.data === "date") {
+          this.Data1();
+        }
+        console.log("Return: " + this.dataReturned)
+      }
+    })
+
+    return await popover.present();
   }
 
   Data1() {

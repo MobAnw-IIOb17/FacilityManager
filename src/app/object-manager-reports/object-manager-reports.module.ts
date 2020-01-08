@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ObjectManagerReportsPage } from './object-manager-reports.page';
+import { ReportsPopovercomponentComponent } from './reports-popovercomponent/reports-popovercomponent.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ObjectManagerReportsPage]
+  entryComponents: [ReportsPopovercomponentComponent],
+  declarations: [ObjectManagerReportsPage, ReportsPopovercomponentComponent]
 })
 export class ObjectManagerReportsPageModule {}

@@ -1,7 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Kontrollmeldungen</ion-title>
-    <!-- <ion-icon slot="end" size="large" name="more"></ion-icon> -->
+    <ion-buttons slot="end">
+      <ion-button (click)="openPopover($event)">
+        <ion-icon size="large" name="more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

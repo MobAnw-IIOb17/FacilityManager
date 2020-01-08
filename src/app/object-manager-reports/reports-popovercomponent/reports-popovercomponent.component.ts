@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-reports-popovercomponent',
@@ -7,8 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportsPopovercomponentComponent implements OnInit {
 
-  constructor() { }
+  constructor(public popoverController:PopoverController) { }
 
   ngOnInit() {}
 
+  refresh() {
+    console.log("refresh");
+    this.popoverController.dismiss("refresh");
+  }
+
+  sortByCitys() {
+    console.log("sortByCitys");
+    this.popoverController.dismiss("city");
+  }
+
+  sortByDate() {
+    console.log("sortByDate");
+    this.popoverController.dismiss("date");
+  }
 }
