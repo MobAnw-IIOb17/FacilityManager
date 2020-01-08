@@ -180,10 +180,10 @@ export class ObjectManagerNewPage implements OnInit {
         };
         this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
       } else {
-        this.showToast('Bitte wählen Sie eine verfügbare Straße');
+        this.showToast('Bitte wählen Sie eine verfügbare Straße.');
       }
     } else {
-      this.showToast('Bitte wählen Sie eine verfügbare Stadt');
+      this.showToast('Bitte wählen Sie eine verfügbare Stadt.');
     }
   }
 

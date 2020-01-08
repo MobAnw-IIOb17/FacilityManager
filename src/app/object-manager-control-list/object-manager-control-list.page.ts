@@ -27,28 +27,20 @@ export class ObjectManagerControlListPage implements OnInit {
       this.route.queryParams.subscribe(params => {
         if (params) {
           if(params.popOverData) {
-            console.log(params);
-            var parsedControllist = JSON.parse(params.popOverData);
-            this.usedControllistItems.push(parsedControllist);
+            this.usedControllistItems.push(JSON.parse(params.popOverData));
           }
           if (params.object) {
             this.property = JSON.parse(params.object);
           }
+
+          let navigationExtras: NavigationExtras = {  };
+          this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
         }
       })
       this.objectChecklistService.getDefaultChecklist('184').then((item) => { //property.uid
         this.copyAList(this.controllistItems, item.checklist);
         this.copyAList(this.usedControllistItems, item.checklist);
       })
-      /*
-      * Die Parameter in der Adresszeile müssen noch entfernt werden
-      let navigationExtras: NavigationExtras = {
-        queryParams: {
-          popOverData: null
-        }
-      };
-      this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
-      */
    }
 
    ngOnInit() {
