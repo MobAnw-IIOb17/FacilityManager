@@ -26,4 +26,9 @@ export class ReportsPopovercomponentComponent implements OnInit {
     console.log("sortByDate");
     this.popoverController.dismiss("date");
   }
+
+  sortByStatus() {
+    console.log("sortByStatus");
+    this.popoverController.dismiss("status");
+  }
 }
