@@ -25,7 +25,17 @@ export class ObjectManagerControlViewPage implements OnInit {
    } 
   ngOnInit() {
   }
-  checkCheckbox(item, checkbox){
+  setValue(s: string, name){
+    var x = document.getElementsByTagName("ion-input");
+    for(var i = 0; i<x.length;i++){
+      if(x[i].name == name){
+        x[i].setAttribute("value",s);
+        break;
+      }
+    }
+  }
+  checkCheckbox(item, checkbox,o){
+    console.log(o);
     if(checkbox.checked){
       for(var i = 0; i<this.labels.length; i++){
         if(item.name == this.labels[i].name){
@@ -49,5 +59,10 @@ export class ObjectManagerControlViewPage implements OnInit {
   }
   submit(){
 
+  }
+  print(o){
+    console.log(o);
+    var x = document.getElementsByName("description");
+    console.log(x);
   }
 }

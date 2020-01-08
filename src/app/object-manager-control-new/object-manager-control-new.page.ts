@@ -9,6 +9,7 @@ import { Checklist } from '../model/checklist.model';
   selector: 'app-object-manager-control-new',
   templateUrl: './object-manager-control-new.page.html',
   styleUrls: ['./object-manager-control-new.page.scss'],
+  
 })
 export class ObjectManagerControlNewPage implements OnInit {
   public myForm: FormGroup;
@@ -16,15 +17,12 @@ export class ObjectManagerControlNewPage implements OnInit {
   label = [];
   name: string;
   text: string = "";
-  checklistItem: Checklist;
+  left:boolean = false;
   
-
-  constructor(private formBuilder: FormBuilder,  private router: Router){
 
     this.myForm = formBuilder.group({
       Propertie0: []
     });
-
   }
   
   ngOnInit() {}
@@ -38,21 +36,23 @@ export class ObjectManagerControlNewPage implements OnInit {
     }
   }
   submit(){
-    this.checklistItem = new Checklist();
+    var checklist = new Checklist();
     var x = document.getElementsByTagName("ion-input");
     this.name = x[0].getAttribute("value");
+    console.log(x.length)
     for(var i = 1; i<x.length;i++){
         this.label.push(x[i].value);
     } 
-    this.checklistItem.name = this.name;
-    this.checklistItem.items = [];
+    checklist.name = this.name;
+    checklist.items = [];
+    console.log(this.label,this.label.length)
     for(var i = 0; i<this.label.length;i++){
       var item: ChecklistItem = {name: this.label[i], description: "", images: [], isOk:false};
-      this.checklistItem.items.push(item);
+      checklist.items.push(item);
     }
     let navigationExtras: NavigationExtras = {
       queryParams: {
-       checklistItem: JSON.stringify(this.checklistItem)
+       checklistItem: JSON.stringify(checklist)
       }
     };
     this.router.navigate(['/tabs/object-manager-control-view'], navigationExtras);
