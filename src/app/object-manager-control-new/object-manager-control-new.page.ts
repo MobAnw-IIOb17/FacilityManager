@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, FormControl} from '@angular/forms';
 import { Router, NavigationExtras } from '@angular/router';
 import { ChecklistItem } from '../model/checklist-item.model';
 import { Checklist } from '../model/checklist.model';
-import { NavController } from 'ionic-angular';
 
 
 @Component({
@@ -21,7 +20,7 @@ export class ObjectManagerControlNewPage implements OnInit {
   left:boolean = false;
   
 
-  constructor(private formBuilder: FormBuilder,  private router: Router, public navCtrl: NavController){
+  constructor(private formBuilder: FormBuilder,  private router: Router){
     this.myForm = formBuilder.group({
       Propertie0: []
     });
@@ -58,7 +57,6 @@ export class ObjectManagerControlNewPage implements OnInit {
       }
     };
     this.router.navigate(['/tabs/object-manager-control-view'], navigationExtras);
-    this.navCtrl.pop();
   
   }
 
