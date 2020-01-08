@@ -1,6 +1,8 @@
 import { Component, OnInit} from '@angular/core';
 import { FormGroup, FormBuilder, FormControl} from '@angular/forms';
 import { Router, NavigationExtras } from '@angular/router';
+import { ChecklistItem } from '../model/checklist-item.model';
+import { Checklist } from '../model/checklist.model';
 
 
 @Component({
@@ -14,6 +16,7 @@ export class ObjectManagerControlNewPage implements OnInit {
   label = [];
   name: string;
   text: string = "";
+  checklistItem: Checklist;
   
 
   constructor(private formBuilder: FormBuilder,  private router: Router){
@@ -35,15 +38,21 @@ export class ObjectManagerControlNewPage implements OnInit {
     }
   }
   submit(){
-    var x = document.getElementsByTagName("ion-input"); 
+    this.checklistItem = new Checklist();
+    var x = document.getElementsByTagName("ion-input");
     this.name = x[0].getAttribute("value");
     for(var i = 1; i<x.length;i++){
         this.label.push(x[i].value);
+    } 
+    this.checklistItem.name = this.name;
+    this.checklistItem.items = [];
+    for(var i = 0; i<this.label.length;i++){
+      var item: ChecklistItem = {name: this.label[i], description: "", images: [], isOk:false};
+      this.checklistItem.items.push(item);
     }
     let navigationExtras: NavigationExtras = {
       queryParams: {
-       labels: this.label,
-       name: this.name
+       checklistItem: JSON.stringify(this.checklistItem)
       }
     };
     this.router.navigate(['/tabs/object-manager-control-view'], navigationExtras);

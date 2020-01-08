@@ -9,24 +9,15 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class ObjectManagerControlViewPage implements OnInit {
 
-  data: string;
+  name: string;
   private myFormNew: FormGroup;
   labels = [];
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.route.queryParams.subscribe(params => {
-      console.log(params.name+" "+params.labels);
-      if (params) {
-        if(params.name){
-          this.data = params.name;
-        }
-        if(params.labels){
-          this.labels = params.labels;
-
-        }
-      }
-      if(params && params.special){
-        this.data = params.special;
+      if(params && params.checklistItem){
+        this.name = JSON.parse(params.checklistItem).name;
+        this.labels = JSON.parse(params.checklistItem).items;
       }
     })
     this.myFormNew = formBuilder.group({
@@ -34,13 +25,29 @@ export class ObjectManagerControlViewPage implements OnInit {
    } 
   ngOnInit() {
   }
-  checkCheckbox(c){
-    console.log(c);
+  checkCheckbox(item, checkbox){
+    if(checkbox.checked){
+      for(var i = 0; i<this.labels.length; i++){
+        if(item.name == this.labels[i].name){
+          this.labels[i].isOk=true;
+        }
+      }
+    }
+    else{
+      for(var i = 0; i<this.labels.length; i++){
+        if(item.name == this.labels[i].name){
+          this.labels[i].isOk=false;
+        }
+      }
+    }
   }
   openCamera(){
 
   }
   openPhotos(){
     
+  }
+  submit(){
+
   }
 }
