@@ -157,7 +157,6 @@ export class ObjectManagerNewPage implements OnInit {
         this.copyAList(list, firmList.filter((values) => {return values.toLowerCase().includes(val.toLowerCase())}));
       }
     }
-    console.log(list);
   }
 
   /**
