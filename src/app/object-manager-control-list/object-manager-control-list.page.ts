@@ -115,4 +115,11 @@ export class ObjectManagerControlListPage implements OnInit {
       popoverElement.present();
     })
   }
+
+  /**
+   * 
+   */
+  saveControllElements() {
+
+  }
 }
