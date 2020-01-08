@@ -6,6 +6,7 @@ import { ObjectChecklistService } from '../services/object-checklist.service';
 import { Property } from '../model/property.model';
 import { Checklist } from '../model/checklist.model';
 import { _countGroupLabelsBeforeOption } from '@angular/material';
+import { ObjectChecklist } from '../model/object-checklist.model';
 
 @Component({
   selector: 'app-object-manager-control-list',
@@ -18,6 +19,7 @@ export class ObjectManagerControlListPage implements OnInit {
   property = new Property();
   controllistItems: Array<Checklist> = [];
   usedControllistItems: Array<Checklist> = [];
+  saveItem:ObjectChecklist;
 
   constructor(
     private router: Router, 
@@ -40,6 +42,7 @@ export class ObjectManagerControlListPage implements OnInit {
       this.objectChecklistService.getDefaultChecklist('184').then((item) => { //property.uid
         this.copyAList(this.controllistItems, item.checklist);
         this.copyAList(this.usedControllistItems, item.checklist);
+        this.saveItem = item;
       })
    }
 
@@ -114,5 +117,17 @@ export class ObjectManagerControlListPage implements OnInit {
     }).then((popoverElement)=>{
       popoverElement.present();
     })
+  }
+
+  /**
+   * 
+   */
+  async saveControllElements() {
+    //Prüfen aller Elemente auf Vollzähligkeit
+    //wenn alles passt dann:
+      //In Datenbank abspeichern
+      //dann wechseln zu object-manager-reports
+    //sonst
+    //Alert was noch fehlt
   }
 }

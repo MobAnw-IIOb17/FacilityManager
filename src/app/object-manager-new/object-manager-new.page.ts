@@ -146,12 +146,16 @@ export class ObjectManagerNewPage implements OnInit {
    * @param list Liste, welche sortiert werden soll
    * @param firmList Liste, welche sortiert wird
    */
-  predictiveCitySearch(event, list: Array<string>, firmList: Array<string>) {
+  predictiveCitySearch(event, list: Array<string>, firmList: Array<any>) {
     this.copyAList(list, firmList);
     var val = event.target.value;
+
     if (val != '') {
-      //problem mit der firmlist
-      this.copyAList(list, firmList.filter((values) => {return values.toLowerCase().includes(val.toLowerCase())}));
+      if (typeof(firmList[0]) == typeof({})) {
+        this.copyAList(list, firmList.filter((values) => {return values.street.toLowerCase().includes(val.toLowerCase())}));
+      } else {
+        this.copyAList(list, firmList.filter((values) => {return values.toLowerCase().includes(val.toLowerCase())}));
+      }
     }
   }
 
