@@ -26,20 +26,20 @@ export class ObjectManagerControlViewPage implements OnInit {
   ngOnInit() {
   }
   setValue(s: string, name){
-    var x = document.getElementsByTagName("ion-input");
+    var x = document.getElementsByTagName("ion-textarea");
     for(var i = 0; i<x.length;i++){
       if(x[i].name == name){
-        x[i].setAttribute("value",s);
-        break;
+        this.labels[i].description=s;
       }
     }
   }
   checkCheckbox(item, checkbox,o){
-    console.log(o);
+    var x = document.getElementsByTagName("ion-textarea")
     if(checkbox.checked){
       for(var i = 0; i<this.labels.length; i++){
         if(item.name == this.labels[i].name){
           this.labels[i].isOk=true;
+          x[i].parentElement.children[3].setAttribute("required",'false');
         }
       }
     }
@@ -47,6 +47,7 @@ export class ObjectManagerControlViewPage implements OnInit {
       for(var i = 0; i<this.labels.length; i++){
         if(item.name == this.labels[i].name){
           this.labels[i].isOk=false;
+          x[i].parentElement.children[3].setAttribute("required",'true');
         }
       }
     }
@@ -62,7 +63,5 @@ export class ObjectManagerControlViewPage implements OnInit {
   }
   print(o){
     console.log(o);
-    var x = document.getElementsByName("description");
-    console.log(x);
   }
 }
