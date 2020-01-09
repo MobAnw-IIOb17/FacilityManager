@@ -29,9 +29,15 @@ export class ObjectManagerControlNewPage implements OnInit {
   }
   
   ngOnInit() {}
+
+  ionViewDidEnter() {
+    console.log("ionViewDidEnter");
+  } 
+
   ngAfterViewInit(){
     this.checkValidate();
   }
+  
   setValue(s: string, name){
     let x = document.getElementsByTagName("ion-input");
     for(let i = 0; i<x.length;i++){
