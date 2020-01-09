@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, AlertController } from '@ionic/angular';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ObjectChecklistService } from '../services/object-checklist.service';
 import { Property } from '../model/property.model';
@@ -19,27 +19,37 @@ export class ObjectManagerControlListPage implements OnInit {
   property = new Property();
   controllistItems: Array<Checklist> = [];
   usedControllistItems: Array<Checklist> = [];
-  saveItem:ObjectChecklist;
+  finishedUsedControllistItems: Array<{name: string, boolean: boolean}> = [ {name: "", boolean: false} ];
+  saveItem: ObjectChecklist;
 
   constructor(
-    private router: Router, 
-    private route: ActivatedRoute, 
+    private router: Router,
+    private route: ActivatedRoute,
     private popoverController: PopoverController,
+    private alertController: AlertController,
     private objectChecklistService: ObjectChecklistService) {
       this.route.queryParams.subscribe(params => {
         if (params) {
           if (params.object) {
             this.property = JSON.parse(params.object);
           }
-
-          let navigationExtras: NavigationExtras = {  };
+          if (params.checklist) {
+            this.usedControllistItems = JSON.parse(params.checklist);
+            //löschen von bereits vorhandenen sachen
+            //this.finishedUsedControllistItems.reduce
+            this.finishedUsedControllistItems.push({name: params.checklist.name, boolean: true});
+          }
+          let navigationExtras: NavigationExtras = {};
           this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
         }
       })
       this.objectChecklistService.getDefaultChecklist('184').then((item) => { //property.uid
+        console.log(item);
         this.copyAList(this.controllistItems, item.checklist);
         this.copyAList(this.usedControllistItems, item.checklist);
         this.saveItem = item;
+        //alle in die liste der unfertigen reinpushen
+        //this.finishedUsedControllistItems.push
       })
    }
 
@@ -129,11 +139,34 @@ export class ObjectManagerControlListPage implements OnInit {
    * 
    */
   async saveControllElements() {
+    
     //Prüfen aller Elemente auf Vollzähligkeit
     //wenn alles passt dann:
       //In Datenbank abspeichern
       //dann wechseln zu object-manager-reports
     //sonst
     //Alert was noch fehlt
+
+    let accept: boolean = true;
+    for(let i: number = 0; i < this.finishedUsedControllistItems.length; i++) {
+      if (!this.finishedUsedControllistItems[i].boolean) {
+        accept = false;
+        break;
+      }
+    }
+    if (accept) {
+      this.saveItem.checklist = this.usedControllistItems;
+      this.objectChecklistService.addChecklist(this.saveItem);
+      this.router.navigate(['/tabs/object-manager-reports']);
+    } else {
+      const alert = await this.alertController.create({
+        header: 'Achtung',
+        subHeader: 'Fehlende Eingaben',
+        message: 'Nicht alle verwendeten Kontollelemente sind ausgefüllt.',
+        buttons: ['OK']
+      });
+      await alert.present();
+    }
+
   }
 }
