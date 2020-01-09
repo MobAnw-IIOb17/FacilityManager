@@ -88,7 +88,7 @@ export class ObjectManagerControlListPage implements OnInit {
     slidingItem.close();
     let navigationExtras: NavigationExtras = {
       queryParams: {   
-        checklistItem: JSON.stringify(selectedItem)
+        checklist: JSON.stringify(selectedItem)
       }
     };
     this.router.navigate(['/tabs/object-manager-control-view'], navigationExtras);
