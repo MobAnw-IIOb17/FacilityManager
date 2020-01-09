@@ -1,33 +1,15 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Settings</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>Einstellungen</ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-label>Quality</ion-label>
-      <ion-range min="0" max="100" color="secondary">
-        <ion-label slot="start">0</ion-label>
-        <ion-label slot="end">100</ion-label>
-      </ion-range>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Encoding Type</ion-label>
-      <ion-select multiple="false"  okText="OK" cancelText="Cancel">
-        <ion-select-option value="png">PNG</ion-select-option>
-        <ion-select-option value="jpg">JPG</ion-select-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Type of media</ion-label>
-      <ion-select multiple="false">
-        <ion-select-option value="picture" selected>Picture</ion-select-option>
-        <ion-select-option value="video">Video</ion-select-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
+<ion-content appNetworkListener>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <ion-item>
+            <ion-label>Passwort</ion-label>
+            <ion-input id="adminPassword" type="password"></ion-input>
+        </ion-item>
+        <ion-button class="generate_button" type='submit' [disabled]='loginForm.invalid'>Login</ion-button>
+    </form>
 </ion-content>

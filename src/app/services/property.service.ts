@@ -39,12 +39,10 @@ export class PropertyService {
   getAllProperties(): Promise<Property[]> {
     const properties: Property[] = [];
     return new Promise<Property[]>(resolve => {
-      this.updateProperties().then(() => {
-        this.propertyDb.forEach((value: Property) => {
-          properties.push(value);
-        }).then(() => {
-          resolve(properties);
-        });
+      this.propertyDb.forEach((value: Property) => {
+        properties.push(value);
+      }).then(() => {
+        resolve(properties);
       });
     });
   }
@@ -55,10 +53,8 @@ export class PropertyService {
    */
   getProperty(uid: string): Promise<Property> {
     return new Promise<Property>(resolve => {
-      this.updateProperties().then(() => {
-        this.propertyDb.get(uid).then((p) => {
-          resolve(p);
-        });
+      this.propertyDb.get(uid).then((p) => {
+        resolve(p);
       });
     });
   }
@@ -71,14 +67,12 @@ export class PropertyService {
   getPropertiesByCity(city: string): Promise<Property[]> {
     const properties: Property[] = [];
     return new Promise<Property[]>(resolve => {
-      this.updateProperties().then(() => {
-        this.propertyDb.forEach((value: Property) => {
-          if (value.city === city) {
-            properties.push(value);
-          }
-        }).then(() => {
-          resolve(properties);
-        });
+      this.propertyDb.forEach((value: Property) => {
+        if (value.city === city) {
+          properties.push(value);
+        }
+      }).then(() => {
+        resolve(properties);
       });
     });
   }
@@ -90,14 +84,12 @@ export class PropertyService {
   getPropertyCities(): Promise<string[]> {
     const cities: string[] = [];
     return new Promise<string[]>(resolve => {
-      this.updateProperties().then(() => {
-        this.propertyDb.forEach((property: Property) => {
-          if (!cities.includes(property.city)) {
-            cities.push(property.city);
-          }
-        }).then(() => {
-          resolve(cities);
-        });
+      this.propertyDb.forEach((property: Property) => {
+        if (!cities.includes(property.city)) {
+          cities.push(property.city);
+        }
+      }).then(() => {
+        resolve(cities);
       });
     });
   }
