@@ -31,6 +31,7 @@
     "@ionic/angular": "^4.11.7",
     "@ionic/storage": "^2.2.0",
     "caniuse-lite": "^1.0.30001019",
+    "cordova-android": "^8.1.0",
     "cordova-plugin-network-information": "^2.0.2",
     "cordova-sqlite-storage": "^3.4.1",
     "core-js": "^2.6.11",
