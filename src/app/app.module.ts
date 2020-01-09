@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { PopovercomponentPageModule } from './object-manager-control-list/popovercomponent/popovercomponent.module';
+import { DeletePopoverPageModule } from './services/gallery.service.components/deletePopover/deletePopover.module';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { PopovercomponentPageModule } from './object-manager-control-list/popove
     AppRoutingModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
-    PopovercomponentPageModule
+    PopovercomponentPageModule,
+    DeletePopoverPageModule
   ],
   providers: [
     StatusBar,

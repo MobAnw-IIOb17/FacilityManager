@@ -14,9 +14,8 @@ export class DamageFormPage implements OnInit, AfterViewInit {
   public date;
   public prop: Property;
 
-  constructor(
-    public galleryService: GalleryService
-  ) { }
+  constructor(private galleryService_01: GalleryService) { 
+  }
 
   ngOnInit() {
   }
@@ -25,6 +24,7 @@ export class DamageFormPage implements OnInit, AfterViewInit {
     this.date = new Date;
     document.getElementById('date_input')
     .setAttribute("value", ""+this.date.getDate()+"."+(this.date.getMonth()+1)+"."+this.date.getFullYear());
+    this.galleryService_01.selectGallery(document.getElementById('gallery-grid_01'));
   }
 
   submitForm() {
