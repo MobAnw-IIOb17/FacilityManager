@@ -1,0 +1,16 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Einstellungen</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content appNetworkListener>
+    <ion-list>
+        <ion-item id="facilityManager">
+            <ion-label>Benutzer</ion-label>
+            <ion-select placeholder="" (ionChange)="employeeChanged($event)" value="{{currentEmployee}}">
+                <ion-select-option *ngFor="let employee of employees" value="{{employee.uid}}">{{employee.name}}</ion-select-option>
+            </ion-select>
+        </ion-item>
+    </ion-list>
+</ion-content>

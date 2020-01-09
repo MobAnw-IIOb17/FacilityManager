@@ -1,9 +1,15 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>settings</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>Einstellungen</ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content appNetworkListener>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <ion-item>
+            <ion-label>Passwort</ion-label>
+            <ion-input id="adminPassword" type="password"></ion-input>
+        </ion-item>
+        <ion-button class="generate_button" type='submit' [disabled]='loginForm.invalid'>Login</ion-button>
+    </form>
 </ion-content>
