@@ -13,14 +13,14 @@
 <ion-content>
   <form [formGroup]="myFormNew">
     <ion-item *ngFor="let label of labels">
-      <ion-label class = 'labelname' slot = 'start'>{{ label.name }}</ion-label>
+      <ion-label class= 'labelname' slot = 'start' style='align-self: auto;'>{{ label.name }}</ion-label>
       <ion-checkbox (ionChange)='checkCheckbox(this.label,$event.target,this.labels)'></ion-checkbox>
-      <ion-label class='labelIO' >In Ordnung</ion-label>
-      <ion-input name = 'description' clearInput= 'true' (input)="setValue($event.target.value, $event.target.name)" (click)='print($event.target)'placeholder='Beschreibung des Problems'></ion-input>
+      <ion-label class='labelIO' style='align-self: auto;'>In Ordnung</ion-label>
+      <ion-textarea required clearInput= 'true' autoGrow='true' (input)="setValue($event.target.value, $event.target.name)" (click)='print($event.target)'placeholder='Beschreibung des Problems'></ion-textarea>
       <ion-icon name='camera' slot='end' (click)='openCamera()'></ion-icon>
       <ion-icon name="photos" slot='end' (click)='openPhotos()'></ion-icon>
     </ion-item>
-    <ion-button class="generate_button" type='submit' (click)="submit()">Fertig</ion-button>
+    <ion-button class="generate_button" (click)="submit()" [disabled]="myFormNew.invalid">Fertig</ion-button>
   </form>
 
 </ion-content>

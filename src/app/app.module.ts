@@ -13,6 +13,8 @@ import { Base64 } from '@ionic-native/base64/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { DeletePopoverPageModule } from './services/gallery.service.components/deletePopover/deletePopover.module';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -22,6 +24,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
+    DeletePopoverPageModule
   ],
   providers: [
     StatusBar,
