@@ -13,9 +13,6 @@ import { Base64 } from '@ionic-native/base64/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { PopovercomponentPageModule } from './object-manager-control-list/popovercomponent/popovercomponent.module';
-
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -25,7 +22,6 @@ import { PopovercomponentPageModule } from './object-manager-control-list/popove
     AppRoutingModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
-    PopovercomponentPageModule
   ],
   providers: [
     StatusBar,

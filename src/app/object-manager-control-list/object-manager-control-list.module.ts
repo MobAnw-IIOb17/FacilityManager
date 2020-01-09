@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { ObjectManagerControlListPage } from './object-manager-control-list.page';
 
 import { NetworkListenerDirective } from '../directives/network-listener.directive';
+import { ControlListPopoverComponentComponent } from './control-list-popover-component/control-list-popover-component.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
         IonicModule,
         RouterModule.forChild(routes)
     ],
-  declarations: [ObjectManagerControlListPage, NetworkListenerDirective]
+    entryComponents: [ControlListPopoverComponentComponent],
+  declarations: [ObjectManagerControlListPage, ControlListPopoverComponentComponent, NetworkListenerDirective]
 })
 export class ObjectManagerControlListPageModule {}

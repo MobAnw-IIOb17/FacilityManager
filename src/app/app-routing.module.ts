@@ -43,10 +43,6 @@ const routes: Routes = [
               {
                 path: '',
                 loadChildren: './object-manager-control-list/object-manager-control-list.module#ObjectManagerControlListPageModule'
-              },
-              {
-                path: 'popovercomponent',
-                loadChildren: './object-manager-control-list/popovercomponent/popovercomponent.module#PopovercomponentPageModule'
               }
             ]
           },

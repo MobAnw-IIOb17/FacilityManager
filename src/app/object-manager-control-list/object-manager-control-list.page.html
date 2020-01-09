@@ -1,22 +1,23 @@
 
 <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button defaultHref="/tabs/object-manager-new"></ion-back-button>
-      </ion-buttons>
+  <ion-toolbar>
+    
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/object-manager-new"></ion-back-button>
+    </ion-buttons>
 
-      <ion-title>
-        <h2 style="margin: 0; padding: 0;">Kontrollliste</h2>
-        <p style="font-size: smaller; margin: 0; padding: 0;" id="#object_title">{{property.street}}, {{property.city}}</p>
-      </ion-title>
+    <ion-title>
+      <h2 style="margin: 0; padding: 0;">Kontrollliste</h2>
+      <p style="font-size: smaller; margin: 0; padding: 0;" id="#object_title">{{property.street}}, {{property.city}}</p>
+    </ion-title>
 
-      <ion-buttons slot="end">
-        <ion-button (click)="saveControllElements()">
-          <ion-icon size="large" name="checkmark" color="dark-tint"></ion-icon>
-        </ion-button>
-      </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="saveControllElements()">
+        <ion-icon size="large" name="checkmark" color="dark-tint"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
-    </ion-toolbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content appNetworkListener>
