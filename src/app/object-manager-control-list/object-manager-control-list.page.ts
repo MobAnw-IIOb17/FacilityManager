@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
-import { PopovercomponentPage } from './popovercomponent/popovercomponent.page';
 import { ObjectChecklistService } from '../services/object-checklist.service';
 import { Property } from '../model/property.model';
 import { Checklist } from '../model/checklist.model';
 import { _countGroupLabelsBeforeOption } from '@angular/material';
 import { ObjectChecklist } from '../model/object-checklist.model';
+import { ControlListPopoverComponentComponent } from './control-list-popover-component/control-list-popover-component.component';
 
 @Component({
   selector: 'app-object-manager-control-list',
@@ -24,13 +24,10 @@ export class ObjectManagerControlListPage implements OnInit {
   constructor(
     private router: Router, 
     private route: ActivatedRoute, 
-    private popover: PopoverController,
+    private popoverController: PopoverController,
     private objectChecklistService: ObjectChecklistService) {
       this.route.queryParams.subscribe(params => {
         if (params) {
-          if(params.popOverData) {
-            this.usedControllistItems.push(JSON.parse(params.popOverData));
-          }
           if (params.object) {
             this.property = JSON.parse(params.object);
           }
@@ -98,7 +95,7 @@ export class ObjectManagerControlListPage implements OnInit {
    * Öffnet ein Popover für die Auswahl und Hinzufügen von Kontrollitems
    * Zeigt nur die nicht verwendeten Items (manuell gelöschte) aus der Vorlage aus der Datenbank
    */
-  createPopOver() {
+  async createPopOver() {
     var missingControllistItems: Array<Checklist> = [];
     this.copyAList(missingControllistItems, this.controllistItems.filter((item) => {
       for(var i:number = 0; i < this.usedControllistItems.length; i++) {
@@ -108,15 +105,24 @@ export class ObjectManagerControlListPage implements OnInit {
       }
       return true;
     }));
-    this.popover.create({
-      component:PopovercomponentPage,
+
+    const popover = await this.popoverController.create({
+      component: ControlListPopoverComponentComponent,
       componentProps: {
         notUsedControllistItems: missingControllistItems
-      },
-      showBackdrop:true
-    }).then((popoverElement)=>{
-      popoverElement.present();
+      }
+      //Soll das PopOver bei der Action sein, so muss hier ", event" noch hin
+    });
+
+    popover.onDidDismiss().then((dataReturned) => {
+      console.log("ReturnFromPopOver: ")
+      console.log("" + dataReturned.data)
+      if(dataReturned.role === 'add') {
+        this.usedControllistItems.push(JSON.parse(dataReturned.data));
+      }
     })
+
+    return await popover.present();
   }
 
   /**
