@@ -21,7 +21,10 @@ export class ObjectManagerControlViewPage implements OnInit {
       if(params && params.checklist){
         this.checklist = JSON.parse(params.checklist);
         this.name = this.checklist.name;
-        this.labels = this.checklist.items;   
+        this.labels = this.checklist.items;
+        for(let i = 0; i<this.checklist.items.length;i++){
+          this.labels[i].description = this.checklist.items[i].description;   
+        }
       }
     })
     this.myFormNew = formBuilder.group({
