@@ -123,7 +123,7 @@ export class ObjectChecklistService {
   getDefaultChecklist(objectId: string): Promise<ObjectChecklist> {
     return new Promise<ObjectChecklist>(resolve => {
       this.defaultChecklistDb.get(objectId).then(checklist => {
-        return checklist;
+        resolve(checklist);
       });
     });
   }
