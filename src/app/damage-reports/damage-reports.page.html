@@ -7,7 +7,7 @@
 <ion-content>
     <ion-item (click)="openDamage(damage)" *ngFor="let damage of damages">
         <ion-label>
-            <h2>{{damage.uid}}</h2>
+            <h2>{{damage.property.city}}, {{damage.property.street}}</h2>
             <p>{{damage.description}}</p>
         </ion-label>
     </ion-item>

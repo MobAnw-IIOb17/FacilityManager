@@ -9,7 +9,7 @@ import { Base64 } from '@ionic-native/base64/ngx';
 export class AppCameraService {
   options: CameraOptions = {
     quality: 100,
-    destinationType: this.camera.DestinationType.FILE_URI,
+    destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE
   };
@@ -32,9 +32,7 @@ export class AppCameraService {
 
   async takePicture() {
     this.camera.getPicture(this.options).then((imageData) => {
-      console.log(imageData);
-    }, (err) => {
-      // Handle error
+      return imageData;
     });
   }
 }

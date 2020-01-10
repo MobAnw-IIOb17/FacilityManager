@@ -4,6 +4,8 @@ import { Router, NavigationExtras } from '@angular/router';
 import { FormGroup} from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { Property } from '../model/property.model';
+import { EmployeeService } from '../services/employee.service';
+import { Employee } from '../model/employee.model';
 
 @Component({
   selector: 'app-object-manager-new',
@@ -22,9 +24,15 @@ export class ObjectManagerNewPage implements OnInit {
   objects: Array<Property> = [];
   object: Property = new Property();  
   
+  employee:Employee = new Employee();
 
-  constructor(private toastController: ToastController, private propertyService: PropertyService, private router: Router) {
+  constructor(
+    private toastController: ToastController, 
+    private propertyService: PropertyService, 
+    private employeeService: EmployeeService, 
+    private router: Router) {
       this.loadCities();
+      this.loadEmployee();
   }
 
   ngOnInit() {
@@ -71,6 +79,15 @@ export class ObjectManagerNewPage implements OnInit {
     for (var i: number = 0; i < sourceList.length; i++) {
       targetList.push(sourceList[i]);
     }
+  }
+
+  
+  loadEmployee() {
+    this.employeeService.getCurrentEmployee().then((item) => {
+      if(item != null) {
+        this.employee = item;
+      }
+    });
   }
 
   loadCities() {
