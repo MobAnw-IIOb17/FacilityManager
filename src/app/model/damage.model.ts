@@ -28,4 +28,5 @@ export class Damage {
     description: string;
     images: string[];
     location: string;
+    sent = false;
 }
