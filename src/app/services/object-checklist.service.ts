@@ -146,9 +146,9 @@ export class ObjectChecklistService {
         return;
       }
     }
-    this.toSend.forEach(function(value) {
+    this.toSend.forEach((value) => {
+      this.deleteItemFromArray(value, this.toSend);
       this.sendChecklist(value);
-      this.markChecklistAsSent(value);
     });
   }
 
@@ -189,16 +189,6 @@ export class ObjectChecklistService {
           });
         });
     });
-  }
-
-  /**
-   * This method marks a checklist as sent by moving it from toSend to sent.
-   * @param objectChecklist the checklist to be marked as sent
-   */
-  private markChecklistAsSent(objectChecklist: ObjectChecklist): Promise<void> {
-    this.sent.push(objectChecklist);
-    this.deleteItemFromArray(objectChecklist, this.toSend);
-    return this.checklistDb.set(ObjectChecklistService.SENT, this.sent);
   }
 
   /**
