@@ -56,10 +56,18 @@ export class ObjectChecklistService {
       driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
     });
     this.checklistDb.get(ObjectChecklistService.TO_SEND).then((toSend) => {
-      this.toSend = toSend;
+      if (toSend === null) {
+        this.checklistDb.set(ObjectChecklistService.TO_SEND, this.toSend);
+      } else {
+        this.toSend = toSend;
+      }
     });
     this.checklistDb.get(ObjectChecklistService.SENT).then((sent) => {
-      this.sent = sent;
+      if (sent === null) {
+        this.checklistDb.set(ObjectChecklistService.SENT, this.sent);
+      } else {
+        this.sent = sent;
+      }
     });
 
     this.defaultChecklistDb = new Storage({
@@ -153,9 +161,11 @@ export class ObjectChecklistService {
       '{"object_uid": ' + objectChecklist.property.uid + ', "update": ' + timestamp + ' "checklist": '
         + objectChecklist.checklist + '}')
       .subscribe(data => {
-        alert(JSON.stringify(data));
+        this.sent.push(objectChecklist);
+        return this.checklistDb.set(ObjectChecklistService.SENT, this.sent);
       }, error => {
-        alert(error);
+        this.toSend.push(objectChecklist);
+        return this.checklistDb.set(ObjectChecklistService.TO_SEND, this.toSend);
       });
   }
 

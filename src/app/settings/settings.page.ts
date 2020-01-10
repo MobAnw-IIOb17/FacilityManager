@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -10,7 +11,7 @@ export class SettingsPage implements OnInit {
 
   private loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private router: Router) {
     this.loginForm = formBuilder.group({});
   }
 
@@ -19,9 +20,11 @@ export class SettingsPage implements OnInit {
 
   login() {
     const passwordField = document.getElementById('adminPassword') as HTMLIonInputElement;
-    console.log();
     if (passwordField.value === 'Admin1234') {
-
+      this.router.navigateByUrl('/tabs/settings-page');
+    } else {
+      alert('Passwort falsch!');
     }
+    passwordField.value = '';
   }
 }
