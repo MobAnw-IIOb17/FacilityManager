@@ -26,15 +26,23 @@ export class GalleryService {
     this.galleryHTML = pageGallery;
   }
 
-  addCameraPicture() {
-    //var ImageData = this.appCameraService.takePicture();
-    var ImageData = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
-    this.imgBase64.push('data:image/png;base64,'+ImageData);
-    this.addToGallery(this.imgBase64[(this.imgBase64.length-1)]);
+  addGalleryPicture() {
+    var ImageData;
+    while(!ImageData){
+      ImageData = this.appCameraService.importPicture();
+      this.imgBase64.push('data:image/png;base64,'+ImageData);
+      if(ImageData) { this.addToGallery(this.imgBase64[(this.imgBase64.length-1)]); };
+    } 
   }
 
-  addGalleryPicture() {
-    //TODO
+  addCameraPicture() {
+    //var ImageData = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+    var ImageData;
+    while(!ImageData){
+      ImageData = this.appCameraService.takePicture();
+      this.imgBase64.push('data:image/png;base64,'+ImageData);
+      if(ImageData) { this.addToGallery(this.imgBase64[(this.imgBase64.length-1)]); };
+    }
   }
 
   openDeletePopover = (local_index: number, local_src: string) => {
