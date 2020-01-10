@@ -27,9 +27,9 @@ export class GalleryService {
   }
 
   addCameraPicture() {
-    //var ImageData = this.appCameraService.takePicture();
-    var ImageData = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
-    this.imgBase64.push('data:image/png;base64,'+ImageData);
+    var ImageData = this.appCameraService.takePicture();
+    //var ImageData = 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+    this.imgBase64.push('data:image/jpeg;base64,'+ImageData);
     this.addToGallery(this.imgBase64[(this.imgBase64.length-1)]);
   }
 

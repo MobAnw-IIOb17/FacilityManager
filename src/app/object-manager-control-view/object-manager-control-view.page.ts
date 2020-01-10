@@ -15,6 +15,7 @@ export class ObjectManagerControlViewPage implements OnInit {
   private myFormNew: FormGroup;
   labels = [];
   checklist= new Checklist();
+  valid = false;
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private router: Router) {
     this.route.queryParams.subscribe(params => {
@@ -32,6 +33,9 @@ export class ObjectManagerControlViewPage implements OnInit {
    } 
   ngOnInit() {
   }
+  ngAfterViewInit(){
+    this.checkValidation();
+  }
   setValue(s: string, name){
     let x = document.getElementsByTagName("ion-textarea");
     for(let i = 0; i<x.length;i++){
@@ -39,15 +43,15 @@ export class ObjectManagerControlViewPage implements OnInit {
         this.labels[i].description=s;
       }
     }
+    this.checkValidation();
   }
-  checkCheckbox(item, checkbox,o){
-    console.log(o);
-    let x = document.getElementsByTagName("ion-textarea")
+  checkCheckbox(item, checkbox){
+    let x = document.getElementsByTagName("ion-textarea");
     if(checkbox.checked){
       for(let i = 0; i<this.labels.length; i++){
         if(item.name == this.labels[i].name){
           this.labels[i].isOk=true;
-          x[i].parentElement.children[3].setAttribute("required",'false');
+          x[i].parentElement.children[3].setAttribute('required','false');
         }
       }
     }
@@ -58,6 +62,29 @@ export class ObjectManagerControlViewPage implements OnInit {
           x[i].parentElement.children[3].setAttribute("required",'true');
         }
       }
+    }
+    this.checkValidation();
+  }
+  checkValidation(){
+    let text = document.getElementsByTagName("ion-textarea");
+    let check = document.getElementsByTagName("ion-checkbox");
+    let btn = document.getElementsByClassName("generate_button");
+    for(let i = 0;i<text.length;i++){
+      if(check[i].checked==false&&text[i].value!=""||check[i].checked==true){
+        this.valid=true;
+      }
+      else{
+        if(check[i].checked==false){
+          this.valid=false;
+          break;
+        }
+      }
+    }
+    if(this.valid){
+      btn[0].setAttribute("disabled","false");
+    }
+    else{
+      btn[0].setAttribute("disabled","true");
     }
   }
   openCamera(){
@@ -76,7 +103,5 @@ export class ObjectManagerControlViewPage implements OnInit {
     };
     this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
   }
-  print(o){
-    console.log(o);
-  }
+
 }

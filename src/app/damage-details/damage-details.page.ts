@@ -10,34 +10,22 @@ import { Router, ActivatedRoute} from '@angular/router';
     styleUrls: ['./damage-details.page.scss'],
 })
 
-export class DamageDetailsPage implements OnInit {
+export class DamageDetailsPage {
     damage: Damage;
 
     constructor(private router: Router, private route: ActivatedRoute) {
         console.log('Constructed Damage-Details');
-        this.route.queryParams.subscribe(params => {
-            console.log('Did the Subscribe Stuff');
+        this.route.queryParams.subscribe(() => {
             if (this.router.getCurrentNavigation().extras.state) {
                 this.damage = this.router.getCurrentNavigation().extras.state.damage;
-            } else {
-                this.damage = makeUndefinedDamage();
             }
+            
+            let galleryGrid = document.getElementById('gallery');
+            while(galleryGrid.lastChild) {
+                galleryGrid.removeChild(galleryGrid.lastChild);
+            }
+            makeGallery(galleryGrid, this.damage.images);
         });
-    }
-
-    ngOnInit() {
-    }
-
-    ionViewDidEnter() {
-        console.log('Entered Damage-Details');
-        console.log(this.router.getCurrentNavigation());
-
-        
-        let galleryGrid = document.getElementById('gallery');
-        while(galleryGrid.lastChild) {
-            galleryGrid.removeChild(galleryGrid.lastChild);
-        }
-        makeGallery(galleryGrid, this.damage.images);
     }
 }
 
@@ -58,41 +46,4 @@ function makeGallery(grid: HTMLElement, images: String[]) {
         }
         grid.appendChild(row);
     }
-}
-
-function makeUndefinedDamage() {
-    let undefinedProperty: Property = {
-        uid: 'undefinedUid',
-        deleted: 'undefinedDeleted',
-        hidden: 'undefinedHidden',
-        title: 'undefinedTitle',
-        street: 'undefinedStreet',
-        zip: 'undefinedZip',
-        city: 'undefinedCity',
-        owner: 'undefinedOwner'
-    }
-
-    let undefinedEmployee: Employee = {
-        uid: 'undefinedUid',
-        name: 'undefinedName',
-        deleted: 'undefinedDeleted',
-        hidden: 'undefinedHidden'
-    }
-
-    let damage: Damage = {
-        uid: 'undefinedUid',
-        createDate: 'undefinedCreateDate',
-        property: undefinedProperty,
-        employee: undefinedEmployee,
-        description: 'undefinedDescription',
-        images: [
-            'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
-            'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
-            'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
-            'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
-            'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=='
-        ],
-        location: 'undefinedLocation'
-    }
-    return damage;
 }

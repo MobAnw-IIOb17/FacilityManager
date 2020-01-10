@@ -14,9 +14,9 @@
   <form [formGroup]="myFormNew">
     <ion-item *ngFor="let label of labels">
       <ion-label class= 'labelname' slot = 'start' style='align-self: auto;'>{{ label.name }}</ion-label>
-      <ion-checkbox (ionChange)='checkCheckbox(this.label,$event.target,this.labels)'></ion-checkbox>
+      <ion-checkbox (ionChange)='checkCheckbox(this.label,$event.target)'></ion-checkbox>
       <ion-label class='labelIO' style='align-self: auto;'>In Ordnung</ion-label>
-      <ion-textarea required clearInput= 'true' autoGrow='true' (input)="setValue($event.target.value, $event.target.name)" (click)='print($event.target)'placeholder='Beschreibung des Problems'></ion-textarea>
+      <ion-textarea clearInput= 'true' autoGrow='true' (input)="setValue($event.target.value, $event.target.name)" value='' placeholder='Beschreibung des Problems'></ion-textarea>
       <ion-icon name='camera' slot='end' (click)='openCamera()'></ion-icon>
       <ion-icon name="photos" slot='end' (click)='openPhotos()'></ion-icon>
     </ion-item>
