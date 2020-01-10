@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router, NavigationExtras } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Checklist } from '../model/checklist.model';
+import { GalleryService } from '../services/gallery.service';
 
 @Component({
   selector: 'app-object-manager-control-view',
@@ -16,8 +17,9 @@ export class ObjectManagerControlViewPage implements OnInit {
   labels = [];
   checklist= new Checklist();
   valid = false;
+  public pictures: string[] = [];
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, private galleryService_01: GalleryService) {
     this.route.queryParams.subscribe(params => {
       if(params && params.checklist){
         this.checklist = JSON.parse(params.checklist);
@@ -35,6 +37,7 @@ export class ObjectManagerControlViewPage implements OnInit {
   }
   ngAfterViewInit(){
     this.checkValidation();
+    this.galleryService_01.selectGallery(document.getElementById('gallery-grid_01'));
   }
   setValue(s: string, name){
     let x = document.getElementsByTagName("ion-textarea");
@@ -51,7 +54,6 @@ export class ObjectManagerControlViewPage implements OnInit {
       for(let i = 0; i<this.labels.length; i++){
         if(item.name == this.labels[i].name){
           this.labels[i].isOk=true;
-          x[i].parentElement.children[3].setAttribute('required','false');
         }
       }
     }
@@ -59,7 +61,6 @@ export class ObjectManagerControlViewPage implements OnInit {
       for(let i = 0; i<this.labels.length; i++){
         if(item.name == this.labels[i].name){
           this.labels[i].isOk=false;
-          x[i].parentElement.children[3].setAttribute("required",'true');
         }
       }
     }
