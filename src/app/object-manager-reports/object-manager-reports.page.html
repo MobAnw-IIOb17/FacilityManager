@@ -11,23 +11,23 @@
 
 <ion-content appNetworkListener>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content pullingText="Pull to refresh" pullingIcon="arrow-dropdown" refreshingSpinner="bubbles" refreshingText="Refreshing...">
+    <ion-refresher-content pullingText="Aktualisieren durch Ziehen" pullingIcon="arrow-dropdown" refreshingSpinner="bubbles" refreshingText="Aktualisiere...">
     </ion-refresher-content>
   </ion-refresher>
 
   <ion-list>
-    <ion-item *ngFor="let item of objectItems">
+    <ion-item *ngFor="let item of objectChecklists">
       <ion-label>
-          <h2>{{item.city}}, {{item.street}}</h2>
+          <h2>{{item.property.city}}, {{item.property.street}}</h2>
           <p>Objektkontrolle</p>
       </ion-label>
 
-      <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='item.deleted === "1"'>
+      <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='item.sent === true'>
           <p style="font-weight: 600; text-align: right;">gesendet</p>
-          <p style="text-align: right;">01.11.19 15:40</p>
+          <p style="text-align: right;">01.11.?? 15:??</p>
       </ion-label>   
 
-      <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='item.deleted === "0"'>
+      <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='item.sent === false'>
           <p style="font-weight: 600; text-align: right; color: #FF9800;">ausstehend</p>        
       </ion-label>  
     </ion-item>

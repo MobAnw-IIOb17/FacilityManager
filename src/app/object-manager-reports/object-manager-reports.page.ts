@@ -26,6 +26,13 @@ export class ObjectManagerReportsPage implements OnInit {
   ngOnInit() { }
 
   /**
+   * Aktualisiert die Liste beim öffnen der Page
+   */
+  ionViewDidEnter() {
+    this.refreshChecklistItems();
+  } 
+
+  /**
    * Route zur Nächsten Seite um eine Kontrolle zu erstellen
    */
   navToControlManagerNewPage() {
@@ -39,7 +46,7 @@ export class ObjectManagerReportsPage implements OnInit {
   refreshChecklistItems() {
     setTimeout(() => {
       this.objectChecklistService.getAllChecklists().then((items) => {
-        console.log("items.length: " + items.length);
+        console.log("[refreshChecklistItems] items.length: " + items.length);
         if(items.length !== 0) {
           console.log(items);
           this.objectChecklists = [];
