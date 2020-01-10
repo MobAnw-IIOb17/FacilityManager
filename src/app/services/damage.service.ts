@@ -50,10 +50,18 @@ export class DamageService {
       driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
     });
     this.damageDb.get(DamageService.TO_SEND).then((toSend) => {
-      this.toSend = toSend;
+      if (toSend === null) {
+        this.damageDb.set(DamageService.TO_SEND, this.toSend);
+      } else {
+        this.toSend = toSend;
+      }
     });
     this.damageDb.get(DamageService.SENT).then((sent) => {
-      this.sent = sent;
+      if (sent === null) {
+        this.damageDb.set(DamageService.SENT, this.sent);
+      } else {
+        this.sent = sent;
+      }
     });
   }
 
@@ -79,12 +87,19 @@ export class DamageService {
    */
   getAllDamages(): Promise<Damage[]> {
     const damages: Damage[] = [];
-    return this.damageDb.forEach((value: Damage[], key: string) => {
-      value.forEach((d: Damage) => {
-        damages.push(d);
+    return new Promise<Damage[]>(resolve => {
+      this.damageDb.get(DamageService.TO_SEND).then((a: Damage[]) => {
+        a.forEach((d: Damage) => {
+          damages.push(d);
+        });
       });
-    }).then(() => {
-      return damages;
+      this.damageDb.get(DamageService.SENT).then((a: Damage[]) => {
+        a.forEach((d: Damage) => {
+          d.sent = true;
+          damages.push(d);
+        });
+      });
+      resolve(damages);
     });
   }
 
@@ -98,9 +113,9 @@ export class DamageService {
         return;
       }
     }
-    this.toSend.forEach(function(value) {
+    this.toSend.forEach((value) => {
+      this.deleteItemFromArray(value, this.toSend);
       this.sendDamage(value);
-      this.markDamageAsSent(value);
     });
   }
 
@@ -117,21 +132,12 @@ export class DamageService {
       ', "phone": "", "tenant": "", "location": ' + damage.location +
       ', "date": ' + timestamp + ', "images": ' + damage.images + ', "seen": "0" }')
       .subscribe(data => {
-        alert(JSON.stringify(data));
+        this.sent.push(damage);
+        return this.damageDb.set(DamageService.SENT, this.sent);
       }, error => {
-        alert(error);
+        this.toSend.push(damage);
+        return this.damageDb.set(DamageService.TO_SEND, this.toSend);
       });
-  }
-
-  /**
-   * This is a helper method to mark a damage report as sent by moving it to the `sent` array
-   * and syncing the array with the database.
-   * @param damage the damage object to be marked as sent
-   */
-  private markDamageAsSent(damage: Damage): Promise<Damage> {
-    this.sent.push(damage);
-    this.deleteItemFromArray(damage, this.toSend);
-    return this.damageDb.set(DamageService.SENT, this.sent);
   }
 
   /**

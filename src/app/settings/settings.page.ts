@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
+import {NetworkSendService} from '../services/network-send.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,7 +12,7 @@ export class SettingsPage implements OnInit {
 
   private loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private networkSendService: NetworkSendService) {
     this.loginForm = formBuilder.group({});
   }
 
@@ -26,5 +27,9 @@ export class SettingsPage implements OnInit {
       alert('Passwort falsch!');
     }
     passwordField.value = '';
+  }
+
+  databaseSync() {
+    this.networkSendService.sync();
   }
 }
