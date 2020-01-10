@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Property } from '../model/property.model';
 import { PopoverController } from '@ionic/angular';
 import { ReportsPopovercomponentComponent } from './reports-popovercomponent/reports-popovercomponent.component';
+import { ObjectChecklistService } from '../services/object-checklist.service';
+import { ObjectChecklist } from '../model/object-checklist.model';
 
 @Component({
   selector: 'app-object-manager-reports',
@@ -13,8 +15,10 @@ export class ObjectManagerReportsPage implements OnInit {
 
   objectItems: Array<Property> = []
   dataReturned:any
+  objectChecklists: ObjectChecklist[] = [];
+  objectChecklist: ObjectChecklist;
 
-  constructor(private router: Router, private popoverController:PopoverController) { }
+  constructor(private router: Router, private popoverController:PopoverController, private objectChecklistService:ObjectChecklistService) { }
 
   ngOnInit() {
     this.objectItems.push({
@@ -75,6 +79,25 @@ export class ObjectManagerReportsPage implements OnInit {
     }, 800);
   }
 
+     /**
+    * vorerst kopiert, noch AUSLAGERN!!
+    */
+   /*
+   clearAList(list: Array<any>) {
+    var size: number = list.length;
+    for (var i: number = 0; i <= size; i++) {
+      list.pop();
+    }
+  }
+  copyAList(targetList: Array<any>, sourceList: Array<any>) {
+    this.clearAList(targetList);
+    for (var i: number = 0; i < sourceList.length; i++) {
+      targetList.push(sourceList[i]);
+    }
+  }
+*/
+
+
   /**
    * Öffnet ein PopOver oben Rechts mit einem Menu für die Auswahl
    *  - Aktualisieren
@@ -93,6 +116,28 @@ export class ObjectManagerReportsPage implements OnInit {
         this.dataReturned = dataReturned.data;
         if(dataReturned.data === "refresh") {
           this.Data1();
+
+          /*
+          this.objectChecklistService.getDefaultChecklist('184').then((item) => { //property.uid
+            console.log(item);
+            //this.copyAList(this.controllistItems, item.checklist);
+            //this.copyAList(this.usedControllistItems, item.checklist);
+            //this.saveItem = item;
+            //alle in die liste der unfertigen reinpushen
+            //this.finishedUsedControllistItems.push
+          })
+
+          this.objectChecklistService.getAllChecklists().then((items) => {
+            console.log("items.length: " + items.length);
+            if(items.length !== 0) {
+              console.log(items);
+            }
+          });
+
+          this.objectChecklists = await this.objectChecklistService.getAllChecklists() as ObjectChecklist[];
+          console.log("length: " + this.objectChecklists.length);
+         */
+
         }
         if(dataReturned.data === "city") {
           this.objectItems.sort((a, b) => (a.city > b.city) ? 1 : -1)

@@ -71,7 +71,7 @@ export class ObjectManagerControlViewPage implements OnInit {
     
     let navigationExtras: NavigationExtras = {
       queryParams: {
-       checklist: this.checklist
+       checklist: JSON.stringify(this.checklist)
       }
     };
     this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
