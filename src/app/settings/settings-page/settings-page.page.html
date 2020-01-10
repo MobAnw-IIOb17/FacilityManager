@@ -8,30 +8,13 @@
     <ion-list>
         <ion-item id="facilityManager">
             <ion-label>Benutzer</ion-label>
-            <ion-select placeholder="" (ionChange)="employeeChanged($event)" value="{{currentEmployee}}">
-                <ion-select-option *ngFor="let employee of employees" value="{{employee.uid}}">{{employee.name}}</ion-select-option>
+            <ion-select placeholder="Benutzer auswählen" (ionChange)="employeeChanged($event)" [value]="currentEmployee">
+                <ion-select-option *ngFor="let e of employees" value="{{e.uid}}" [selected]="e.uid == currentEmployee">{{e.name}}</ion-select-option>
             </ion-select>
         </ion-item>
-        <ion-item>
-            <ion-label>Quality</ion-label>
-            <ion-range min="0" max="100" color="secondary">
-                <ion-label slot="start">0</ion-label>
-                <ion-label slot="end">100</ion-label>
-            </ion-range>
-        </ion-item>
-        <ion-item>
-            <ion-label>Encoding Type</ion-label>
-            <ion-select multiple="false"  okText="OK" cancelText="Cancel">
-                <ion-select-option value="png">PNG</ion-select-option>
-                <ion-select-option value="jpg">JPG</ion-select-option>
-            </ion-select>
-        </ion-item>
-        <ion-item>
-            <ion-label>Type of media</ion-label>
-            <ion-select multiple="false">
-                <ion-select-option value="picture" selected>Picture</ion-select-option>
-                <ion-select-option value="video">Video</ion-select-option>
-            </ion-select>
+        <ion-item id="controlList">
+            <ion-label>Objektkontrolle</ion-label>
+            <ion-toggle color="secondary" [checked]="controlListEnabled" (ionChange)="controlChanged($event)"></ion-toggle>
         </ion-item>
     </ion-list>
 </ion-content>

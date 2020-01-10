@@ -98,6 +98,14 @@ export class EmployeeService {
     this.settingsService.putSetting('employeeId', employee.uid);
   }
 
+  async isControlListEnabled(): Promise<boolean> {
+    return await this.settingsService.getSetting('controlList') === 'true';
+  }
+
+  async setControlListEnabled(b: boolean) {
+    this.settingsService.putSetting('controlList', b.toString());
+  }
+
   /**
    * A helper method to insert an array of employees into the employee wrappyer database.
    * @param data the array of employees to be inserted into the database
