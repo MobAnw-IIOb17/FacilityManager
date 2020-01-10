@@ -7,6 +7,7 @@ import { Checklist } from '../model/checklist.model';
 import { _countGroupLabelsBeforeOption } from '@angular/material';
 import { ObjectChecklist } from '../model/object-checklist.model';
 import { ControlListPopoverComponentComponent } from './control-list-popover-component/control-list-popover-component.component';
+import { EmployeeService } from '../services/employee.service';
 
 @Component({
   selector: 'app-object-manager-control-list',
@@ -19,7 +20,7 @@ export class ObjectManagerControlListPage implements OnInit {
   property = new Property();
   controllistItems: Array<Checklist> = [];
   usedControllistItems: Array<Checklist> = [];
-  finishedUsedControllistItems: Array<{name: string, boolean: boolean}> = [ {name: "", boolean: false} ];
+  finishedUsedControllistItems: Array<{name: string, boolean: boolean}> = [ {name: "", boolean: true} ];
   saveItem: ObjectChecklist;
 
   constructor(
@@ -27,6 +28,7 @@ export class ObjectManagerControlListPage implements OnInit {
     private route: ActivatedRoute,
     private popoverController: PopoverController,
     private alertController: AlertController,
+    private emplyoeeService: EmployeeService,
     private objectChecklistService: ObjectChecklistService) {
       this.route.queryParams.subscribe(params => {
         if (params) {
@@ -34,22 +36,40 @@ export class ObjectManagerControlListPage implements OnInit {
             this.property = JSON.parse(params.object);
           }
           if (params.checklist) {
-            this.usedControllistItems = JSON.parse(params.checklist);
-            //löschen von bereits vorhandenen sachen
-            //this.finishedUsedControllistItems.reduce
-            this.finishedUsedControllistItems.push({name: params.checklist.name, boolean: true});
+            let check = JSON.parse(params.checklist);
+
+            //Aktualisieren der Kontrollelemente in der Kontrollliste
+            let used = false;
+            this.usedControllistItems.forEach((element, index) => {
+              if (element.name == check.name) {
+                element = check;
+              }
+
+              this.usedControllistItems.forEach((element, index) => {
+
+              });
+            });
+            this.finishedUsedControllistItems.forEach((element, index) => {
+              if (element.name == check.name) {
+                this.finishedUsedControllistItems.splice(index, 1);
+              }
+            });
+            this.finishedUsedControllistItems.push({name: check.name, boolean: true});
           }
           let navigationExtras: NavigationExtras = {};
           this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
         }
       })
       this.objectChecklistService.getDefaultChecklist('184').then((item) => { //property.uid
-        console.log(item);
         this.copyAList(this.controllistItems, item.checklist);
         this.copyAList(this.usedControllistItems, item.checklist);
         this.saveItem = item;
-        //alle in die liste der unfertigen reinpushen
-        //this.finishedUsedControllistItems.push
+        this.emplyoeeService.getCurrentEmployee().then((item) => {
+          this.saveItem.employee = item;
+        });
+        item.checklist.forEach((element) => {
+          this.finishedUsedControllistItems.push({name: element.name, boolean: false});
+        });
       })
    }
 
@@ -146,7 +166,8 @@ export class ObjectManagerControlListPage implements OnInit {
       //dann wechseln zu object-manager-reports
     //sonst
     //Alert was noch fehlt
-
+    console.log(this.finishedUsedControllistItems);
+    console.log(this.saveItem);
     let accept: boolean = true;
     for(let i: number = 0; i < this.finishedUsedControllistItems.length; i++) {
       if (!this.finishedUsedControllistItems[i].boolean) {
