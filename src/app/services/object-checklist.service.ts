@@ -96,28 +96,25 @@ export class ObjectChecklistService {
    * This method gets all checklists, no matter if to send or already sent.
    * @return a promise containing an array of all the ObjectChecklists
    */
-  getAllChecklists(): Promise<ObjectChecklist[]> {
+  async getAllChecklists(): Promise<ObjectChecklist[]> {
     const checklists: ObjectChecklist[] = [];
-    return new Promise<ObjectChecklist[]>(resolve => {
-      this.checklistDb.get(ObjectChecklistService.TO_SEND).then((a: ObjectChecklist[]) => {
-        a.forEach((oc: ObjectChecklist) => {
-          checklists.push(oc);
-        });
-      });
-      this.checklistDb.get(ObjectChecklistService.SENT).then((a: ObjectChecklist[]) => {
-        a.forEach((oc: ObjectChecklist) => {
-          oc.sent = true;
-          checklists.push(oc);
-        });
-      });
-      resolve(checklists);
-    });
+    const ocToSend: ObjectChecklist[] = await this.checklistDb.get(ObjectChecklistService.TO_SEND);
+    for (const oc of ocToSend) {
+      checklists.push(oc);
+    }
+    const ocSent: ObjectChecklist[] = await this.checklistDb.get(ObjectChecklistService.SENT);
+    for (const oc of ocSent) {
+      oc.sent = true;
+      checklists.push(oc);
+    }
+    return checklists;
   }
 
   /**
    * Fetches all default checklists from the webservice and writes them in the database.
    */
   async updateChecklists() {
+
     const array: Property[] = await this.propertyService.getAllProperties();
     for (const arrayItem of array) {
       await this.getDefaultChecklistFromWebservice(arrayItem.uid);

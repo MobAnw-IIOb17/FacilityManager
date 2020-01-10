@@ -85,22 +85,18 @@ export class DamageService {
    * This method lists all damage objects contained in the database.
    * @return promise with an array containing all damages
    */
-  getAllDamages(): Promise<Damage[]> {
+  async getAllDamages(): Promise<Damage[]> {
     const damages: Damage[] = [];
-    return new Promise<Damage[]>(resolve => {
-      this.damageDb.get(DamageService.TO_SEND).then((a: Damage[]) => {
-        a.forEach((d: Damage) => {
-          damages.push(d);
-        });
-      });
-      this.damageDb.get(DamageService.SENT).then((a: Damage[]) => {
-        a.forEach((d: Damage) => {
-          d.sent = true;
-          damages.push(d);
-        });
-      });
-      resolve(damages);
-    });
+    const dToSend: Damage[] = await this.damageDb.get(DamageService.TO_SEND);
+    for (const d of dToSend) {
+      damages.push(d);
+    }
+    const dSent: Damage[] = await this.damageDb.get(DamageService.SENT);
+    for (const d of dSent) {
+      d.sent = true;
+      damages.push(d);
+    }
+    return damages;
   }
 
   /**
