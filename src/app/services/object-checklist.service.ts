@@ -56,15 +56,17 @@ export class ObjectChecklistService {
       driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
     });
     this.checklistDb.get(ObjectChecklistService.TO_SEND).then((toSend) => {
-      this.toSend = toSend;
-      if (this.toSend === null) {
+      if (toSend === null) {
         this.checklistDb.set(ObjectChecklistService.TO_SEND, this.toSend);
+      } else {
+        this.toSend = toSend;
       }
     });
     this.checklistDb.get(ObjectChecklistService.SENT).then((sent) => {
-      this.sent = sent;
-      if (this.sent === null) {
+      if (sent === null) {
         this.checklistDb.set(ObjectChecklistService.SENT, this.sent);
+      } else {
+        this.sent = sent;
       }
     });
 
