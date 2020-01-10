@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {Routes, RouterModule} from '@angular/router';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { TabsPage } from './tabs.page';
+import {TabsPage} from './tabs.page';
 
 const routes: Routes = [
   {
@@ -13,8 +13,8 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path:'',
-        redirectTo:'damage-reports', //default page (opens when app is started)
+        path: '',
+        redirectTo: 'damage-reports', // default page (opens when app is started)
       },
       {
         path: 'damage-reports',
@@ -51,13 +51,17 @@ const routes: Routes = [
       {
         path: 'settings',
         loadChildren: '../settings/settings.module#SettingsPageModule'
+      },
+      {
+        path: 'settings-page',
+        loadChildren: '../settings/settings-page/settings-page.module#SettingsPagePageModule'
       }
     ]
   },
   {
-    path:'',
-    redirectTo:'/tabs/damage-reports', //default page (opens when app is started)
-    pathMatch:'full'
+    path: '',
+    redirectTo: '/tabs/damage-reports', // default page (opens when app is started)
+    pathMatch: 'full'
   }
 ];
 
@@ -70,4 +74,5 @@ const routes: Routes = [
   ],
   declarations: [TabsPage]
 })
-export class TabsPageModule {}
+export class TabsPageModule {
+}
