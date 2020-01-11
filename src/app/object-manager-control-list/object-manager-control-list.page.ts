@@ -17,11 +17,11 @@ import { EmployeeService } from '../services/employee.service';
 
 export class ObjectManagerControlListPage implements OnInit {
   [x: string]: any;
-  property = new Property();
-  controllistItems: Array<Checklist> = [];
+  private property = new Property();
+  private controllistItems: Array<Checklist> = [];
   usedControllistItems: Array<Checklist> = [];
-  finishedUsedControllistItems: Array<{name: string, boolean: boolean}> = [];
-  saveItem: ObjectChecklist;
+  private finishedUsedControllistItems: Array<{name: string, boolean: boolean}> = [];
+  private saveItem: ObjectChecklist;
 
   constructor(
     private router: Router,
@@ -34,6 +34,18 @@ export class ObjectManagerControlListPage implements OnInit {
         if (params) {
           if (params.object) {
             this.property = JSON.parse(params.object);
+            this.objectChecklistService.getDefaultChecklist('184').then((item) => { //property.uid
+              this.copyAList(this.controllistItems, item.checklist);
+              this.copyAList(this.usedControllistItems, item.checklist);
+              this.saveItem = item;
+              this.emplyoeeService.getCurrentEmployee().then((item) => {
+                this.saveItem.employee = item;
+              });
+              this.finishedUsedControllistItems = [];
+              item.checklist.forEach((element) => {
+                this.finishedUsedControllistItems.push({name: element.name, boolean: false});
+              });
+            })
           }
           if (params.checklist) {
             let check = JSON.parse(params.checklist);
@@ -59,21 +71,9 @@ export class ObjectManagerControlListPage implements OnInit {
             //Updaten der Validierungsliste
             this.addElementToValidationList(check, true);
           }
-          let navigationExtras: NavigationExtras = {};
-          this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
         }
       })
-      this.objectChecklistService.getDefaultChecklist('184').then((item) => { //property.uid
-        this.copyAList(this.controllistItems, item.checklist);
-        this.copyAList(this.usedControllistItems, item.checklist);
-        this.saveItem = item;
-        this.emplyoeeService.getCurrentEmployee().then((item) => {
-          this.saveItem.employee = item;
-        });
-        item.checklist.forEach((element) => {
-          this.finishedUsedControllistItems.push({name: element.name, boolean: false});
-        });
-      })
+      
    }
 
    ngOnInit() {
