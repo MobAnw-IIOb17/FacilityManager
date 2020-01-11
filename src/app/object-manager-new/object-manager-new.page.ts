@@ -24,7 +24,7 @@ export class ObjectManagerNewPage implements OnInit {
   objects: Array<Property> = [];
   object: Property = new Property();  
   
-  employee:Employee = new Employee();
+  private employee: Employee = new Employee();
 
   constructor(
     private toastController: ToastController, 
@@ -49,10 +49,10 @@ export class ObjectManagerNewPage implements OnInit {
   }
 
   /**
- * Warte Funktion
- * @param ms Zeit die gewartet werden soll in Millisekunden
- * @returns Promise, welches nach ms Millisekunden erfüllt wird
- */
+   * Warte Funktion
+   * @param ms Zeit die gewartet werden soll in Millisekunden
+   * @returns Promise, welches nach ms Millisekunden erfüllt wird
+   */
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -81,7 +81,9 @@ export class ObjectManagerNewPage implements OnInit {
     }
   }
 
-  
+  /**
+   * Läd den Mitarbeiter aus der Datenbank und speichert ihn ab
+   */
   loadEmployee() {
     this.employeeService.getCurrentEmployee().then((item) => {
       if(item != null) {

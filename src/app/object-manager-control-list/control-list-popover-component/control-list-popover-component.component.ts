@@ -19,7 +19,7 @@ export class ControlListPopoverComponentComponent implements OnInit {
    * 
    * @param selectedItem Item welches übergeben wird
    */
-  async add(selectedItem: string) {
+  async add(selectedItem) {
     if(selectedItem == 'new') {
       this.popoverController.dismiss('new');
       this.router.navigateByUrl('/tabs/object-manager-control-new');

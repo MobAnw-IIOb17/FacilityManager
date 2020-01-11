@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController, AlertController } from '@ionic/angular';
+import { PopoverController, AlertController, IonItemSliding } from '@ionic/angular';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ObjectChecklistService } from '../services/object-checklist.service';
 import { Property } from '../model/property.model';
 import { Checklist } from '../model/checklist.model';
-import { _countGroupLabelsBeforeOption } from '@angular/material';
+import { _countGroupLabelsBeforeOption, MatListSubheaderCssMatStyler } from '@angular/material';
 import { ObjectChecklist } from '../model/object-checklist.model';
 import { ControlListPopoverComponentComponent } from './control-list-popover-component/control-list-popover-component.component';
 import { EmployeeService } from '../services/employee.service';
@@ -20,7 +20,7 @@ export class ObjectManagerControlListPage implements OnInit {
   property = new Property();
   controllistItems: Array<Checklist> = [];
   usedControllistItems: Array<Checklist> = [];
-  finishedUsedControllistItems: Array<{name: string, boolean: boolean}> = [ {name: "", boolean: true} ];
+  finishedUsedControllistItems: Array<{name: string, boolean: boolean}> = [];
   saveItem: ObjectChecklist;
 
   constructor(
@@ -39,22 +39,25 @@ export class ObjectManagerControlListPage implements OnInit {
             let check = JSON.parse(params.checklist);
 
             //Aktualisieren der Kontrollelemente in der Kontrollliste
-            let used = false;
             this.usedControllistItems.forEach((element, index) => {
               if (element.name == check.name) {
                 element = check;
               }
-
-              this.usedControllistItems.forEach((element, index) => {
-
-              });
             });
-            this.finishedUsedControllistItems.forEach((element, index) => {
-              if (element.name == check.name) {
-                this.finishedUsedControllistItems.splice(index, 1);
+
+            //Hinzufügen eines neuen Elementes
+            let used = false;
+            for(let i: number = 0; i < this.usedControllistItems.length; i++) {
+              if (this.usedControllistItems[i].name == check.name) {
+                used = true;
               }
-            });
-            this.finishedUsedControllistItems.push({name: check.name, boolean: true});
+            }
+            if (!used) {
+              this.usedControllistItems.push(check);
+            }
+
+            //Updaten der Validierungsliste
+            this.addElementToValidationList(check, true);
           }
           let navigationExtras: NavigationExtras = {};
           this.router.navigate(['/tabs/object-manager-control-list'], navigationExtras);
@@ -92,17 +95,31 @@ export class ObjectManagerControlListPage implements OnInit {
     }
   }
 
+  addElementToValidationList(newElement: Checklist, status: boolean) {
+    this.removeElementFromValidationList(newElement);
+    this.finishedUsedControllistItems.push({name: newElement.name, boolean: status});
+  }
+
+  removeElementFromValidationList(newElement: Checklist) {
+    this.finishedUsedControllistItems.forEach((element, index) => {
+      if (element.name == newElement.name) {
+        this.finishedUsedControllistItems.splice(index, 1);
+      }
+    });
+  }
 
   /**
    * Löscht das übegebene Item aus dem Array usedControllistItems
    * 
    * @param selectedItem Das Item was selectiert bzw. geschoben/swiped wurde
    */
-  async deleteItem(selectedItem) {
+  async deleteItem(selectedItem: Checklist) {
     const index:number = this.usedControllistItems.indexOf(selectedItem);
     if (index !== -1) { 
       this.usedControllistItems.splice(index, 1);
+      this.removeElementFromValidationList(selectedItem);
     }
+    
   }
 
   /**
@@ -111,7 +128,7 @@ export class ObjectManagerControlListPage implements OnInit {
    * @param selectedItem Das Item was selectiert bzw geschoben/swiped wurde
    * @param slidingItem Setzt das geswipte Item zurück
    */
-  async editItem(selectedItem, slidingItem) {
+  async editItem(selectedItem: Checklist, slidingItem:IonItemSliding) {
     slidingItem.close();
     let navigationExtras: NavigationExtras = {
       queryParams: {   
@@ -145,10 +162,9 @@ export class ObjectManagerControlListPage implements OnInit {
     });
 
     popover.onDidDismiss().then((dataReturned) => {
-      console.log("ReturnFromPopOver: ")
-      console.log("" + dataReturned.data)
       if(dataReturned.role === 'add') {
         this.usedControllistItems.push(JSON.parse(dataReturned.data));
+        this.addElementToValidationList(JSON.parse(dataReturned.data), false);
       }
     })
 
@@ -156,38 +172,61 @@ export class ObjectManagerControlListPage implements OnInit {
   }
 
   /**
-   * 
+   * Prüfen aller Elemente auf Vollzähligkeit
+   * wenn alles passt dann:
+   *  In Datenbank abspeichern
+   *  dann wechseln zu object-manager-reports
+   * sonst
+   *  Alert was noch fehlt
    */
   async saveControllElements() {
-    
-    //Prüfen aller Elemente auf Vollzähligkeit
-    //wenn alles passt dann:
-      //In Datenbank abspeichern
-      //dann wechseln zu object-manager-reports
-    //sonst
-    //Alert was noch fehlt
-    console.log(this.finishedUsedControllistItems);
-    console.log(this.saveItem);
-    let accept: boolean = true;
-    for(let i: number = 0; i < this.finishedUsedControllistItems.length; i++) {
-      if (!this.finishedUsedControllistItems[i].boolean) {
-        accept = false;
-        break;
+    let missingItems: Array<{name: string, boolean: boolean}> = [];
+    let button = null;
+    let text = {head: '', subHead: '', msg: ''};
+    if (this.finishedUsedControllistItems.length > 0) {
+      for(let i: number = 0; i < this.finishedUsedControllistItems.length; i++) {
+        if (!this.finishedUsedControllistItems[i].boolean) {
+          missingItems.push(this.finishedUsedControllistItems[i]);
+        }
       }
-    }
-    if (accept) {
-      this.saveItem.checklist = this.usedControllistItems;
-      this.objectChecklistService.addChecklist(this.saveItem);
-      this.router.navigate(['/tabs/object-manager-reports']);
+      if (missingItems.length == 0) {
+        text.head = 'Abschicken';
+        text.subHead = 'Die Meldung wird an den Sever übermittelt.';
+        text.msg = 'Sind Sie sicher?';
+        button = [
+          {
+            text: 'Abschicken',
+            handler: data => {
+              this.saveItem.checklist = this.usedControllistItems;
+              this.objectChecklistService.addChecklist(this.saveItem);
+              this.router.navigate(['/tabs/object-manager-reports']);
+            }
+          },
+          {
+            text: 'Abbrechen'
+          }
+        ]
+      } else {
+        text.head = 'Fehlende Eingaben';
+        text.subHead = 'Nicht alle verwendeten Kontollelemente sind ausgefüllt:';
+        let missingItemsMessage = "";
+        missingItems.forEach((element) => {
+          missingItemsMessage += '\n' + element.name + '\n';
+        });
+        text.msg = missingItemsMessage;
+        button = ['OK'];
+      }
     } else {
-      const alert = await this.alertController.create({
-        header: 'Achtung',
-        subHeader: 'Fehlende Eingaben',
-        message: 'Nicht alle verwendeten Kontollelemente sind ausgefüllt.',
-        buttons: ['OK']
-      });
-      await alert.present();
+      text.head = 'Fehler beim Abschicken';
+      text.msg = 'Bitte wählen Sie mindestens ein Kontrollelement aus.';
+      button = ['OK'];
     }
-
+    const alert = await this.alertController.create({
+      header: text.head,
+      subHeader: text.subHead,
+      message: text.msg,
+      buttons: button
+    });
+    await alert.present();
   }
 }
