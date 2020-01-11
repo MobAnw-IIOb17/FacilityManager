@@ -67,7 +67,9 @@ const routes: Routes = [
       }
     ]
   },
-  {path: 'settings-page', loadChildren: './settings/settings-page/settings-page.module#SettingsPagePageModule'}
+  {path: 'settings-page', loadChildren: './settings/settings-page/settings-page.module#SettingsPagePageModule'},
+  {path: 'list', loadChildren: './object-explorer/list/list.module#ListPageModule'},
+  {path: 'view', loadChildren: './object-explorer/view/view.module#ViewPageModule'},
 
 ];
 
