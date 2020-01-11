@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {EmployeeService} from '../services/employee.service';
 
 @Component({
   selector: 'app-tabs',
@@ -7,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabsPage implements OnInit {
 
-  constructor() { }
+  private objectMangerEnabled = false;
+
+  constructor(private employeeService: EmployeeService) {
+    employeeService.controlListEnabledObserve((b: boolean) => {
+      this.objectMangerEnabled = b;
+    });
+  }
 
   ngOnInit() {
   }
