@@ -7,7 +7,7 @@ import {ObjectChecklist} from '../model/object-checklist.model';
 import {Property} from '../model/property.model';
 import {PropertyService} from './property.service';
 import {ObjectDefaultChecklist} from '../model/object-default-checklist.model';
-import {delay, timestamp} from 'rxjs/operators';
+import {delay} from 'rxjs/operators';
 import {NetworkQueryService} from './network-query.service';
 
 @Injectable({
@@ -154,10 +154,12 @@ export class ObjectChecklistService {
    * @param objectChecklist the checklist to be sent
    */
   private sendChecklist(objectChecklist: ObjectChecklist) {
+    const ts: number = Date.now();
     this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/control/',
-      '{"object_uid": ' + objectChecklist.property.uid + ', "update": ' + timestamp + ' "checklist": '
+      '{"object_uid": ' + objectChecklist.property.uid + ', "update": ' + ts + ' "checklist": '
         + objectChecklist.checklist + '}')
       .subscribe(data => {
+        objectChecklist.sentTimestamp = ts;
         this.sent.push(objectChecklist);
         return this.checklistDb.set(ObjectChecklistService.SENT, this.sent);
       }, error => {
@@ -230,6 +232,7 @@ export class ObjectChecklistService {
       employee: null,
       checklist: c,
       sent: false,
+      sentTimestamp: null,
     };
   }
 }

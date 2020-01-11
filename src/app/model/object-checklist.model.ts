@@ -18,4 +18,5 @@ export class ObjectChecklist {
     employee: Employee;
     checklist: Checklist[];
     sent = false;
+    sentTimestamp: number = null;
 }

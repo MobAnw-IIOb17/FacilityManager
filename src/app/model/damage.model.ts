@@ -29,4 +29,5 @@ export class Damage {
     images: string[];
     location: string;
     sent = false;
+    sentTimestamp: number = null;
 }

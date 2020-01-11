@@ -63,7 +63,8 @@ export class DamageReportsPage implements OnInit {
       description: 'undefinedDescription',
       images: [],
       location: 'undefinedLocation',
-      sent: false
+      sent: false,
+      sentTimestamp: null,
     }
 
     this.damages.push(this.damage);

@@ -121,13 +121,15 @@ export class DamageService {
    * @param damage the damage object to be sent
    */
   private sendDamage(damage: Damage) {
+    const ts: number = Date.now();
     this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/damage/',
       '{"pid": "0", "crdate": ' + damage.createDate + ', "tstamp": ' + damage.createDate + ', "hidden": "0", ' +
       '"archived": "0", "sent_on": "0", "cruser_id": "0", "description": ' + damage.description +
       ', "deleted": "0", "object_uid": ' + damage.property.uid + ', "employee_uid": ' + damage.employee.uid +
       ', "phone": "", "tenant": "", "location": ' + damage.location +
-      ', "date": ' + timestamp + ', "images": ' + damage.images + ', "seen": "0" }')
+      ', "date": ' + ts + ', "images": ' + damage.images + ', "seen": "0" }')
       .subscribe(data => {
+        damage.sentTimestamp = ts;
         this.sent.push(damage);
         return this.damageDb.set(DamageService.SENT, this.sent);
       }, error => {
