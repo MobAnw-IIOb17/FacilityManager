@@ -53,7 +53,7 @@ export class ObjectManagerReportsPage implements OnInit {
           this.objectChecklists = items;
         }
       });
-    }, 800);
+    }, 100);
   }
 
   /**
