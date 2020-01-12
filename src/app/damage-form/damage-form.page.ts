@@ -14,7 +14,7 @@ export class DamageFormPage implements OnInit, AfterViewInit {
   public date;
   public prop: Property;
 
-  constructor(private galleryService_01: GalleryService) { 
+  constructor(private galleryService_01: GalleryService) {
   }
 
   ngOnInit() {

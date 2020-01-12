@@ -8,9 +8,9 @@ import { DeletePopoverPage } from './gallery.service.components/deletePopover/de
 })
 export class GalleryService {
 
-  public imgBase64: string[] = [];
-  public galleryHTML;
-  private rows;
+  private imgBase64: string[] = [];
+  private galleryHTML;
+  private columns;
 
   constructor(
     private popover: PopoverController,
@@ -18,11 +18,11 @@ export class GalleryService {
     public appCameraService: AppCameraService
   ) { 
     this.platform.ready().then((readySource) => {
-      this.rows = Math.floor(this.platform.width()/100);
+      this.columns = Math.floor(this.platform.width()/100);
     });
   }
 
-  selectGallery(pageGallery) {   
+  selectGallery(pageGallery: HTMLElement) {
     this.galleryHTML = pageGallery;
   }
 
@@ -70,23 +70,61 @@ export class GalleryService {
 
   addToGallery(src: string) {
     if(this.galleryHTML){
-      if((this.imgBase64.length-1)%this.rows==0){
+      if((this.imgBase64.length-1)%this.columns==0){
         var newRow = document.createElement("ion-row");
-        for(var i = 0; i<this.rows; i++){
+        for(var i = 0; i<this.columns; i++){
           newRow.appendChild(document.createElement("ion-col"));
         }
         this.galleryHTML.appendChild(newRow);
       }
       var row = this.galleryHTML.children[this.galleryHTML.children.length-1];
-      var col = row.children[(this.imgBase64.length-1)%this.rows];
-      var newPicture = document.createElement("ion-img");
-      newPicture.setAttribute("src", src);
-      newPicture.setAttribute("id",(this.imgBase64.length-1)+"_Img");
-      newPicture.addEventListener("click", () => { this.openDeletePopover((this.imgBase64.length-1),src) });
+      var col = row.children[(this.imgBase64.length-1)%this.columns];
+
+      let newPicture = this.makeNewPicture(src, this.imgBase64.length-1);
+
       col.appendChild(newPicture);
     } else {
-      throw ('No Grid has been selected for the Gallery. Please see documentation for more Informtion.'); 
+      throw ('No Grid has been selected for the Gallery');
     }
   }
 
+  arrayToGallery(images: string[]) {
+    this.imgBase64 = images;
+    if(this.galleryHTML){
+      let imageIndex = 0;
+      for(let i=0; i<Math.ceil(images.length/this.columns); i++) {
+          let row = document.createElement('ion-row');
+          for(let j=0; j<this.columns; j++) {
+              let col = document.createElement('ion-col');
+              if(imageIndex<images.length) {
+                  let src = 'data:image/png;base64,'+ images[imageIndex];
+
+                  let newPicture = this.makeNewPicture(src, imageIndex);
+
+                  col.appendChild(newPicture);
+              }
+              imageIndex++;
+              row.appendChild(col);
+          }
+          this.galleryHTML.appendChild(row);
+      }
+    } else {
+      throw ('No Grid has been selected for the Gallery'); 
+    }
+  }
+
+  resetGallery() {
+    let gallery = this.galleryHTML;
+    while(gallery.lastChild) {
+      gallery.removeChild(gallery.firstChild);
+    }
+  }
+
+  makeNewPicture(source: string, index: number){
+    let newPicture = document.createElement("ion-img");
+    newPicture.setAttribute("src", source);
+    newPicture.setAttribute("id",index+"_Img");
+    newPicture.addEventListener("click", () => { this.openDeletePopover(index,source) });
+    return newPicture;
+  }
 }

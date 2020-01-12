@@ -24,12 +24,12 @@ export class AppCameraService {
   async importPicture() {
     this.options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
     let imageData = await this.camera.getPicture(this.options);
-    return 'data:image/png;base64,'+ imageData;
+    return 'data:image/jpeg;base64,'+ imageData;
   }
 
   async takePicture() {
     this.options.sourceType = this.camera.PictureSourceType.CAMERA;
     let imageData = await this.camera.getPicture(this.options);
-    return 'data:image/png;base64,'+ imageData;
+    return 'data:image/jpeg;base64,'+ imageData;
   }
 }
