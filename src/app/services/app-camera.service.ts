@@ -11,7 +11,8 @@ export class AppCameraService {
     quality: 30,
     destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE
+    mediaType: this.camera.MediaType.PICTURE,
+    correctOrientation: true
   };
 
   constructor(private camera: Camera, private base64: Base64, private file: File) { }
