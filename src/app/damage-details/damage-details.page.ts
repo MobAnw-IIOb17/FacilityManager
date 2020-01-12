@@ -25,29 +25,6 @@ export class DamageDetailsPage {
     }
 
     ionViewDidEnter() {
-        this.galleryService.resetGallery();
         this.galleryService.arrayToGallery(this.damage.images);
     }
 }
-
-
-/*
-function makeGallery(grid: HTMLElement, images: String[]) {
-    let imageIndex = 0;
-    for(let i=0; i<Math.ceil(images.length/3); i++) {
-        let row = document.createElement('ion-row');
-        for(let j=0; j<3; j++) {
-            let col = document.createElement('ion-col');
-            if(imageIndex<images.length) {
-                let image = document.createElement('ion-img');
-                let source = 'data:image/png;base64,'+ images[imageIndex];
-                image.setAttribute('src', source);
-                col.appendChild(image);
-            }
-            imageIndex++;
-            row.appendChild(col);
-        }
-        grid.appendChild(row);
-    }
-}
-*/

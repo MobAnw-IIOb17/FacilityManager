@@ -9,15 +9,15 @@ import { DeletePopoverPage } from './gallery.service.components/deletePopover/de
 export class GalleryService {
 
   private imgBase64: string[] = [];
-  private galleryHTML;
-  private columns;
+  private galleryHTML: HTMLElement;
+  private columns: number;
 
   constructor(
     private popover: PopoverController,
     private platform: Platform,
     public appCameraService: AppCameraService
   ) { 
-    this.platform.ready().then((readySource) => {
+    this.platform.ready().then(() => {
       this.columns = Math.floor(this.platform.width()/100);
     });
   }
@@ -53,19 +53,8 @@ export class GalleryService {
   }
 
   deleteFromGallery(index: number){
-    var imageClipboard = this.imgBase64;
-    this.imgBase64 = [];
-    while (this.galleryHTML.hasChildNodes()) {  
-      this.galleryHTML.removeChild(this.galleryHTML.firstChild);
-    } 
-    var i = 0;
-    imageClipboard.forEach(element => {
-      if(i!=index){
-        this.imgBase64.push(element);
-        this.addToGallery(element); 
-      }
-      i++;
-    })
+    this.imgBase64.splice(index, 1);
+    this.buildGalleryHTML();
   }
 
   addToGallery(src: string) {
@@ -89,7 +78,18 @@ export class GalleryService {
   }
 
   arrayToGallery(images: string[]) {
-    this.imgBase64 = images;
+    this.imgBase64 = images.slice();
+    this.buildGalleryHTML();
+  }
+
+
+  /*
+  * Builds a HTML gallery with all images in this.imgBase64
+  */
+
+  buildGalleryHTML() {
+    this.resetGallery();
+    let images = this.imgBase64;
     if(this.galleryHTML){
       let imageIndex = 0;
       for(let i=0; i<Math.ceil(images.length/this.columns); i++) {
