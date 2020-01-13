@@ -17,7 +17,7 @@
         </ion-item>
       </ion-list>
 
-      <ion-searchbar id="#city_searchbar"
+      <ion-searchbar id="#om_city_searchbar"
         (ionBlur)=  "this.objectSearchService.hideItems(cities)"
         (ionChange)="chooseItem($event.target.value, firmCities, 'city')"
         (ionFocus)= "this.objectSearchService.predictiveCitySearch($event, cities, firmCities)"
@@ -25,20 +25,20 @@
         showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" >
       </ion-searchbar>
 
-      <ion-list id="#city_list">
+      <ion-list id="#om_city_list">
         <ion-item *ngFor="let city of cities" (click)="chooseItem(city, firmCities, 'city')">{{ city }}</ion-item>
       </ion-list>
 
-      <ion-searchbar id="#object_searchbar"
+      <ion-searchbar id="#om_object_searchbar"
         (ionBlur)= "this.objectSearchService.hideItems(objects)"
         (ionChange)="chooseItem($event.target.value, firmObjects, 'object')"
         (ionFocus)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
         (ionInput)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
-        showCancelButton="focus" animated="true" spellcheck="true" placeholder="Objekt"></ion-searchbar>
-      <ion-list id="#object_list">
+        showCancelButton="focus" animated="true" spellcheck="true" placeholder="Adresse"></ion-searchbar>
+      <ion-list id="#om_object_list">
         <ion-item *ngFor="let object of objects" (click)="chooseItem(object.street, firmObjects, 'object')">{{ object.street }}</ion-item>
       </ion-list>
       <!-- <ion-searchbar showCancelButton="focus" animated="true" spellcheck="true" placeholder="Zusatz"></ion-searchbar> -->
-      <ion-button class="generate_button" (click)="openOMCListInTab()">Erstellen</ion-button>
+      <ion-button class="generate_button" (click)="this.objectSearchService.validateObject('/tabs/object-manager-control-list', city, firmCities, object, firmObjects)">Erstellen</ion-button>
   </form>
 </ion-content>

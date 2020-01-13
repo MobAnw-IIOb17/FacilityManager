@@ -27,7 +27,7 @@ export class DamageFormPage {
 
   private firmObjects: Array<Property> = [];
   private objects: Array<Property> = [];
-  private prop: Property = new Property();
+  private object: Property = new Property();
 
   private employee: Employee = new Employee();
 
@@ -58,7 +58,7 @@ export class DamageFormPage {
     this.galleryService.makeGallery(document.getElementById('gallery-grid_01'), this.pictures, true);
   }
 
-  chooseItem(chosenObject: string, firmList: Array<any>, s: string) {
+  /*chooseItem(chosenObject: string, firmList: Array<any>, s: string) {
     document.getElementById('#' + s + '_searchbar').setAttribute('value', chosenObject);
     let show = false;
     if (s === 'city') {
@@ -83,7 +83,7 @@ export class DamageFormPage {
         document.getElementById('#object_searchbar').setAttribute('value', chosenObject);
     }
     this.objectSearchService.loadObjects(this.city, this.firmObjects, this.objects, show);
-  }
+  }*/
 
   getPropertyByCityAndStreet(list: Array<Property>, cityName: string, streetName: string) {
     let loc_prop = new Property();
@@ -113,11 +113,18 @@ export class DamageFormPage {
     });
 
     dmg.createDate = this.date.toString();
-    dmg.property = this.prop;
+    dmg.property = this.object;
     dmg.employee = this.employee;
     dmg.description = this.description;
     dmg.images = this.pictures;
     dmg.location = this.location;
     console.log(dmg);
+  }
+
+  chooseItem(chosenObject: string, firmList: Array<any>, s: string) {
+    const val = this.objectSearchService.chooseItem(chosenObject, firmList, s, 'df',
+        this.city, this.cities, this.firmCities, this.object, this.objects, this.firmObjects);
+    this.city = val.city;
+    this.object = val.object;
   }
 }
