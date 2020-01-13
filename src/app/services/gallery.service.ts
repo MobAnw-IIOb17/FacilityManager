@@ -29,7 +29,7 @@ import { DeletePopoverPage } from './gallery.service.components/deletePopover/de
 *
 *        let grid = document.getElementById('example-grid'); //the HTMLElement the gallery should be displayed in, preferably an <ion-grid>
 *        
-*        this.galleryService.makeGallery(grid, images); //initializes the gallery
+*        this.galleryService.makeGallery(grid, images, true); //initializes the gallery. the boolean specifies whether pictures in the gallery are deletable
 *
 *        this.galleryService.addGalleryPicture(); //opens the devices gallery and allows the user to import a picture into the gallery. asynchronous
 *
@@ -43,12 +43,14 @@ import { DeletePopoverPage } from './gallery.service.components/deletePopover/de
 * Things to Note:
 *   - the string[] with the image sources should contain only the raw base64 data (without 'data:image/png;base64,' at the beginning)
 *   - make sure makeGallery is called at least once whenever the page is entered before doing anything else with the gallery
+*   - to access the contents of the gallery simply use the array you used to initialize it. as the contents of the gallery change the array is also updated
 */
 
 export class GalleryService {
 
   private imgBase64: string[] = [];
   private galleryHTML: HTMLElement;
+  private deletable: boolean = false;
   private columns: number;
 
   constructor(
@@ -66,9 +68,10 @@ export class GalleryService {
     });
   }
 
-  public makeGallery(htmlGrid: HTMLElement, images: string[]) {
+  public makeGallery(htmlGrid: HTMLElement, images: string[], deletable: boolean) {
     this.galleryHTML = htmlGrid;
     this.imgBase64 = images;
+    this.deletable = deletable;
     this.buildGalleryHTML();
   }
 
@@ -84,12 +87,13 @@ export class GalleryService {
     this.addToGallery(this.imgBase64[(this.imgBase64.length-1)]);
   }
 
-  openDeletePopover = (local_index: number, local_src: string) => {
+  public openDeletePopover = (local_index: number, local_src: string, local_deletable: boolean) => {
     this.popover.create({
       component:DeletePopoverPage,
       componentProps: {
         index: local_index,
         src: local_src,
+        deletable: local_deletable,
         galleryService: this
       },
       showBackdrop:true
@@ -163,8 +167,7 @@ export class GalleryService {
     let newPicture = document.createElement("ion-img");
     source = 'data:image/png;base64,' + source;
     newPicture.setAttribute("src", source);
-    newPicture.setAttribute("id",index+"_Img");
-    newPicture.addEventListener("click", () => { this.openDeletePopover(index,source) });
+    newPicture.addEventListener("click", () => { this.openDeletePopover(index, source, this.deletable) });
     return newPicture;
   }
 }

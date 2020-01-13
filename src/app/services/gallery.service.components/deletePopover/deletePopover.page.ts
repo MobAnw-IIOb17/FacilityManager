@@ -11,6 +11,7 @@ export class DeletePopoverPage implements OnInit, AfterViewInit {
   public index;
   public galleryService;
   public src;
+  public deletable: boolean = false;
 
   constructor(private popover:PopoverController) {
   }
