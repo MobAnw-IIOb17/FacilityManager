@@ -4,6 +4,7 @@ import { Router, NavigationExtras } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Checklist } from '../model/checklist.model';
 import { GalleryService } from '../services/gallery.service';
+import { IonCheckbox, IonTextarea } from '@ionic/angular';
 
 @Component({
   selector: 'app-object-manager-control-view',
@@ -22,6 +23,7 @@ export class ObjectManagerControlViewPage implements OnInit {
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, private galleryService_01: GalleryService) {
     this.route.queryParams.subscribe(params => {
       if(params && params.checklist){
+        console.log(params);
         this.checklist = JSON.parse(params.checklist);
         this.name = this.checklist.name;
         this.labels = this.checklist.items;
@@ -40,16 +42,15 @@ export class ObjectManagerControlViewPage implements OnInit {
     this.galleryService_01.selectGallery(document.getElementById('gallery-grid_01'));
   }
   setValue(s: string, name){
-    let x = document.getElementsByTagName("ion-textarea");
+    let x = document.getElementsByClassName("descr");
     for(let i = 0; i<x.length;i++){
-      if(x[i].name == name){
+      if(x[i].getAttribute("name") == name){
         this.labels[i].description=s;
       }
     }
     this.checkValidation();
   }
   checkCheckbox(item, checkbox){
-    let x = document.getElementsByTagName("ion-textarea");
     if(checkbox.checked){
       for(let i = 0; i<this.labels.length; i++){
         if(item.name == this.labels[i].name){
@@ -67,11 +68,11 @@ export class ObjectManagerControlViewPage implements OnInit {
     this.checkValidation();
   }
   checkValidation(){
-    let text = document.getElementsByTagName("ion-textarea");
-    let check = document.getElementsByTagName("ion-checkbox");
-    let btn = document.getElementsByClassName("generate_button");
+    let text = document.getElementsByClassName("descr") as unknown as Array<IonTextarea>;
+    let check = document.getElementsByClassName("checkboxes") as unknown as Array<IonCheckbox>;
+    let btn = document.getElementById("viewButton");
     for(let i = 0;i<text.length;i++){
-      if(check[i].checked==false&&text[i].value!=""||check[i].checked==true){
+      if((check[i].checked==false)&&text[i].value!=""||check[i].checked){
         this.valid=true;
       }
       else{
