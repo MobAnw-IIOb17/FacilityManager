@@ -53,7 +53,7 @@ export class ObjectManagerControlListPage implements OnInit {
             //Aktualisieren der Kontrollelemente in der Kontrollliste
             this.usedControllistItems.forEach((element, index) => {
               if (element.name == check.name) {
-                element = check;
+                this.usedControllistItems[index] = check;
               }
             });
 
@@ -106,6 +106,17 @@ export class ObjectManagerControlListPage implements OnInit {
         this.finishedUsedControllistItems.splice(index, 1);
       }
     });
+  }
+
+  //unnötig bis jetzt
+  findItemInChecklistArrayByName(array: Array<Checklist>, item: Checklist) {
+    let ret: Checklist = null;
+    array.forEach((element, index) => {
+      if (element.name == item.name) {
+        ret = element;
+      }
+    });
+    return ret;
   }
 
   /**
