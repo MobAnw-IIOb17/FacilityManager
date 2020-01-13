@@ -23,7 +23,7 @@ export class DamageFormPage {
     document.getElementById('date_input').setAttribute("value", dateString);
 
     this.pictures = [];
-    this.galleryService.makeGallery(document.getElementById('gallery-grid_01'), this.pictures);
+    this.galleryService.makeGallery(document.getElementById('gallery-grid_01'), this.pictures, true);
   }
 
   submitForm() {

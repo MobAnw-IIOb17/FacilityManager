@@ -21,6 +21,6 @@ export class DamageDetailsPage {
     }
 
     ionViewDidEnter() {
-        this.galleryService.makeGallery(document.getElementById('gallery-grid_02'), this.damage.images);
+        this.galleryService.makeGallery(document.getElementById('gallery-grid_02'), this.damage.images, false);
     }
 }
