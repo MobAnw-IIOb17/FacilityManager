@@ -157,7 +157,7 @@ export class ObjectChecklistService {
     const ts: number = Date.now();
     this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/control/',
       '{"object_uid": ' + objectChecklist.property.uid + ', "update": ' + ts + ' "checklist": '
-        + objectChecklist.checklist + '}')
+      + objectChecklist.checklist + '}')
       .subscribe(data => {
         objectChecklist.sentTimestamp = ts;
         this.sent.push(objectChecklist);

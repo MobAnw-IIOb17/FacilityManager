@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { Storage } from '@ionic/storage';
+import {Storage} from '@ionic/storage';
 
-import { Damage } from '../model/damage.model';
+import {Damage} from '../model/damage.model';
 
 import {HttpClient} from '@angular/common/http';
-import {delay, timestamp} from 'rxjs/operators';
+import {delay} from 'rxjs/operators';
 import {NetworkQueryService} from './network-query.service';
 
 @Injectable({

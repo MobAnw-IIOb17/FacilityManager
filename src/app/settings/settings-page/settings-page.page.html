@@ -8,13 +8,16 @@
     <ion-list>
         <ion-item id="facilityManager">
             <ion-label>Benutzer</ion-label>
-            <ion-select placeholder="Benutzer auswählen" (ionChange)="employeeChanged($event)" [value]="currentEmployee">
-                <ion-select-option *ngFor="let e of employees" value="{{e.uid}}" [selected]="e.uid == currentEmployee">{{e.name}}</ion-select-option>
+            <ion-select placeholder="Benutzer auswählen" (ionChange)="employeeChanged($event)"
+                        [value]="currentEmployee">
+                <ion-select-option *ngFor="let e of employees" value="{{e.uid}}"
+                                   [selected]="e.uid == currentEmployee">{{e.name}}</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item id="controlList">
             <ion-label>Objektkontrolle</ion-label>
-            <ion-toggle color="secondary" [checked]="controlListEnabled" (ionChange)="controlChanged($event)"></ion-toggle>
+            <ion-toggle color="secondary" [checked]="controlListEnabled"
+                        (ionChange)="controlChanged($event)"></ion-toggle>
         </ion-item>
     </ion-list>
 </ion-content>

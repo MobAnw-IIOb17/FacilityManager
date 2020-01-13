@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 import {Network} from '@ionic-native/network';
 import {HttpClient} from '@angular/common/http';
@@ -17,34 +17,31 @@ import {ObjectChecklistService} from './object-checklist.service';
  */
 export class NetworkSendService {
 
-    /**
-     * The constructor adds all needed services.
-     * @param http the HttpClient which right now is only needed for testing posting to the webservice
-     * @param damageService the DamageService the NetworkService connects to for initiating the sending of pending damages
-     * @param objectChecklistService the objectChecklistService to send pending object checklists
-     * @param employeeService the EmployeeService the NetworkService connects to for initiating database syncing
-     * @param propertyService the propertyService to update properties
-     */
+  /**
+   * The constructor adds all needed services.
+   * @param http the HttpClient which right now is only needed for testing posting to the webservice
+   * @param damageService the DamageService the NetworkService connects to for initiating the sending of pending damages
+   * @param objectChecklistService the objectChecklistService to send pending object checklists
+   * @param employeeService the EmployeeService the NetworkService connects to for initiating database syncing
+   * @param propertyService the propertyService to update properties
+   */
   constructor(private http: HttpClient,
               private damageService: DamageService,
               private objectChecklistService: ObjectChecklistService,
               private employeeService: EmployeeService,
-              private propertyService: PropertyService) { }
-
-    /**
-     * This method is triggered by the NetworkListenerDirective as soon as the online event is fired.
-     * It sends pending damage reports and syncs the wrapper databases.
-     */
-  onOnline() {
-      this.damageService.sendPendingDamages();
-      this.objectChecklistService.sendPendingChecklists();
-      this.employeeService.updateEmployees();
-      this.propertyService.updateProperties();
-      this.objectChecklistService.updateChecklists();
+              private propertyService: PropertyService) {
   }
 
-  test() {
-    alert('i am online, whohooo');
+  /**
+   * This method is triggered by the NetworkListenerDirective as soon as the online event is fired.
+   * It sends pending damage reports and syncs the wrapper databases.
+   */
+  onOnline() {
+    this.damageService.sendPendingDamages();
+    this.objectChecklistService.sendPendingChecklists();
+    this.employeeService.updateEmployees();
+    this.propertyService.updateProperties();
+    this.objectChecklistService.updateChecklists();
   }
 
   /**
@@ -58,21 +55,4 @@ export class NetworkSendService {
       alert('Keine Netzwerkverbindung. Bitte versuchen Sie es später erneut.');
     }
   }
-
-    /**
-     * This is only a debugging/testing method to test the posting of data to the damage webservice.
-     * It should be removed as soon as it works.
-     */
-    private testPost() {
-        this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/damage/',
-          '{"pid": "0", "crdate": "1576567520", "tstamp": "1576567520", "hidden": "0", ' +
-          '"archived": "0", "sent_on": "0", "cruser_id": "0", "description": "Alles ist kaputt! TEST TEST", ' +
-          '"deleted": "0", "object_uid": "110", "employee_uid": "0", "phone": "", "tenant": "", "location": "", ' +
-          '"date": "0", "images": "", "seen": "0" }')
-          .subscribe(data => {
-            alert(JSON.stringify(data));
-          }, error => {
-            alert(error);
-          });
-    }
 }

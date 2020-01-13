@@ -42,12 +42,12 @@ export class EmployeeService {
   getAllEmployees(): Promise<Employee[]> {
     const employees: Employee[] = [];
     return new Promise<Employee[]>((resolve) => {
-        this.employeeDb.forEach((value: any, key: string) => {
-          employees.push(value);
-        }).then(() => {
-          resolve(employees);
-        });
+      this.employeeDb.forEach((value: any, key: string) => {
+        employees.push(value);
+      }).then(() => {
+        resolve(employees);
       });
+    });
   }
 
   /**
@@ -57,10 +57,10 @@ export class EmployeeService {
    */
   getEmployee(uid: string): Promise<Employee> {
     return new Promise<Employee>((resolve) => {
-        this.employeeDb.get(uid).then((e) => {
-          resolve(e);
-        });
+      this.employeeDb.get(uid).then((e) => {
+        resolve(e);
       });
+    });
   }
 
   /**
