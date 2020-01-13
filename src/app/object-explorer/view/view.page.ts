@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Property} from '../../model/property.model';
+import {PropertyService} from '../../services/property.service';
 
 @Component({
   selector: 'app-view',
@@ -7,7 +10,16 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ViewPage implements OnInit {
 
-  constructor() {
+  private property: Property;
+
+  constructor(private propertyService: PropertyService, private router: Router, private route: ActivatedRoute) {
+    this.property = this.propertyService.getEmptyProperty();
+    this.route.params.subscribe(() => {
+      const uid: string = this.router.getCurrentNavigation().extras.state.property;
+      this.propertyService.getProperty(uid).then((p: Property) => {
+        this.property = p;
+      });
+    });
   }
 
   ngOnInit() {
