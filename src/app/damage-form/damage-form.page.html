@@ -1,5 +1,11 @@
 <ion-header>
+  <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/tabs/damage-reports"></ion-back-button>
+        </ion-buttons>
 
+        <ion-title>Schadensmeldung Erstellen</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -40,12 +46,12 @@
         </ion-list>
 
         <section class="image_buttons">
-            <ion-button (click)='galleryService_01.addCameraPicture()'>
+            <ion-button (click)='galleryService.addCameraPicture()'>
                 AUFNAHME
                 <ion-icon slot="end" name="camera"></ion-icon>
             </ion-button>
             
-            <ion-button (click)='galleryService_01.addGalleryPicture()'>
+            <ion-button (click)='galleryService.addGalleryPicture()'>
                 GALERIE
                 <ion-icon slot="end" name="photos"></ion-icon>
             </ion-button>

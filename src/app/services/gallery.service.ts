@@ -19,6 +19,11 @@ export class GalleryService {
   ) { 
     this.platform.ready().then(() => {
       this.columns = Math.floor(this.platform.width()/100);
+
+      platform.resize.subscribe(()=>{
+        this.columns = Math.floor(this.platform.width()/100);
+        this.buildGalleryHTML();
+      });
     });
   }
 
@@ -77,8 +82,9 @@ export class GalleryService {
     }
   }
 
-  arrayToGallery(images: string[]) {
-    this.imgBase64 = images.slice();
+  makeGallery(htmlGrid: HTMLElement, images: string[]) {
+    this.selectGallery(htmlGrid);
+    this.imgBase64 = images;
     this.buildGalleryHTML();
   }
 
@@ -97,8 +103,7 @@ export class GalleryService {
           for(let j=0; j<this.columns; j++) {
               let col = document.createElement('ion-col');
               if(imageIndex<images.length) {
-                  let src = 'data:image/png;base64,'+ images[imageIndex];
-
+                  let src = images[imageIndex];
                   let newPicture = this.makeNewPicture(src, imageIndex);
 
                   col.appendChild(newPicture);
@@ -122,6 +127,7 @@ export class GalleryService {
 
   makeNewPicture(source: string, index: number){
     let newPicture = document.createElement("ion-img");
+    source = 'data:image/png;base64,' + source;
     newPicture.setAttribute("src", source);
     newPicture.setAttribute("id",index+"_Img");
     newPicture.addEventListener("click", () => { this.openDeletePopover(index,source) });

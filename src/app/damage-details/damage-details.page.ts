@@ -20,11 +20,7 @@ export class DamageDetailsPage {
         });
     }
 
-    ngAfterViewInit() {
-        this.galleryService.selectGallery(document.getElementById('gallery-grid_02'));
-    }
-
     ionViewDidEnter() {
-        this.galleryService.arrayToGallery(this.damage.images);
+        this.galleryService.makeGallery(document.getElementById('gallery-grid_02'), this.damage.images);
     }
 }

@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {DamageService} from '../services/damage.service';
-import {Damage} from '../model/damage.model';
+import { Component, OnInit } from '@angular/core';
+import { DamageService } from '../services/damage.service';
+import { Damage } from '../model/damage.model';
 import { Router, NavigationExtras } from '@angular/router';
-import {Property} from '../model/property.model';
-import {Employee} from '../model/employee.model';
+import { Property } from '../model/property.model';
+import { Employee } from '../model/employee.model';
 
 @Component({
   selector: 'app-damage-reports',

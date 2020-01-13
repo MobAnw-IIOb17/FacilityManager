@@ -8,23 +8,22 @@ import { Property } from '../model/property.model';
   templateUrl: './damage-form.page.html',
   styleUrls: ['./damage-form.page.scss'],
 })
-export class DamageFormPage implements OnInit, AfterViewInit {
+export class DamageFormPage {
 
-  public pictures: string[] = [];
-  public date;
-  public prop: Property;
+  private pictures: string[] = [];
+  private date: Date;
+  private prop: Property;
 
-  constructor(private galleryService_01: GalleryService) {
+  constructor(private galleryService: GalleryService) {
   }
 
-  ngOnInit() {
-  }
-
-  ngAfterViewInit() {
+  ionViewDidEnter() {
     this.date = new Date;
-    document.getElementById('date_input')
-    .setAttribute("value", ""+this.date.getDate()+"."+(this.date.getMonth()+1)+"."+this.date.getFullYear());
-    this.galleryService_01.selectGallery(document.getElementById('gallery-grid_01'));
+    let dateString = this.date.getDate()+"."+(this.date.getMonth()+1)+"."+this.date.getFullYear();
+    document.getElementById('date_input').setAttribute("value", dateString);
+
+    this.pictures = [];
+    this.galleryService.makeGallery(document.getElementById('gallery-grid_01'), this.pictures);
   }
 
   submitForm() {
