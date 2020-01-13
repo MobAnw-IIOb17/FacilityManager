@@ -41,7 +41,7 @@ export class ObjectManagerControlViewPage implements OnInit {
     ngAfterViewInit() {
         this.checkValidation();
         this.fillLabels();
-        //this.galleryService_01.makeGallery(document.getElementById('gallery-grid_01'), ['']);
+        this.galleryService_01.makeGallery(document.getElementById('gallery-grid_01'), [''],false);
     }
     setValue(s: string, thislabel){
       thislabel.description=s;
@@ -50,7 +50,6 @@ export class ObjectManagerControlViewPage implements OnInit {
     fillLabels(){
       let text = document.getElementsByClassName("descr") as unknown as Array<IonTextarea>;
       let check = document.getElementsByClassName("checkboxes") as unknown as Array<IonCheckbox>;
-      console.log("fill",text, this.labels);
       for(let i = 0; i<this.labels.length;i++){
         text[i].value = this.labels[i].description;
         check[i].checked = this.labels[i].isOK;
