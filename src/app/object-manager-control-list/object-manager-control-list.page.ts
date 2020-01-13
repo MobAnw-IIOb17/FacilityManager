@@ -34,7 +34,7 @@ export class ObjectManagerControlListPage implements OnInit {
         if (params) {
           if (params.object) {
             this.property = JSON.parse(params.object);
-            this.objectChecklistService.getDefaultChecklist('184').then((item) => { //property.uid
+            this.objectChecklistService.getDefaultChecklist('184').then((item) => { //'184' //this.property.uid
               this.copyAList(this.controllistItems, item.checklist);
               this.copyAList(this.usedControllistItems, item.checklist);
               this.saveItem = item;

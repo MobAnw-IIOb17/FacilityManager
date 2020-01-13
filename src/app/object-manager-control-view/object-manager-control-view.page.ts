@@ -12,12 +12,12 @@ import { GalleryService } from '../services/gallery.service';
 })
 export class ObjectManagerControlViewPage implements OnInit {
 
-  name: string;
+  private name: string;
   private myFormNew: FormGroup;
-  labels = [];
-  checklist= new Checklist();
-  valid = false;
-  public pictures: string[] = [];
+  private labels = [];
+  private checklist= new Checklist();
+  private valid = false;
+  private pictures: string[] = [];
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, private galleryService_01: GalleryService) {
     this.route.queryParams.subscribe(params => {
@@ -82,10 +82,10 @@ export class ObjectManagerControlViewPage implements OnInit {
       }
     }
     if(this.valid){
-      btn[0].setAttribute("disabled","false");
+      btn.setAttribute("disabled","false");
     }
     else{
-      btn[0].setAttribute("disabled","true");
+      btn.setAttribute("disabled","true");
     }
   }
   openCamera(){

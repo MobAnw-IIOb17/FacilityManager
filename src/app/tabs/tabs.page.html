@@ -1,15 +1,19 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom" color="primary">
+    <ion-tab-button tab="object-explorer">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Objekte</ion-label>
+    </ion-tab-button>
     <ion-tab-button tab="damage-reports">
       <ion-icon name="flash"></ion-icon>
       <ion-label>Meldungen</ion-label>
     </ion-tab-button>
-    <ion-tab-button tab="object-manager-reports">
+    <ion-tab-button tab="object-manager-reports" [hidden]="!objectMangerEnabled">
       <ion-icon name="apps"></ion-icon>
       <ion-label>Kontrolle</ion-label>
     </ion-tab-button>
     <ion-tab-button tab="settings">
-        <ion-icon name="cog"></ion-icon>
+        <ion-icon name="settings"></ion-icon>
         <ion-label>Einstellungen</ion-label>
       </ion-tab-button>
   </ion-tab-bar>
