@@ -4,6 +4,7 @@ import {Router, NavigationExtras} from '@angular/router';
 import {ChecklistItem} from '../model/checklist-item.model';
 import {Checklist} from '../model/checklist.model';
 import {invalid} from '@angular/compiler/src/render3/view/util';
+import { IonInput } from '@ionic/angular';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class ObjectManagerControlNewPage implements OnInit {
     private PropertiesCount = 0;
     private label = [];
     private Kname: string;
-    private text = '';
+    private text: Array<string> = [];
     private valid = false;
 
     constructor(private formBuilder: FormBuilder, private router: Router) {
@@ -33,16 +34,35 @@ export class ObjectManagerControlNewPage implements OnInit {
     }
 
     setValue(s: string, target) {
-        const x = document.getElementsByClassName('Klabels');
+        const x = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
         for (let i = 0; i < x.length; i++) {
-            if (x[i].children[0].getAttribute('name') === target) {
-                x[i].setAttribute('value', s);
+            if (x[i].name === target) {
+                //x[i].value = s;
+                //this.text[i] = s;
                 break;
             }
         }
+        this.fillInputs();
         this.checkValidate();
     }
-
+    fillInputs() {
+        console.log("fill");
+        const x = document.getElementsByClassName("Klabels") as unknown as Array<IonInput>;
+        console.log(x,this.text);
+        if(x.length>this.text.length) {
+            for(let i = 1; i < this.text.length; i++) {
+                x[i].value = this.text[i];
+            }
+        }
+        else {
+            for(let i = 1; i < x.length; i++) {
+                x[i].value = this.text[i];
+            }
+            for(let i = x.length; i < this.text.length; i++) {
+                this.text[i] = "";
+            }
+        }
+    }
     submit() {
         const checklist = new Checklist();
         const x = document.getElementsByClassName('Klabels');
@@ -64,7 +84,6 @@ export class ObjectManagerControlNewPage implements OnInit {
         const input = document.getElementsByClassName('Klabels');
         for (let i = 0; i < input.length; i++) {
             if (input[i].getAttribute('value') !== '') {
-                console.log(input[i]);
                 this.valid = true;
             } else {
                 this.valid = false;
@@ -82,12 +101,14 @@ export class ObjectManagerControlNewPage implements OnInit {
         this.PropertiesCount++;
         this.myForm.addControl('Propertie' + this.PropertiesCount, new FormControl());
         document.getElementById('sub').setAttribute('disabled', 'true');
+        this.fillInputs();
         this.checkValidate();
     }
 
     removeControl(control) {
         this.myForm.removeControl(control.key);
         document.getElementById('sub').setAttribute('disabled', 'true');
+        this.fillInputs();
         this.checkValidate();
     }
 }
