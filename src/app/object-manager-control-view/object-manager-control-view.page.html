@@ -16,11 +16,11 @@
       <ion-list style='width: 100%;'>
         <ion-item>
           <ion-label class= 'labelname' style='align-self: auto;'>{{ label.name }}</ion-label>
-          <ion-checkbox (ionChange)='checkCheckbox(this.label,$event.target)'></ion-checkbox>
+          <ion-checkbox (ionChange)='checkCheckbox(this.label,$event.target)' name="checkboxes"></ion-checkbox>
           <ion-label class='labelIO' style='align-self: auto;'>In Ordnung</ion-label>
         </ion-item>
         <ion-item>
-          <ion-textarea clearInput= 'true' autoGrow='true' (input)="setValue($event.target.value, $event.target.name)" value='' placeholder='Beschreibung des Problems'></ion-textarea>
+          <ion-textarea clearInput= 'true' class="descr" autoGrow='true' (input)="setValue($event.target.value, $event.target.name)" value='' placeholder='Beschreibung des Problems'></ion-textarea>
         </ion-item>
         <ion-item>
           <section class="image_buttons">
@@ -40,7 +40,7 @@
         </ion-item>
       </ion-list>
     </ion-item>
-    <ion-button class="generate_button" (click)="submit()" [disabled]="myFormNew.invalid">Fertig</ion-button>
+    <ion-button id="viewButton" class="generate_button" (click)="submit()" [disabled]="myFormNew.invalid">Fertig</ion-button>
   </form>
 
 </ion-content>
