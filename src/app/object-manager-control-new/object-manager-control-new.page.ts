@@ -54,7 +54,7 @@ export class ObjectManagerControlNewPage implements OnInit {
     checklist.name = this.Kname;
     checklist.items = [];
     for(let i = 0; i<this.label.length;i++){
-      let item: ChecklistItem = {name: this.label[i], description: "", images: [], isOk:false};
+      let item: ChecklistItem = {name: this.label[i], description: "", images: [], is_ok:false};
       checklist.items.push(item);
     }
     let navigationExtras: NavigationExtras = {
