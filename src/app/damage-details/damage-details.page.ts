@@ -13,7 +13,7 @@ export class DamageDetailsPage {
     damage: Damage;
 
     constructor(private router: Router, private route: ActivatedRoute, private galleryService: GalleryService) {
-        this.route.queryParams.subscribe(() => {
+        this.route.params.subscribe(() => {
             if (this.router.getCurrentNavigation().extras.state) {
                 this.damage = this.router.getCurrentNavigation().extras.state.damage;
             }
