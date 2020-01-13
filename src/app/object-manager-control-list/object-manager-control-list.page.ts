@@ -33,6 +33,7 @@ export class ObjectManagerControlListPage implements OnInit {
       this.route.queryParams.subscribe(params => {
         if (params) {
           if (params.object) {
+            //für uid, city und street in html, direkt nach Aufruf
             this.property = JSON.parse(params.object);
             this.objectChecklistService.getDefaultChecklist('184').then((item) => { //'184' //this.property.uid
               this.copyAList(this.controllistItems, item.checklist);
@@ -151,6 +152,8 @@ export class ObjectManagerControlListPage implements OnInit {
   /**
    * Öffnet ein Popover für die Auswahl und Hinzufügen von Kontrollitems
    * Zeigt nur die nicht verwendeten Items (manuell gelöschte) aus der Vorlage aus der Datenbank
+   * 
+   * bei onDidDismiss wird die Rückgabe des Popovers ausgewertet
    */
   async createPopOver() {
     var missingControllistItems: Array<Checklist> = [];
@@ -182,6 +185,8 @@ export class ObjectManagerControlListPage implements OnInit {
   }
 
   /**
+   * Sendet das vollständige Objekt an den Service zum Versenden
+   * Vorgehen:
    * Prüfen aller Elemente auf Vollzähligkeit
    * wenn alles passt dann:
    *  In Datenbank abspeichern
