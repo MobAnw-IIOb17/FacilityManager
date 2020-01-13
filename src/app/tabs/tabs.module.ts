@@ -17,6 +17,14 @@ const routes: Routes = [
         redirectTo: 'damage-reports', // default page (opens when app is started)
       },
       {
+        path: 'object-explorer',
+        loadChildren: '../object-explorer/list/list.module#ListPageModule'
+      },
+      {
+        path: 'object-explorer-view',
+        loadChildren: '../object-explorer/view/view.module#ViewPageModule'
+      },
+      {
         path: 'damage-reports',
         loadChildren: '../damage-reports/damage-reports.module#DamageReportsPageModule'
       },

@@ -20,6 +20,7 @@ import {SettingsService} from './settings.service';
 export class EmployeeService {
 
   private employeeDb: Storage;
+  private controlListObserve: any[] = [];
 
   /**
    * The constructor creates a new ionic storage as employee database.
@@ -102,7 +103,15 @@ export class EmployeeService {
     return await this.settingsService.getSetting('controlList') === 'true';
   }
 
+  controlListEnabledObserve(func) {
+    this.controlListObserve.push(func);
+    this.isControlListEnabled().then(func);
+  }
+
   async setControlListEnabled(b: boolean) {
+    for (const func of this.controlListObserve) {
+      func(b);
+    }
     this.settingsService.putSetting('controlList', b.toString());
   }
 
