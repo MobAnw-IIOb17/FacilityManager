@@ -21,7 +21,7 @@ export class ObjectManagerControlListPage implements OnInit {
 
     private property = new Property();
     private controllistItems: Array<Checklist> = [];
-    usedControllistItems: Array<Checklist> = [];
+    private usedControllistItems: Array<Checklist> = [];
     private finishedUsedControllistItems: Array<{ name: string, boolean: boolean }> = [];
     private saveItem: ObjectChecklist;
 
@@ -63,7 +63,7 @@ export class ObjectManagerControlListPage implements OnInit {
 
                     // Hinzufügen eines neuen Elementes
                     let used = false;
-                    for (let i: number = 0; i < this.usedControllistItems.length; i++) {
+                    for (let i = 0; i < this.usedControllistItems.length; i++) {
                         if (this.usedControllistItems[i].name === check.name) {
                             used = true;
                         }
@@ -92,17 +92,6 @@ export class ObjectManagerControlListPage implements OnInit {
                 this.finishedUsedControllistItems.splice(index, 1);
             }
         });
-    }
-
-    // unnötig bis jetzt
-    findItemInChecklistArrayByName(array: Array<Checklist>, item: Checklist) {
-        let ret: Checklist = null;
-        array.forEach((element, index) => {
-            if (element.name === item.name) {
-                ret = element;
-            }
-        });
-        return ret;
     }
 
     /**

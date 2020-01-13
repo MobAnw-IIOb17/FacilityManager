@@ -20,10 +20,15 @@ export class ObjectManagerControlViewPage implements OnInit {
     private valid = false;
     private pictures: string[] = [];
 
-    constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, private galleryService_01: GalleryService) {
-        this.route.params.subscribe(params => {
-            if (this.router.getCurrentNavigation().extras.state) {
-                this.checklist = this.router.getCurrentNavigation().extras.state.checklist;
+    constructor(
+        private route: ActivatedRoute,
+        private formBuilder: FormBuilder,
+        private router: Router,
+        private galleryService_01: GalleryService) {
+        this.route.params.subscribe(() => {
+            const state = this.router.getCurrentNavigation().extras.state;
+            if (state) {
+                this.checklist = state.checklist;
                 this.name = this.checklist.name;
                 this.labels = this.checklist.items;
                 for (let i = 0; i < this.checklist.items.length; i++) {
@@ -41,18 +46,18 @@ export class ObjectManagerControlViewPage implements OnInit {
     ngAfterViewInit() {
         this.checkValidation();
         this.fillLabels();
-        this.galleryService_01.makeGallery(document.getElementById('gallery-grid_01'), [''],false);
+        this.galleryService_01.makeGallery(document.getElementById('gallery-grid_01'), [''], false);
     }
-    setValue(s: string, thislabel){
-      thislabel.description=s;
+    setValue(s: string, thislabel) {
+      thislabel.description = s;
       this.checkValidation();
     }
-    fillLabels(){
-      let text = document.getElementsByClassName("descr") as unknown as Array<IonTextarea>;
-      let check = document.getElementsByClassName("checkboxes") as unknown as Array<IonCheckbox>;
-      for(let i = 0; i<this.labels.length;i++){
-        text[i].value = this.labels[i].description;
-        check[i].checked = this.labels[i].isOK;
+    fillLabels() {
+      const text = document.getElementsByClassName('descr') as unknown as Array<IonTextarea>;
+      const check = document.getElementsByClassName('checkboxes') as unknown as Array<IonCheckbox>;
+      for (let i = 0; i < this.labels.length; i++) {
+        // text[i].value = this.labels[i].description;
+        // check[i].checked = this.labels[i].isOK;
       }
     }
     checkCheckbox(item, checkbox) {

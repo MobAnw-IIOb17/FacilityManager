@@ -16,14 +16,13 @@ import {ObjectSearchService} from '../services/object-search.service';
 
 export class ObjectManagerNewPage implements OnInit {
 
-    public validateForm: FormGroup;
-    firmCities: Array<string> = [];
-    cities: Array<string> = [];
-    city = '';
+    private firmCities: Array<string> = [];
+    private cities: Array<string> = [];
+    private city = '';
 
-    firmObjects: Array<Property> = [];
-    objects: Array<Property> = [];
-    object: Property = new Property();
+    private firmObjects: Array<Property> = [];
+    private objects: Array<Property> = [];
+    private object: Property = new Property();
 
     private employee: Employee = new Employee();
 
