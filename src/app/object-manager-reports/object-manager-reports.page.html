@@ -24,7 +24,7 @@
 
       <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='item.sent === true'>
           <p style="font-weight: 600; text-align: right;">gesendet</p>
-          <p style="text-align: right;">{{item.sentTimestamp}}</p>
+          <p style="text-align: right;">{{item.sentTimestamp | date: 'dd.MM.yyyy H:mm'}}</p>
       </ion-label>   
 
       <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='item.sent === false'>
