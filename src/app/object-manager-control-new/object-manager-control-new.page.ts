@@ -69,7 +69,6 @@ export class ObjectManagerControlNewPage implements OnInit {
     let input = document.getElementsByClassName("Klabels");
     for(let i = 0;i<input.length;i++){
       if(input[i].getAttribute("value")!=""){
-        console.log(input[i]);
         this.valid=true;
       }
       else{
