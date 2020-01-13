@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { GalleryService } from '../services/gallery.service';
 import { Damage } from '../model/damage.model';
 import { Property } from '../model/property.model';
+import {ObjectSearchService} from '../services/object-search.service';
 
 @Component({
   selector: 'app-damage-form',
@@ -14,7 +15,18 @@ export class DamageFormPage {
   private date: Date;
   private prop: Property;
 
-  constructor(private galleryService: GalleryService) {
+  private firmCities: Array<string> = [];
+  private cities: Array<string> = [];
+  private city = '';
+
+  private firmObjects: Array<Property> = [];
+  private objects: Array<Property> = [];
+  private object: Property = new Property();
+
+  constructor(
+      private galleryService: GalleryService,
+      private objectSearchService: ObjectSearchService) {
+    this.objectSearchService.loadCities(this.firmCities);
   }
 
   ionViewDidEnter() {
@@ -27,7 +39,7 @@ export class DamageFormPage {
   }
 
   submitForm() {
-    var dmg = new Damage();
+    const dmg = new Damage();
     dmg.uid = null; //TODO
     dmg.createDate = this.date.toString();
     dmg.property = this.prop;
@@ -35,5 +47,12 @@ export class DamageFormPage {
     dmg.description = document.getElementById('desc_input').getAttribute("value");
     dmg.images = this.pictures;
     dmg.location = document.getElementById('loc_input').getAttribute("value");
+  }
+
+  chooseItem(chosenObject: string, firmList: Array<any>, s: string) {
+    const val = this.objectSearchService.chooseItem(chosenObject, firmList, s, 'df',
+        this.city, this.cities, this.firmCities, this.object, this.objects, this.firmObjects);
+    this.city = val.city;
+    this.object = val.object;
   }
 }
