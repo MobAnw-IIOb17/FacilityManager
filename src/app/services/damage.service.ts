@@ -122,20 +122,33 @@ export class DamageService {
    */
   private sendDamage(damage: Damage) {
     const ts: number = Date.now();
-    this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/damage/',
-      '{"pid": "0", "crdate": ' + damage.createDate + ', "tstamp": ' + damage.createDate + ', "hidden": "0", ' +
-      '"archived": "0", "sent_on": "0", "cruser_id": "0", "description": ' + damage.description +
-      ', "deleted": "0", "object_uid": ' + damage.property.uid + ', "employee_uid": ' + damage.employee.uid +
-      ', "phone": "", "tenant": "", "location": ' + damage.location +
-      ', "date": ' + ts + ', "images": ' + damage.images + ', "seen": "0" }')
-      .subscribe(data => {
-        damage.sentTimestamp = ts;
-        this.sent.push(damage);
-        return this.damageDb.set(DamageService.SENT, this.sent);
-      }, error => {
-        this.toSend.push(damage);
-        return this.damageDb.set(DamageService.TO_SEND, this.toSend);
-      });
+    const sendData = {
+      pid: 0,
+      crdate: damage.createDate,
+      tstamp: damage.createDate,
+      hidden: 0,
+      archvied: 0,
+      sent_on: ts,
+      cruser_id: 0,
+      description: damage.description,
+      deleted: 0,
+      object_uid: damage.property.uid,
+      employee_uid: damage.employee.uid,
+      phone: '',
+      tenant: '',
+      location: damage.location,
+      date: ts,
+      images: damage.images,
+      seen: 0,
+    };
+    this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/damage/', JSON.stringify(sendData)).subscribe(data => {
+      damage.sentTimestamp = ts;
+      this.sent.push(damage);
+      return this.damageDb.set(DamageService.SENT, this.sent);
+    }, error => {
+      this.toSend.push(damage);
+      return this.damageDb.set(DamageService.TO_SEND, this.toSend);
+    });
   }
 
   /**
