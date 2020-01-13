@@ -39,8 +39,8 @@ export class PropertyService {
   getAllProperties(): Promise<Property[]> {
     const properties: Property[] = [];
     return new Promise<Property[]>(resolve => {
-      this.propertyDb.forEach((value: Property) => {
-        properties.push(value);
+      this.propertyDb.forEach((p: Property) => {
+        properties.push(p);
       }).then(() => {
         resolve(properties);
       });
@@ -109,6 +109,19 @@ export class PropertyService {
     });
   }
 
+  getEmptyProperty(): Property {
+    return {
+      uid: '',
+      deleted: 'false',
+      hidden: 'false',
+      title: '',
+      street: '',
+      zip: '',
+      city: '',
+      owner: '',
+    };
+  }
+
   /**
    * This is a helper method to insert a list of properties/objects into the propertyDb.
    * @param data the array of properties/objects to be inserted
@@ -122,7 +135,7 @@ export class PropertyService {
         title: o.title,
         street: o.street,
         zip: o.zip,
-        city: o .city,
+        city: o.city,
         owner: o.owner
       };
       await this.propertyDb.set(p.uid, p);

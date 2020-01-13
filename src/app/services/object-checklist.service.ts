@@ -114,7 +114,6 @@ export class ObjectChecklistService {
    * Fetches all default checklists from the webservice and writes them in the database.
    */
   async updateChecklists() {
-
     const array: Property[] = await this.propertyService.getAllProperties();
     for (const arrayItem of array) {
       await this.getDefaultChecklistFromWebservice(arrayItem.uid);
@@ -155,17 +154,23 @@ export class ObjectChecklistService {
    */
   private sendChecklist(objectChecklist: ObjectChecklist) {
     const ts: number = Date.now();
-    this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/control/',
-      '{"object_uid": ' + objectChecklist.property.uid + ', "update": ' + ts + ' "checklist": '
-        + objectChecklist.checklist + '}')
-      .subscribe(data => {
-        objectChecklist.sentTimestamp = ts;
-        this.sent.push(objectChecklist);
-        return this.checklistDb.set(ObjectChecklistService.SENT, this.sent);
-      }, error => {
-        this.toSend.push(objectChecklist);
-        return this.checklistDb.set(ObjectChecklistService.TO_SEND, this.toSend);
-      });
+    const checklist = {
+      object_uid: parseInt(objectChecklist.property.uid, 10),
+      crdate: ts.toString(),
+      tstamp: ts.toString(),
+      update: ts.toString(),
+      sent_on: ts.toString(),
+      employee_uid: objectChecklist.employee.uid,
+      checklist: objectChecklist.checklist,
+    };
+    this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/control/', JSON.stringify(checklist)).subscribe(data => {
+      objectChecklist.sentTimestamp = ts;
+      this.sent.push(objectChecklist);
+      return this.checklistDb.set(ObjectChecklistService.SENT, this.sent);
+    }, error => {
+      this.toSend.push(objectChecklist);
+      return this.checklistDb.set(ObjectChecklistService.TO_SEND, this.toSend);
+    });
   }
 
   /**
@@ -218,7 +223,7 @@ export class ObjectChecklistService {
           name: Reflect.get(items, key) as string,
           description: '',
           images: [],
-          isOk: false
+          is_ok: false
         });
       });
       c.push({

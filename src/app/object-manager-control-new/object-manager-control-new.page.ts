@@ -73,7 +73,7 @@ export class ObjectManagerControlNewPage implements OnInit {
         checklist.name = this.Kname;
         checklist.items = [];
         for (let i = 0; i < this.label.length; i++) {
-            const item: ChecklistItem = {name: this.label[i], description: '', images: [], isOk: false};
+            const item: ChecklistItem = {name: this.label[i], description: '', images: [], is_ok: false};
             checklist.items.push(item);
         }
         this.router.navigate(['/tabs/object-manager-control-view'], {state: {checklist}});

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Network} from '@ionic-native/network';
 
 @Injectable({
@@ -6,7 +6,9 @@ import {Network} from '@ionic-native/network';
 })
 export class NetworkQueryService {
 
-  constructor() { }
+  constructor() {
+  }
+
   /**
    * This method can be used to test whether the app has online access or not.
    * @returns `true` if online, `false` if offline
