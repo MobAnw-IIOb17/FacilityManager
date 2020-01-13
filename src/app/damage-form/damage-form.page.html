@@ -11,13 +11,29 @@
 <ion-content>
     <form>
         <ion-list>
-            <ion-item>
-                <ion-searchbar animated spellcheck="true" placeholder="Stadt"></ion-searchbar>
-            </ion-item>
+            <ion-list>
+                <ion-searchbar id="#df_city_searchbar"
+                               (ionBlur)=  "this.objectSearchService.hideItems(cities)"
+                               (ionChange)="chooseItem($event.target.value, firmCities, 'city')"
+                               (ionFocus)= "this.objectSearchService.predictiveCitySearch($event, cities, firmCities)"
+                               (ionInput)= "this.objectSearchService.predictiveCitySearch($event, cities, firmCities)"
+                               showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" >
+                </ion-searchbar>
 
-            <ion-item>
-                <ion-searchbar animated spellcheck="true" placeholder="Adresse"></ion-searchbar>
-            </ion-item>
+                <ion-list id="#df_city_list">
+                    <ion-item *ngFor="let city of cities" (click)="chooseItem(city, firmCities, 'city')">{{ city }}</ion-item>
+                </ion-list>
+
+                <ion-searchbar id="#df_object_searchbar"
+                               (ionBlur)= "this.objectSearchService.hideItems(objects)"
+                               (ionChange)="chooseItem($event.target.value, firmObjects, 'object')"
+                               (ionFocus)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
+                               (ionInput)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
+                               showCancelButton="focus" animated="true" spellcheck="true" placeholder="Adresse"></ion-searchbar>
+                <ion-list id="#df_object_list">
+                    <ion-item *ngFor="let object of objects" (click)="chooseItem(object.street, firmObjects, 'object')">{{ object.street }}</ion-item>
+                </ion-list>
+            </ion-list>
 
             <ion-item class="form_input">
                 <ion-label position="floating">Lage</ion-label>
