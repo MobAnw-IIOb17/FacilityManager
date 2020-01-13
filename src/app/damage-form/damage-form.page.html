@@ -9,19 +9,34 @@
 </ion-header>
 
 <ion-content>
+
+    <ion-searchbar id="#city_searchbar"
+        (ionBlur)=  "this.objectSearchService.hideItems(cities)"
+        (ionChange)="chooseItem($event.target.value, firmCities, 'city')"
+        (ionFocus)= "this.objectSearchService.predictiveCitySearch($event, cities, firmCities)"
+        (ionInput)= "this.objectSearchService.predictiveCitySearch($event, cities, firmCities)"
+        showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" >
+    </ion-searchbar>
+
+    <ion-list id="#city_list">
+        <ion-item *ngFor="let city of cities" (click)="chooseItem(city, firmCities, 'city')">{{ city }}</ion-item>
+    </ion-list>
+
+    <ion-searchbar id="#object_searchbar"
+        (ionBlur)= "this.objectSearchService.hideItems(objects)"
+        (ionChange)="chooseItem($event.target.value, firmObjects, 'object')"
+        (ionFocus)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
+        (ionInput)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
+        showCancelButton="focus" animated="true" spellcheck="true" placeholder="Objekt"></ion-searchbar>
+    <ion-list id="#object_list">
+        <ion-item *ngFor="let object of objects" (click)="chooseItem(object.street, firmObjects, 'object')">{{ object.street }}</ion-item>
+    </ion-list>
+
     <form>
         <ion-list>
-            <ion-item>
-                <ion-searchbar animated spellcheck="true" placeholder="Stadt"></ion-searchbar>
-            </ion-item>
-
-            <ion-item>
-                <ion-searchbar animated spellcheck="true" placeholder="Adresse"></ion-searchbar>
-            </ion-item>
-
             <ion-item class="form_input">
                 <ion-label position="floating">Lage</ion-label>
-                <ion-input required id="desc_input"></ion-input>
+                <ion-input required (ionInput)="this.locValueChanged($event.target.value)"></ion-input>
             </ion-item>
 
             <ion-item class="form_input">
@@ -31,12 +46,12 @@
 
             <ion-item class="form_input">
                     <ion-label position="floating">Beschreibung</ion-label>
-                    <ion-textarea required auto-grow wrap="hard" id="desc_input"></ion-textarea>
+                    <ion-textarea required auto-grow wrap="hard" (ionInput)="this.descValueChanged($event.target.value)"></ion-textarea>
             </ion-item>
 
             <ion-item class="form_input">
                     <ion-label position="floating">Mitarbeiter</ion-label>
-                    <ion-input readonly="true" value="Hans Georg IV" disabled="true"></ion-input>
+                    <ion-input id="employee_input" readonly="true" value="Hans Georg IV" disabled="true"></ion-input>
             </ion-item>
 
             <ion-item class="form_input">
@@ -60,7 +75,7 @@
         <ion-grid id="gallery-grid_01"></ion-grid>
 
         <section class="submit_button">
-            <ion-button type="submit" fill="outline" expand="block" color="medium">SENDEN</ion-button>
+            <ion-button type="submit" fill="outline" expand="block" color="medium" (click)='submitForm()'>SENDEN</ion-button>
         </section>
     </form>
 
