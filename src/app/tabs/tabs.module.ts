@@ -14,7 +14,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'damage-reports', // default page (opens when app is started)
+        redirectTo: 'home', // default page (opens when app is started)
+      },
+      {
+        path: 'home',
+        loadChildren: '../home/home.module#HomePageModule'
       },
       {
         path: 'object-explorer',
@@ -68,7 +72,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/tabs/damage-reports', // default page (opens when app is started)
+    redirectTo: '/tabs/home', // default page (opens when app is started)
     pathMatch: 'full'
   }
 ];
