@@ -11,15 +11,19 @@ import { Employee } from '../model/employee.model';
   styleUrls: ['./damage-reports.page.scss'],
   providers: [DamageService]
 })
-export class DamageReportsPage implements OnInit {
+export class DamageReportsPage {
   damages: Damage[] = [];
   damage: Damage;
 
   constructor(public damageService: DamageService, private router: Router) {
   }
 
-  async ngOnInit() {
-    this.damages = await this.damageService.getAllDamages() as Damage[];
+  async ionViewWillEnter() {
+    this.refreshDamages();
+  }
+
+  async refreshDamages() {
+    this.damages = await this.damageService.getAllDamages();
 
     if (this.damages.length == 0) {
       this.makeUndefinedDamage();
