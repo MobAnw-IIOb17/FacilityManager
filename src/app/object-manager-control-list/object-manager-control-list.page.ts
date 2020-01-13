@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ObjectChecklistService } from '../services/object-checklist.service';
 import { Property } from '../model/property.model';
 import { Checklist } from '../model/checklist.model';
-import { _countGroupLabelsBeforeOption, MatListSubheaderCssMatStyler } from '@angular/material';
+import { _countGroupLabelsBeforeOption } from '@angular/material';
 import { ObjectChecklist } from '../model/object-checklist.model';
 import { ControlListPopoverComponentComponent } from './control-list-popover-component/control-list-popover-component.component';
 import { EmployeeService } from '../services/employee.service';
@@ -76,8 +76,7 @@ export class ObjectManagerControlListPage implements OnInit {
       
    }
 
-   ngOnInit() {
-  }
+   ngOnInit() { }
 
    /**
     * vorerst kopiert, noch AUSLAGERN!!

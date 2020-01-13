@@ -13,22 +13,17 @@ export class ReportsPopovercomponentComponent implements OnInit {
   ngOnInit() {}
 
   refresh() {
-    console.log("refresh");
     this.popoverController.dismiss("refresh");
   }
 
   sortByCitys() {
-    console.log("sortByCitys");
     this.popoverController.dismiss("city");
   }
-
   sortByDate() {
-    console.log("sortByDate");
     this.popoverController.dismiss("date");
   }
 
   sortByStatus() {
-    console.log("sortByStatus");
     this.popoverController.dismiss("status");
   }
 }

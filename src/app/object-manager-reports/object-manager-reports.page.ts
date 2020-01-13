@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Property } from '../model/property.model';
 import { PopoverController } from '@ionic/angular';
 import { ReportsPopovercomponentComponent } from './reports-popovercomponent/reports-popovercomponent.component';
 import { ObjectChecklistService } from '../services/object-checklist.service';
@@ -14,9 +13,7 @@ import { ObjectChecklist } from '../model/object-checklist.model';
 
 export class ObjectManagerReportsPage implements OnInit {
 
-  private objectItems: Array<Property> = [];
   private objectChecklists: ObjectChecklist[] = [];
-  private objectChecklist: ObjectChecklist = new ObjectChecklist();
 
   constructor(
     private router: Router, 
@@ -46,9 +43,7 @@ export class ObjectManagerReportsPage implements OnInit {
   refreshChecklistItems() {
     setTimeout(() => {
       this.objectChecklistService.getAllChecklists().then((items) => {
-        console.log("[refreshChecklistItems] items.length: " + items.length);
         if(items.length !== 0) {
-          console.log(items);
           this.objectChecklists = [];
           this.objectChecklists = items;
         }
