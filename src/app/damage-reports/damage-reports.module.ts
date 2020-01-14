@@ -10,6 +10,7 @@ import { DamageReportsPage } from './damage-reports.page';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatListModule} from "@angular/material/list";
+import { DamagereportspopoverComponent } from './damagereportspopover/damagereportspopover.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         MatListModule
     ],
-  declarations: [DamageReportsPage]
+    entryComponents: [DamagereportspopoverComponent],
+    declarations: [DamageReportsPage, DamagereportspopoverComponent]
 })
 export class DamageReportsPageModule {}

@@ -1,15 +1,35 @@
 <ion-header>
     <ion-toolbar>
         <ion-title>Schadensmeldungen</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="openPopover($event)">
+            <ion-icon size="large" name="more"></ion-icon>
+          </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content appNetworkListener [scrollEvents]="true">
+
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingText="Aktualisieren durch Ziehen" pullingIcon="arrow-dropdown" refreshingSpinner="bubbles" refreshingText="Aktualisiere...">
+        </ion-refresher-content>
+      </ion-refresher>
+
     <ion-item (click)="openDamage(damage)" *ngFor="let damage of damages">
         <ion-label>
             <h2>{{damage.property.city}}, {{damage.property.street}}</h2>
             <p>{{damage.description}}</p>
         </ion-label>
+
+        <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='damage.sent === true'>
+            <p style="font-weight: 600; text-align: right;">gesendet</p>
+            <p style="text-align: right;">{{damage.sentTimestamp | date: 'dd.MM.yyyy H:mm'}}</p>
+        </ion-label>   
+  
+        <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='damage.sent === false'>
+            <p style="font-weight: 600; text-align: right; color: #FF9800;">ausstehend</p>
+        </ion-label>  
     </ion-item>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">

@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-reports-popovercomponent',
-  templateUrl: './reports-popovercomponent.component.html',
-  styleUrls: ['./reports-popovercomponent.component.scss'],
+  selector: 'app-damagereportspopover',
+  templateUrl: './damagereportspopover.component.html',
+  styleUrls: ['./damagereportspopover.component.scss'],
 })
-export class ReportsPopovercomponentComponent implements OnInit {
+export class DamagereportspopoverComponent implements OnInit {
 
   constructor(public popoverController: PopoverController) { }
- 
+
   ngOnInit() {}
 
   /**
