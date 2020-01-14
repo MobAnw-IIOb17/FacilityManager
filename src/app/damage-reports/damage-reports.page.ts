@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { DamageService } from '../services/damage.service';
 import { Damage } from '../model/damage.model';
 import { Router, NavigationExtras } from '@angular/router';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, IonContent } from '@ionic/angular';
 import { DamagereportspopoverComponent } from './damagereportspopover/damagereportspopover.component';
 
 @Component({
@@ -15,8 +15,9 @@ export class DamageReportsPage {
   damages: Damage[] = [];
   damage: Damage;
 
-  constructor(public damageService: DamageService, private popoverController: PopoverController, private router: Router) {
-  }
+  constructor(public damageService: DamageService, private popoverController: PopoverController, private router: Router) {  }
+  
+  @ViewChild(IonContent, {static: false}) theContent: IonContent;
 
   /**
    * Aktualisiert die Liste beim öffnen der Page
@@ -24,6 +25,7 @@ export class DamageReportsPage {
    */
   ionViewDidEnter() {
     this.refreshDamages();
+    this.theContent.scrollToTop(500);
   }
 
   async refreshDamages() {
