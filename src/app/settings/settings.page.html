@@ -8,10 +8,11 @@
     <ion-list>
         <ion-item>
             <ion-label>Quality</ion-label>
-                <ion-range [(ngModel)]="qualitiSlide" (ionChange)= "qualitySetting()"min="1" max="100" color="secondary">
-                    <ion-label slot="start">1</ion-label>
-                    <ion-label slot="end">100</ion-label>
-                </ion-range>
+            <ion-range [(ngModel)]="qualitiSlide" (ionChange)="qualitySetting()" min="1" max="100" step="3"
+                       color="secondary">
+                <ion-label slot="start">0</ion-label>
+                <ion-label slot="end">100</ion-label>
+            </ion-range>
         </ion-item>
         <ion-item>
             <ion-label>Bilder lokal speichern</ion-label>

@@ -26,6 +26,10 @@ export class AppCameraService {
     this.options.saveToPhotoAlbum = value;
   }
 
+  setPictureQuality (value:number) {
+    this.options.quality = value;
+  }
+
   async importPicture() {
     this.options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
     let imageData = await this.camera.getPicture(this.options);

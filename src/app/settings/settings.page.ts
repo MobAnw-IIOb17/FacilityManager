@@ -45,6 +45,6 @@ export class SettingsPage implements OnInit {
   }
 
   qualitySetting() {
-    console.log("qualitySleder event")
+    this.appCameraService.setPictureQuality(this.qualitiSlide);
   }
 }
