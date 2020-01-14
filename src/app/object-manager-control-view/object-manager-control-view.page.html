@@ -11,36 +11,34 @@
 </ion-header>
 
 <ion-content appNetworkListener>
-  <form [formGroup]="myFormNew">
-    <ion-item *ngFor="let label of labels">
-      <ion-list style='width: 100%;'>
-        <ion-item>
-          <ion-label class= 'labelname' style='align-self: auto;'>{{ label.name }}</ion-label>
-          <ion-checkbox (ionChange)='checkCheckbox(this.label,$event.target)' checked="false" class="checkboxes"></ion-checkbox>
-          <ion-label class='labelIO' style='align-self: auto;'>In Ordnung</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-textarea clearInput= 'true' class="descr" autoGrow='true' (input)="setValue($event.target.value, this.label)" value='' placeholder='Beschreibung des Problems'></ion-textarea>
-        </ion-item>
-        <ion-item>
-          <section class="image_buttons">
-            <ion-button (click)='galleryService_01.addCameraPicture()'>
-                AUFNAHME
-                <ion-icon slot="end" name="camera"></ion-icon>
-            </ion-button>
-            
-            <ion-button>
-                GALERIE
-                <ion-icon slot="end" name="photos"></ion-icon>
-            </ion-button>
-          </section>
-        </ion-item>
-        <ion-item>
-          <ion-grid id="gallery-grid_01"></ion-grid>
-        </ion-item>
-      </ion-list>
-    </ion-item>
-    <ion-button id="viewButton" class="generate_button" (click)="submit()" [disabled]="myFormNew.invalid">Fertig</ion-button>
-  </form>
+  <ion-item *ngFor="let label of labels; trackBy: customTrackBy">
+    <ion-list style='width: 100%;'>
+      <ion-item>
+        <ion-label class= 'labelname' style='align-self: auto;'>{{ label.name }}</ion-label>
+        <ion-checkbox (ionChange)='checkCheckbox(this.label,$event.target)' checked="false" class="checkboxes"></ion-checkbox>
+        <ion-label class='labelIO' style='align-self: auto;'>In Ordnung</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-textarea clearInput= 'true' class="descr" autoGrow='true' (input)="setValue($event.target.value, this.label)" value='' placeholder='Beschreibung des Problems'></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <section class="image_buttons">
+          <ion-button (click)='galleryService_01.addCameraPicture()'>
+              AUFNAHME
+              <ion-icon slot="end" name="camera"></ion-icon>
+          </ion-button>
+          
+          <ion-button>
+              GALERIE
+              <ion-icon slot="end" name="photos"></ion-icon>
+          </ion-button>
+        </section>
+      </ion-item>
+      <ion-item>
+        <ion-grid id="gallery-grid_01"></ion-grid>
+      </ion-item>
+    </ion-list>
+  </ion-item>
+  <ion-button id="viewButton" class="generate_button" (click)="submit()">Fertig</ion-button>
 
 </ion-content>

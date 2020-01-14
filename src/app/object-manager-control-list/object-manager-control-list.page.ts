@@ -79,6 +79,16 @@ export class ObjectManagerControlListPage implements OnInit {
         });
     }
 
+    isItemValid(item) {
+        const help = this.finishedUsedControllistItems.map((clItem) => {
+            return( clItem.name === item.name && clItem.boolean === true);
+        }).filter((bool) => bool)[0];
+        if (help) {
+            return help;
+        }
+        return false;
+    }
+
     ngOnInit() {   }
 
     addElementToValidationList(newElement: Checklist, status: boolean) {
