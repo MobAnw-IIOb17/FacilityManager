@@ -13,7 +13,7 @@ import { IonInput } from '@ionic/angular';
     styleUrls: ['./object-manager-control-new.page.scss'],
 })
 export class ObjectManagerControlNewPage implements OnInit {
-    private labels = [""];
+    private labels: Array<string> = [""];
     private valid = false;
     private validName = false;
 
@@ -27,36 +27,17 @@ export class ObjectManagerControlNewPage implements OnInit {
     setName(s: string) {
         const x = document.getElementById("NameOfLabel") as unknown as IonInput;
         x.value = s;
+        this.checkValidate();
     }
     setValue(s: string, target) {
         const x = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
         for (let i = 0; i < x.length; i++) {
-            if (x[i].name === target) {
-                this.labels[i] = s;
-                x[i].value = this.labels[i];
-                break;
+            if(x[i].name == target) {
+                this.labels[i]=x[i].value;
             }
         }
-        this.fillInputs();
+        
         this.checkValidate();
-    }
-    fillInputs() {
-        console.log(this.labels);
-        const x = document.getElementsByClassName("Klabels") as unknown as Array<IonInput>;
-        console.log(x)
-        if(x.length>this.labels.length) {
-            for(let i = 0; i < this.labels.length; i++) {
-                x[i].value = this.labels[i];
-            }
-        }
-        else {
-            for(let i = 0; i < x.length; i++) {
-                x[i].value = this.labels[i];
-            }
-            for(let i = x.length; i < this.labels.length; i++) {
-                this.labels[i] = "";
-            }
-        }
     }
     submit() {
         const checklist = new Checklist();
@@ -95,31 +76,32 @@ export class ObjectManagerControlNewPage implements OnInit {
                 }
             }
         }
+        else {
+            this.valid = false;
+        }
         if (this.valid && this.validName) {
             document.getElementById('sub').setAttribute('disabled', 'false');
         } else {
             document.getElementById('sub').setAttribute('disabled', 'true');
         }
-        //console.log("valid: ",this.valid," for: ", input);
     }
 
     addControl() {
         this.labels.push("");
         document.getElementById('sub').setAttribute('disabled', 'true');
-        this.fillInputs();
         this.checkValidate();
     }
 
     removeControl(control) {
-        console.log(this.labels);
         for(let i = 0; i < this.labels.length; i++) {
             if(i == control.key) {
                 this.labels.splice(i,1);
             }
         }
         document.getElementById('sub').setAttribute('disabled', 'true');
-        this.fillInputs();
         this.checkValidate();
-        console.log(this.labels);
+    }
+    customTrackBy(index: number, obj: any): any {
+        return index;
     }
 }

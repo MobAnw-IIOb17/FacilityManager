@@ -1,12 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Router, NavigationExtras} from '@angular/router';
-import {FormGroup, FormBuilder} from '@angular/forms';
+import {Router} from '@angular/router';
 import {Checklist} from '../model/checklist.model';
 import {GalleryService} from '../services/gallery.service';
 import {IonCheckbox, IonTextarea} from '@ionic/angular';
 import {ChecklistItem} from "../model/checklist-item.model";
-import {ObjectSearchService} from "../services/object-search.service";
 
 @Component({
     selector: 'app-object-manager-control-view',
@@ -16,7 +14,6 @@ import {ObjectSearchService} from "../services/object-search.service";
 export class ObjectManagerControlViewPage implements OnInit {
 
     private name: string;
-    private myFormNew: FormGroup;
     private labels: Array<ChecklistItem> = [];
     private checklist = new Checklist();
     private valid = false;
@@ -24,7 +21,6 @@ export class ObjectManagerControlViewPage implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private formBuilder: FormBuilder,
         private router: Router,
         private galleryService_01: GalleryService) {
         this.route.params.subscribe(() => {
@@ -41,15 +37,14 @@ export class ObjectManagerControlViewPage implements OnInit {
             }
 
         });
-        this.myFormNew = this.formBuilder.group({});
     }
 
     ngOnInit() {
     }
 
     ngAfterViewInit() {
-        this.checkValidation();
         this.fillLabels();
+        this.checkValidation();
         this.galleryService_01.makeGallery(document.getElementById('gallery-grid_01'), [''], false);
     }
     setValue(s: string, thislabel) {
@@ -57,13 +52,12 @@ export class ObjectManagerControlViewPage implements OnInit {
       this.checkValidation();
     }
     fillLabels() {
-      const text = document.getElementsByClassName('descr');
-      const check = document.getElementsByClassName('checkboxes') as unknown as Array<IonCheckbox>;
-      // console.log(this.labels);
-      for (let i = 0; i < this.labels.length; i++) {
-          text[i].setAttribute("value", this.labels[i].description.substr(0, this.labels[i].description.length)); //
-          check[i].checked = this.labels[i].is_ok;
-      }
+        const text = document.getElementsByClassName('descr')as unknown as Array<IonTextarea>;
+        const check = document.getElementsByClassName('checkboxes') as unknown as Array<IonCheckbox>;
+        for (let i = 0; i < this.labels.length; i++) {
+            text[i].value = this.labels[i].description;
+            check[i].checked = this.labels[i].is_ok;
+        }
     }
     checkCheckbox(item, checkbox) {
         if (checkbox.checked) {
@@ -87,7 +81,7 @@ export class ObjectManagerControlViewPage implements OnInit {
         const check = document.getElementsByClassName('checkboxes') as unknown as Array<IonCheckbox>;
         const btn = document.getElementById('viewButton');
         for (let i = 0; i < text.length; i++) {
-            if ((check[i].checked === false) && text[i].value !== '' || check[i].checked) {
+            if ((!check[i].checked && text[i].value !== '') || check[i].checked) {
                 this.valid = true;
             } else {
                 if (check[i].checked === false) {
@@ -114,6 +108,9 @@ export class ObjectManagerControlViewPage implements OnInit {
     submit() {
         this.checklist.items = this.labels;
         this.router.navigate(['/tabs/object-manager-control-list'], {state: {checklist: this.checklist}});
+    }
+    customTrackBy(index: number, obj: any): any {
+        return index;
     }
 
 }
