@@ -74,6 +74,7 @@ export class DamageReportsPage {
                   this.damages.sort((a, b) => (a.property.city > b.property.city) ? 1 : -1);
               }
               if (dataReturned.data === 'date') {
+                this.damages.sort((a, b) => (a.sentTimestamp > b.sentTimestamp) ? 1 : -1);
               }
               if (dataReturned.data === 'status') {
                   this.damages.sort((a, b) => (a.sent > b.sent) ? 1 : -1);

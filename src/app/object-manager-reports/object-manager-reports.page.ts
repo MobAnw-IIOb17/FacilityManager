@@ -131,6 +131,7 @@ export class ObjectManagerReportsPage implements OnInit {
                     this.objectChecklists.sort((a, b) => (a.property.city > b.property.city) ? 1 : -1);
                 }
                 if (dataReturned.data === 'date') {
+                    this.objectChecklists.sort((a, b) => (a.sentTimestamp > b.sentTimestamp) ? 1 : -1);
                 }
                 if (dataReturned.data === 'status') {
                     this.objectChecklists.sort((a, b) => (a.sent > b.sent) ? 1 : -1);
