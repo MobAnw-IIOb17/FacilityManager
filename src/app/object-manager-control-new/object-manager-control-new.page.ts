@@ -13,32 +13,27 @@ import { IonInput } from '@ionic/angular';
     styleUrls: ['./object-manager-control-new.page.scss'],
 })
 export class ObjectManagerControlNewPage implements OnInit {
-    public myForm: FormGroup;
-    private PropertiesCount = 0;
-    private label = [];
-    private Kname: string;
-    private text: Array<string> = [];
+    private labels = [""];
     private valid = false;
+    private validName = false;
 
-    constructor(private formBuilder: FormBuilder, private router: Router) {
-        this.myForm = formBuilder.group({
-            Propertie0: []
-        });
-    }
+    constructor(private router: Router) { }
 
-    ngOnInit() {
-    }
+    ngOnInit() { }
 
     ngAfterViewInit() {
         this.checkValidate();
     }
-
+    setName(s: string) {
+        const x = document.getElementById("NameOfLabel") as unknown as IonInput;
+        x.value = s;
+    }
     setValue(s: string, target) {
         const x = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
         for (let i = 0; i < x.length; i++) {
             if (x[i].name === target) {
-                //x[i].value = s;
-                //this.text[i] = s;
+                this.labels[i] = s;
+                x[i].value = this.labels[i];
                 break;
             }
         }
@@ -46,70 +41,85 @@ export class ObjectManagerControlNewPage implements OnInit {
         this.checkValidate();
     }
     fillInputs() {
-        console.log("fill");
+        console.log(this.labels);
         const x = document.getElementsByClassName("Klabels") as unknown as Array<IonInput>;
-        console.log(x,this.text);
-        if(x.length>this.text.length) {
-            for(let i = 1; i < this.text.length; i++) {
-                x[i].value = this.text[i];
+        console.log(x)
+        if(x.length>this.labels.length) {
+            for(let i = 0; i < this.labels.length; i++) {
+                x[i].value = this.labels[i];
             }
         }
         else {
-            for(let i = 1; i < x.length; i++) {
-                x[i].value = this.text[i];
+            for(let i = 0; i < x.length; i++) {
+                x[i].value = this.labels[i];
             }
-            for(let i = x.length; i < this.text.length; i++) {
-                this.text[i] = "";
+            for(let i = x.length; i < this.labels.length; i++) {
+                this.labels[i] = "";
             }
         }
     }
     submit() {
         const checklist = new Checklist();
-        const x = document.getElementsByClassName('Klabels');
-        this.Kname = x[0].getAttribute('value');
-        for (let i = 1; i < x.length; i++) {
-            this.label.push(x[i].getAttribute('value'));
+        const Kname = document.getElementById("NameOfLabel") as unknown as IonInput;
+        const x = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
+        checklist.name = Kname.value;
+        if(this.labels.length > 0) {
+            checklist.items = [];
+            for (let i = 0; i < this.labels.length; i++) {
+                const item: ChecklistItem = {name: this.labels[i], description: '', images: [], is_ok: false};
+                checklist.items.push(item);
+            }
+            this.router.navigate(['/tabs/object-manager-control-view'], {state: {checklist}});
         }
-        checklist.name = this.Kname;
-        checklist.items = [];
-        for (let i = 0; i < this.label.length; i++) {
-            const item: ChecklistItem = {name: this.label[i], description: '', images: [], is_ok: false};
-            checklist.items.push(item);
-        }
-        this.router.navigate(['/tabs/object-manager-control-view'], {state: {checklist}});
+        else {
 
+        }
     }
 
     checkValidate() {
-        const input = document.getElementsByClassName('Klabels');
-        for (let i = 0; i < input.length; i++) {
-            if (input[i].getAttribute('value') !== '') {
-                // console.log(input[i]);
-                this.valid = true;
-            } else {
-                this.valid = false;
-                break;
+        const Kname = document.getElementById("NameOfLabel") as unknown as IonInput;
+        const input = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
+        if(Kname.value !== '') {
+            this.validName = true;
+        }
+        else { 
+            this.validName = false
+        }
+        if(this.labels.length > 0){
+            for (let i = 0; i < input.length; i++) {
+                if (input[i].value !== '' ) {
+                    this.valid = true;
+                } else {
+                    this.valid = false;
+                    break;
+                }
             }
         }
-        if (this.valid) {
+        if (this.valid && this.validName) {
             document.getElementById('sub').setAttribute('disabled', 'false');
         } else {
             document.getElementById('sub').setAttribute('disabled', 'true');
         }
+        //console.log("valid: ",this.valid," for: ", input);
     }
 
     addControl() {
-        this.PropertiesCount++;
-        this.myForm.addControl('Propertie' + this.PropertiesCount, new FormControl());
+        this.labels.push("");
         document.getElementById('sub').setAttribute('disabled', 'true');
         this.fillInputs();
         this.checkValidate();
     }
 
     removeControl(control) {
-        this.myForm.removeControl(control.key);
+        console.log(this.labels);
+        for(let i = 0; i < this.labels.length; i++) {
+            if(i == control.key) {
+                this.labels.splice(i,1);
+            }
+        }
         document.getElementById('sub').setAttribute('disabled', 'true');
         this.fillInputs();
         this.checkValidate();
+        console.log(this.labels);
     }
 }
