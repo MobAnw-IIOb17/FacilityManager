@@ -5,6 +5,8 @@ import {FormGroup, FormBuilder} from '@angular/forms';
 import {Checklist} from '../model/checklist.model';
 import {GalleryService} from '../services/gallery.service';
 import {IonCheckbox, IonTextarea} from '@ionic/angular';
+import {ChecklistItem} from "../model/checklist-item.model";
+import {ObjectSearchService} from "../services/object-search.service";
 
 @Component({
     selector: 'app-object-manager-control-view',
@@ -15,7 +17,7 @@ export class ObjectManagerControlViewPage implements OnInit {
 
     private name: string;
     private myFormNew: FormGroup;
-    private labels = [];
+    private labels: Array<ChecklistItem> = [];
     private checklist = new Checklist();
     private valid = false;
     private pictures: string[] = [];
@@ -31,11 +33,13 @@ export class ObjectManagerControlViewPage implements OnInit {
                 this.checklist = state.checklist;
                 this.name = this.checklist.name;
                 this.labels = this.checklist.items;
-                for (let i = 0; i < this.checklist.items.length; i++) {
-                    this.labels[i].description = this.checklist.items[i].description;
-                }
             }
-            this.fillLabels();
+            try {
+                this.fillLabels();
+            } catch (ex) {
+
+            }
+
         });
         this.myFormNew = this.formBuilder.group({});
     }
@@ -53,24 +57,25 @@ export class ObjectManagerControlViewPage implements OnInit {
       this.checkValidation();
     }
     fillLabels() {
-      const text = document.getElementsByClassName('descr') as unknown as Array<IonTextarea>;
+      const text = document.getElementsByClassName('descr');
       const check = document.getElementsByClassName('checkboxes') as unknown as Array<IonCheckbox>;
+      // console.log(this.labels);
       for (let i = 0; i < this.labels.length; i++) {
-        // text[i].value = this.labels[i].description;
-        // check[i].checked = this.labels[i].isOK;
+          text[i].setAttribute("value", this.labels[i].description.substr(0, this.labels[i].description.length)); //
+          check[i].checked = this.labels[i].is_ok;
       }
     }
     checkCheckbox(item, checkbox) {
         if (checkbox.checked) {
             for (let i = 0; i < this.labels.length; i++) {
                 if (item.name === this.labels[i].name) {
-                    this.labels[i].isOk = true;
+                    this.labels[i].is_ok = true;
                 }
             }
         } else {
             for (let i = 0; i < this.labels.length; i++) {
                 if (item.name === this.labels[i].name) {
-                    this.labels[i].isOk = false;
+                    this.labels[i].is_ok = false;
                 }
             }
         }
