@@ -11,6 +11,7 @@ import {NetworkSendService} from '../services/network-send.service';
 export class SettingsPage implements OnInit {
 
   private loginForm: FormGroup;
+  public qualitiSlide: number = 30;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private networkSendService: NetworkSendService) {
     this.loginForm = formBuilder.group({});
@@ -31,5 +32,9 @@ export class SettingsPage implements OnInit {
 
   databaseSync() {
     this.networkSendService.sync();
+  }
+
+  qualitySetting() {
+    console.log("qualitySleder event")
   }
 }
