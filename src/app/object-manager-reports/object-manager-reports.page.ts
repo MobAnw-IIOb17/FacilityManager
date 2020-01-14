@@ -4,16 +4,18 @@ import { PopoverController } from '@ionic/angular';
 import { ReportsPopovercomponentComponent } from './reports-popovercomponent/reports-popovercomponent.component';
 import { ObjectChecklistService } from '../services/object-checklist.service';
 import { ObjectChecklist } from '../model/object-checklist.model';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
     selector: 'app-object-manager-reports',
     templateUrl: './object-manager-reports.page.html',
-    styleUrls: ['./object-manager-reports.page.scss'],
+    styleUrls: ['./object-manager-reports.page.scss']
 })
 
 export class ObjectManagerReportsPage implements OnInit {
 
-  private objectChecklists: ObjectChecklist[] = [];
+    private objectChecklists: ObjectChecklist[] = [];
+    private displayListItems: Array<boolean> = [];
 
     constructor(
         private router: Router,
@@ -38,6 +40,31 @@ export class ObjectManagerReportsPage implements OnInit {
         this.router.navigateByUrl('/tabs/object-manager-new');
     }
 
+    /**
+     * Öffne Info IonCard bei Click auf list item
+     */
+    viewChecklistItemInfo(index:any) {
+        if(this.displayListItems[index] == true) {
+            this.resetChecklistItemInfo();
+            return;
+        }
+        this.resetChecklistItemInfo();
+        
+        //Maximiere aktuellen Index
+        this.displayListItems[index] = true;
+    }
+
+    /**
+     * Öffne Info IonCard bei Click auf list item
+     */
+    resetChecklistItemInfo() {
+        //Alle minimieren
+        this.displayListItems = [];
+        this.objectChecklists.forEach((item) => {
+            this.displayListItems.push(false);
+          });
+    }
+
   /**
    * Aktualisiert das Checklist Objekt für die Anzeige
    * vorher wird es gelöscht
@@ -48,6 +75,7 @@ export class ObjectManagerReportsPage implements OnInit {
         if(items.length !== 0) {
           this.objectChecklists = [];
           this.objectChecklists = items;
+          this.resetChecklistItemInfo();
         }
       });
     }, 100);

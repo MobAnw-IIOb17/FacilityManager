@@ -56,7 +56,6 @@ export class DamageFormPage {
       }
     });
 
-    this.pictures = [];
     this.galleryService.makeGallery(document.getElementById('gallery-grid_01'), this.pictures, true);
   }
 
@@ -66,14 +65,6 @@ export class DamageFormPage {
         return (values.city === cityName && values.street === streetName);
     })[0];
     return loc_prop;
-  }
-
-  locValueChanged(newValue: string) {
-    this.location = newValue;
-  }
-
-  descValueChanged(newValue: string) {
-    this.description = newValue;
   }
 
   checkForm(): boolean{
@@ -115,11 +106,13 @@ export class DamageFormPage {
       dmg.sentTimestamp = null;
 
       this.damageService.addDamage(dmg);
-      console.log("Damage sent");
-      document.getElementById('loc_input').setAttribute("value", "");
-      document.getElementById('desc_input').setAttribute("value", "");
+      this.location = '';
+      this.description = '';
       document.getElementById('#df_object_searchbar').setAttribute("value", "");
       document.getElementById('#df_city_searchbar').setAttribute("value", "");
+      this.city = '';
+      this.object = new Property();
+      this.pictures = [];
       this.router.navigateByUrl('/tabs/damage-reports');
     }
   }

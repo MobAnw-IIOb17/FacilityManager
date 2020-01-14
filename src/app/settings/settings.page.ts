@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {NetworkSendService} from '../services/network-send.service';
 import {AppCameraService} from '../services/app-camera.service';
+import {SettingsService} from '../services/settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -12,18 +13,24 @@ import {AppCameraService} from '../services/app-camera.service';
 export class SettingsPage implements OnInit {
   private saveLocally: boolean = true;
   private loginForm: FormGroup;
-  public qualitiSlide: number = 30;
+  private qualitySlide: number = 30;
 
   constructor(
     private formBuilder: FormBuilder, 
     private router: Router, 
     private networkSendService: NetworkSendService, 
-    private appCameraService: AppCameraService
+    private appCameraService: AppCameraService,
+    private settingsService: SettingsService
   ) {
     this.loginForm = formBuilder.group({});
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    let save:string = await this.settingsService.getSetting('saveLocally');
+    if(save === 'false') this.saveLocally = false;
+    
+    let quality:string = await this.settingsService.getSetting('qualitySlide');
+    if(quality) this.qualitySlide = +quality;
   }
 
   login() {
@@ -38,6 +45,11 @@ export class SettingsPage implements OnInit {
 
   toggleSaveLocally() {
     this.appCameraService.setSaveToPhotoAlbum(this.saveLocally);
+    if(this.saveLocally) {
+      this.settingsService.putSetting('saveLocally', 'true');
+    } else {
+      this.settingsService.putSetting('saveLocally', 'false');
+    }
   }
 
   databaseSync() {
@@ -45,6 +57,8 @@ export class SettingsPage implements OnInit {
   }
 
   qualitySetting() {
-    this.appCameraService.setPictureQuality(this.qualitiSlide);
+    this.appCameraService.setPictureQuality(this.qualitySlide);
+    let value: string = this.qualitySlide.toString();
+    this.settingsService.putSetting('qualitySlide', value);
   }
 }
