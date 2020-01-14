@@ -5,5 +5,154 @@
 </ion-header>
 
 <ion-content>
-
+    <ion-card *ngIf="property.owner !== ''">
+        <ion-card-header>
+            <ion-card-title>Inhaber</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>{{property.owner}}</p>
+            <p>{{property.owner_street}}</p>
+            <p>{{property.owner_zip}} {{property.owner_city}}</p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="property.administrator !== undefined && property.administrator !== null">
+        <ion-card-header>
+            <ion-card-title>Verwalter</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>{{property.administrator.company}}</p>
+            <p>{{property.administrator.firstname}} {{property.administrator.lastname}}</p>
+            <p>{{property.administrator.street}}</p>
+            <p>{{property.administrator.zip}} {{property.administrator.city}}</p>
+            <p>{{property.administrator.telephone}}</p>
+            <p>{{property.administrator.mobile}}</p>
+            <p>{{property.administrator.email}}</p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="property.elektriker !== undefined && property.elektriker !== null">
+        <ion-card-header>
+            <ion-card-title>Elektriker</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>{{property.elektriker.company}}</p>
+            <p>{{property.elektriker.firstname}} {{property.elektriker.lastname}}</p>
+            <p>{{property.elektriker.street}}</p>
+            <p>{{property.elektriker.zip}} {{property.elektriker.city}}</p>
+            <p>{{property.elektriker.telephone}}</p>
+            <p>{{property.elektriker.mobile}}</p>
+            <p>{{property.elektriker.email}}</p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="property.heizung !== undefined && property.heizung !== null">
+        <ion-card-header>
+            <ion-card-title>Heizung</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>{{property.heizung.company}}</p>
+            <p>{{property.heizung.firstname}} {{property.heizung.lastname}}</p>
+            <p>{{property.heizung.street}}</p>
+            <p>{{property.heizung.zip}} {{property.heizung.city}}</p>
+            <p>{{property.heizung.telephone}}</p>
+            <p>{{property.heizung.mobile}}</p>
+            <p>{{property.heizung.email}}</p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="property.sanitear !== undefined && property.sanitear !== null">
+        <ion-card-header>
+            <ion-card-title>Sanitär</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>{{property.sanitear.company}}</p>
+            <p>{{property.sanitear.firstname}} {{property.sanitear.lastname}}</p>
+            <p>{{property.sanitear.street}}</p>
+            <p>{{property.sanitear.zip}} {{property.sanitear.city}}</p>
+            <p>{{property.sanitear.telephone}}</p>
+            <p>{{property.sanitear.mobile}}</p>
+            <p>{{property.sanitear.email}}</p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="property.schluesseldienst !== undefined && property.schluesseldienst !== null">
+        <ion-card-header>
+            <ion-card-title>Schlüsseldienst</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>{{property.schluesseldienst.company}}</p>
+            <p>{{property.schluesseldienst.firstname}} {{property.schluesseldienst.lastname}}</p>
+            <p>{{property.schluesseldienst.street}}</p>
+            <p>{{property.schluesseldienst.zip}} {{property.schluesseldienst.city}}</p>
+            <p>{{property.schluesseldienst.telephone}}</p>
+            <p>{{property.schluesseldienst.mobile}}</p>
+            <p>{{property.schluesseldienst.email}}</p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="property.schornsteinfeger !== undefined && property.schornsteinfeger !== null">
+        <ion-card-header>
+            <ion-card-title>Schornsteinfeger</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>{{property.schornsteinfeger.company}}</p>
+            <p>{{property.schornsteinfeger.firstname}} {{property.schornsteinfeger.lastname}}</p>
+            <p>{{property.schornsteinfeger.street}}</p>
+            <p>{{property.schornsteinfeger.zip}} {{property.schornsteinfeger.city}}</p>
+            <p>{{property.schornsteinfeger.telephone}}</p>
+            <p>{{property.schornsteinfeger.mobile}}</p>
+            <p>{{property.schornsteinfeger.email}}</p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="property.brandschutz !== undefined && property.brandschutz !== null">
+        <ion-card-header>
+            <ion-card-title>Brandschutz</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>{{property.brandschutz.company}}</p>
+            <p>{{property.brandschutz.firstname}} {{property.brandschutz.lastname}}</p>
+            <p>{{property.brandschutz.street}}</p>
+            <p>{{property.brandschutz.zip}} {{property.brandschutz.city}}</p>
+            <p>{{property.brandschutz.telephone}}</p>
+            <p>{{property.brandschutz.mobile}}</p>
+            <p>{{property.brandschutz.email}}</p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="property.rohrreinigung !== undefined && property.rohrreinigung !== null">
+        <ion-card-header>
+            <ion-card-title>Rohrreinigung</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>{{property.rohrreinigung.company}}</p>
+            <p>{{property.rohrreinigung.firstname}} {{property.rohrreinigung.lastname}}</p>
+            <p>{{property.rohrreinigung.street}}</p>
+            <p>{{property.rohrreinigung.zip}} {{property.rohrreinigung.city}}</p>
+            <p>{{property.rohrreinigung.telephone}}</p>
+            <p>{{property.rohrreinigung.mobile}}</p>
+            <p>{{property.rohrreinigung.email}}</p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="property.rohrreinigung !== undefined && property.rohrreinigung !== null">
+        <ion-card-header>
+            <ion-card-title>Rohrreinigung</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>{{property.rohrreinigung.company}}</p>
+            <p>{{property.rohrreinigung.firstname}} {{property.rohrreinigung.lastname}}</p>
+            <p>{{property.rohrreinigung.street}}</p>
+            <p>{{property.rohrreinigung.zip}} {{property.rohrreinigung.city}}</p>
+            <p>{{property.rohrreinigung.telephone}}</p>
+            <p>{{property.rohrreinigung.mobile}}</p>
+            <p>{{property.rohrreinigung.email}}</p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="property.fahrstuhl !== undefined && property.fahrstuhl !== null">
+        <ion-card-header>
+            <ion-card-title>Fahrstuhl</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>{{property.fahrstuhl.company}}</p>
+            <p>{{property.fahrstuhl.firstname}} {{property.fahrstuhl.lastname}}</p>
+            <p>{{property.fahrstuhl.street}}</p>
+            <p>{{property.fahrstuhl.zip}} {{property.fahrstuhl.city}}</p>
+            <p>{{property.fahrstuhl.telephone}}</p>
+            <p>{{property.fahrstuhl.mobile}}</p>
+            <p>{{property.fahrstuhl.email}}</p>
+        </ion-card-content>
+    </ion-card>
 </ion-content>
