@@ -115,15 +115,6 @@ export class EmployeeService {
     this.settingsService.putSetting('controlList', b.toString());
   }
 
-  getEmptyEmployee(): Employee {
-    return {
-      uid: '',
-      name: '',
-      deleted: '',
-      hidden: '',
-    };
-  }
-
   /**
    * A helper method to insert an array of employees into the employee wrappyer database.
    * @param data the array of employees to be inserted into the database

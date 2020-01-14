@@ -9,19 +9,19 @@ import {Employee} from '../../model/employee.model';
 })
 export class SettingsPagePage implements OnInit {
 
-  private employees: Employee[] = [];
-  private employee: Employee = this.employeeService.getEmptyEmployee();
-  private controlEnabled: boolean;
+  private employees: Employee[];
+  private currentEmployee: string;
+  private controlListEnabled: boolean;
 
   constructor(private employeeService: EmployeeService) {
-    employeeService.getAllEmployees().then((e: Employee[]) => {
+    employeeService.getAllEmployees().then((e) => {
       this.employees = e;
     });
-    employeeService.getCurrentEmployee().then((e: Employee) => {
-      this.employee = e;
+    employeeService.getCurrentEmployee().then((e) => {
+      this.currentEmployee = e.uid;
     });
-    employeeService.isControlListEnabled().then((b: boolean) => {
-      this.controlEnabled = b;
+    employeeService.isControlListEnabled().then((b) => {
+      this.controlListEnabled = b;
     });
   }
 
@@ -31,11 +31,11 @@ export class SettingsPagePage implements OnInit {
   async employeeChanged(event) {
     const e: Employee = await this.employeeService.getEmployee(event.target.value);
     this.employeeService.setCurrentEmployee(e);
-    this.employee = event.target.value;
+    this.currentEmployee = event.target.value;
   }
 
   async controlChanged(event) {
-    this.controlEnabled = event.target.checked;
+    this.controlListEnabled = event.target.checked;
     await this.employeeService.setControlListEnabled(event.target.checked);
   }
 }
