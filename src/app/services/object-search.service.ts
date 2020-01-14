@@ -189,15 +189,30 @@ export class ObjectSearchService {
     /**
      * Ruft die nächste Seite auf und übergibt die ausgewählte Stadt und das ausgewählte Objekt
      */
-    validateObject(jmpTo: string, city: string, firmCities: Array<string>, obj: Property, firmObjects: Array<Property>) {
-        if (firmCities.includes(city)) {
-            if (this.propertyListContainsProperty(firmObjects, obj)) {
-                this.router.navigate([jmpTo], {state: {object: obj}});
+    validateObject(jmpTo: string, city: string, firmCities: Array<string>, obj: Property, firmObjects: Array<Property>): boolean {
+        if(jmpTo){
+            if (firmCities.includes(city)) {
+                if (this.propertyListContainsProperty(firmObjects, obj)) {
+                    this.router.navigate([jmpTo], {state: {object: obj}});
+                } else {
+                    this.showToast('Bitte wählen Sie eine verfügbare Straße.', 2000);
+                }
             } else {
-                this.showToast('Bitte wählen Sie eine verfügbare Straße.', 2000);
+                this.showToast('Bitte wählen Sie eine verfügbare Stadt.', 2000);
             }
+            return true;
         } else {
-            this.showToast('Bitte wählen Sie eine verfügbare Stadt.', 2000);
+            if (firmCities.includes(city)) {
+                if (this.propertyListContainsProperty(firmObjects, obj)) {
+                    return true;
+                } else {
+                    this.showToast('Bitte wählen Sie eine verfügbare Straße.', 2000);
+                    return false;
+                }
+            } else {
+                this.showToast('Bitte wählen Sie eine verfügbare Stadt.', 2000);
+                return false;
+            }
         }
     }
 }

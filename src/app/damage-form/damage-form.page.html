@@ -17,7 +17,7 @@
                                (ionChange)="chooseItem($event.target.value, firmCities, 'city')"
                                (ionFocus)= "this.objectSearchService.predictiveCitySearch($event, cities, firmCities)"
                                (ionInput)= "this.objectSearchService.predictiveCitySearch($event, cities, firmCities)"
-                               showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt" >
+                               showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt*" >
                 </ion-searchbar>
 
                 <ion-list id="#df_city_list">
@@ -29,30 +29,25 @@
                                (ionChange)="chooseItem($event.target.value, firmObjects, 'object')"
                                (ionFocus)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
                                (ionInput)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
-                               showCancelButton="focus" animated="true" spellcheck="true" placeholder="Adresse"></ion-searchbar>
+                               showCancelButton="focus" animated="true" spellcheck="true" placeholder="Adresse*"></ion-searchbar>
                 <ion-list id="#df_object_list">
                     <ion-item *ngFor="let object of objects" (click)="chooseItem(object.street, firmObjects, 'object')">{{ object.street }}</ion-item>
                 </ion-list>
             </ion-list>
-            
+
             <ion-item class="form_input">
                 <ion-label position="floating">Lage</ion-label>
-                <ion-input required (ionInput)="this.locValueChanged($event.target.value)"></ion-input>
+                <ion-input [(ngModel)]="location" name="loc_input" id="loc_input"></ion-input>
             </ion-item>
 
             <ion-item class="form_input">
-                <ion-label position="floating">Mieter</ion-label>
-                <ion-input required></ion-input>
-            </ion-item>
-
-            <ion-item class="form_input">
-                    <ion-label position="floating">Beschreibung</ion-label>
-                    <ion-textarea required auto-grow wrap="hard" (ionInput)="this.descValueChanged($event.target.value)"></ion-textarea>
+                    <ion-label position="floating">Beschreibung*</ion-label>
+                    <ion-textarea [(ngModel)]="description" name="desc_input" required auto-grow wrap="hard" id="desc_input"></ion-textarea>
             </ion-item>
 
             <ion-item class="form_input">
                     <ion-label position="floating">Mitarbeiter</ion-label>
-                    <ion-input id="employee_input" readonly="true" value="Hans Georg IV" disabled="true"></ion-input>
+                    <ion-input id="employee_input" readonly="true" value="No Employee found." disabled="true"></ion-input>
             </ion-item>
 
             <ion-item class="form_input">
