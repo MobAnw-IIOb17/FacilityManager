@@ -28,6 +28,7 @@ export class ObjectManagerReportsPage implements OnInit {
 
     /**
      * Aktualisiert die Liste beim öffnen der Page
+     * und Scrollt nach oben
      */
     ionViewDidEnter() {
         this.refreshChecklistItems();

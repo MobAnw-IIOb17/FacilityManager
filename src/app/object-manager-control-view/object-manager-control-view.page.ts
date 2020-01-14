@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
 import {Checklist} from '../model/checklist.model';
 import {GalleryService} from '../services/gallery.service';
-import {IonCheckbox, IonTextarea} from '@ionic/angular';
+import {IonCheckbox, IonTextarea, IonContent} from '@ionic/angular';
 import {ChecklistItem} from "../model/checklist-item.model";
 
 @Component({
@@ -13,6 +13,8 @@ import {ChecklistItem} from "../model/checklist-item.model";
 })
 export class ObjectManagerControlViewPage implements OnInit {
 
+    @ViewChild(IonContent, {static: false}) theContent: IonContent;
+    
     private name: string;
     private labels: Array<ChecklistItem> = [];
     private checklist = new Checklist();
@@ -39,7 +41,14 @@ export class ObjectManagerControlViewPage implements OnInit {
         });
     }
 
-    ngOnInit() {
+    ngOnInit() { }
+    
+    /**
+     * Aktualisiert die Liste beim öffnen der Page
+     * und Scrollt nach oben
+     */
+    ionViewDidEnter() {
+        this.theContent.scrollToTop(500);
     }
 
     ngAfterViewInit() {

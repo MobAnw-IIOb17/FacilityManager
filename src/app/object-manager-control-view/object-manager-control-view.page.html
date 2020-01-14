@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content appNetworkListener>
+<ion-content appNetworkListener [scrollEvents]="true" (ionScrollStart)="logScrollStart()">
   <ion-item *ngFor="let label of labels; trackBy: customTrackBy">
     <ion-list style='width: 100%;'>
       <ion-item>
