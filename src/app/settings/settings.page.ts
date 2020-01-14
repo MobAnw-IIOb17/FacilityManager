@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {NetworkSendService} from '../services/network-send.service';
+import {AppCameraService} from '../services/app-camera.service';
 
 @Component({
   selector: 'app-settings',
@@ -9,11 +10,16 @@ import {NetworkSendService} from '../services/network-send.service';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
-
+  private saveLocally: boolean = true;
   private loginForm: FormGroup;
   public qualitiSlide: number = 30;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private networkSendService: NetworkSendService) {
+  constructor(
+    private formBuilder: FormBuilder, 
+    private router: Router, 
+    private networkSendService: NetworkSendService, 
+    private appCameraService: AppCameraService
+  ) {
     this.loginForm = formBuilder.group({});
   }
 
@@ -28,6 +34,10 @@ export class SettingsPage implements OnInit {
       alert('Passwort falsch!');
     }
     passwordField.value = '';
+  }
+
+  toggleSaveLocally() {
+    this.appCameraService.setSaveToPhotoAlbum(this.saveLocally);
   }
 
   databaseSync() {
