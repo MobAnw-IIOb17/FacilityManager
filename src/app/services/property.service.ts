@@ -119,6 +119,18 @@ export class PropertyService {
       zip: '',
       city: '',
       owner: '',
+      owner_street: '',
+      owner_zip: '',
+      owner_city: '',
+      administrator: null,
+      elektriker: null,
+      heizung: null,
+      sanitear: null,
+      schluesseldienst: null,
+      schornsteinfeger: null,
+      brandschutz: null,
+      rohrreinigung: null,
+      fahrstuhl: null,
     };
   }
 
@@ -136,7 +148,19 @@ export class PropertyService {
         street: o.street,
         zip: o.zip,
         city: o.city,
-        owner: o.owner
+        owner: o.owner,
+        owner_street: o.owner_street,
+        owner_zip: o.owner_zip,
+        owner_city: o.owner_city,
+        administrator: o.administrator,
+        elektriker: o.elektriker,
+        heizung: o.heizung,
+        sanitear: o.sanitear,
+        schluesseldienst: o.schluesseldienst,
+        schornsteinfeger: o.schornsteinfeger,
+        brandschutz: o.brandschutz,
+        rohrreinigung: o.rohrreinigung,
+        fahrstuhl: o.fahrstuhl,
       };
       await this.propertyDb.set(p.uid, p);
     }
