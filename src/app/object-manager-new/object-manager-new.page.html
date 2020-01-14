@@ -22,7 +22,7 @@
         (ionChange)="chooseItem($event.target.value, firmCities, 'city')"
         (ionFocus)= "this.objectSearchService.predictiveCitySearch($event, cities, firmCities)"
         (ionInput)= "this.objectSearchService.predictiveCitySearch($event, cities, firmCities)"
-        showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt">
+        showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt*">
       </ion-searchbar>
 
       <ion-list id="#om_city_list">
@@ -34,7 +34,7 @@
         (ionChange)="chooseItem($event.target.value, firmObjects, 'object')"
         (ionFocus)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
         (ionInput)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
-        showCancelButton="focus" animated="true" spellcheck="true" placeholder="Adresse"></ion-searchbar>
+        showCancelButton="focus" animated="true" spellcheck="true" placeholder="Adresse*"></ion-searchbar>
       <ion-list id="#om_object_list">
         <ion-item *ngFor="let object of objects" (click)="chooseItem(object.street, firmObjects, 'object')">{{ object.street }}</ion-item>
       </ion-list>
