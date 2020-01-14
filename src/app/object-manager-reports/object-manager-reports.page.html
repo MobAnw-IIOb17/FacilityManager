@@ -15,8 +15,8 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-list>
-    <ion-item *ngFor="let item of objectChecklists">
+  <ion-list *ngFor="let item of objectChecklists; let i = index;">
+    <ion-item (click)="viewChecklistItemInfo(i)">
       <ion-label>
           <h2>{{item.property.city}}, {{item.property.street}}</h2>
           <p>Objektkontrolle</p>
@@ -31,9 +31,55 @@
           <p style="font-weight: 600; text-align: right; color: #FF9800;">ausstehend</p>
       </ion-label>  
     </ion-item>
-  </ion-list>
-      
 
+    <ion-card *ngIf="displayListItems[i]">
+      <ion-card-content>
+        <ion-list>
+
+          <ion-item>
+              <p *ngIf='item.sent === true'><b>Status:</b> gesendet am {{item.sentTimestamp | date: 'dd.MM.yyyy H:mm'}}</p>
+              <p *ngIf='item.sent === false'><b>Status:</b> wird gesendet</p>
+          </ion-item>
+
+          <ion-item>
+            <p><b>Mitarbeiter:</b> {{item.employee.name}}</p>
+          </ion-item>
+
+          <ion-item-divider>
+            Objektinfo
+          </ion-item-divider>
+
+          <ion-item>
+            <p><b>Besitzer:</b> {{item.property.owner}}</p>
+          </ion-item>
+
+          <ion-item>
+            <p><b>Straße:</b> {{item.property.street}}</p>
+          </ion-item>
+
+          <ion-item>
+            <p><b>PLZ, Ort:</b> {{item.property.zip}}, {{item.property.city}}</p>
+          </ion-item>
+
+          <ion-item-divider>
+            Checkliste
+          </ion-item-divider>
+
+          <ion-list *ngFor="let chkname of item.checklist">
+
+            <ion-item>
+              <p>{{chkname.name}}</p>
+            </ion-item>
+            
+            <ion-item-divider *ngFor="let chkitem of chkname.items">
+              {{chkitem.name}} ist {{chkitem.is_ok}}
+            </ion-item-divider>
+
+          </ion-list>
+        </ion-list>
+      </ion-card-content> 
+    </ion-card>
+  </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
     <ion-fab-button taget="_self" color="secondary" (click)="navToControlManagerNewPage()">
