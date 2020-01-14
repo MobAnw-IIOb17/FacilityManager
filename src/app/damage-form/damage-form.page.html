@@ -34,20 +34,15 @@
                     <ion-item *ngFor="let object of objects" (click)="chooseItem(object.street, firmObjects, 'object')">{{ object.street }}</ion-item>
                 </ion-list>
             </ion-list>
-            
-            <ion-item class="form_input">
-                <ion-label position="floating">Lage</ion-label>
-                <ion-input required (ionInput)="this.locValueChanged($event.target.value)"></ion-input>
-            </ion-item>
 
             <ion-item class="form_input">
-                <ion-label position="floating">Mieter</ion-label>
-                <ion-input required></ion-input>
+                <ion-label position="floating">Lage</ion-label>
+                <ion-input required id="loc_input" (ionInput)="this.locValueChanged($event.target.value)"></ion-input>
             </ion-item>
 
             <ion-item class="form_input">
                     <ion-label position="floating">Beschreibung</ion-label>
-                    <ion-textarea required auto-grow wrap="hard" (ionInput)="this.descValueChanged($event.target.value)"></ion-textarea>
+                    <ion-textarea required auto-grow wrap="hard" id="desc_input" (ionInput)="this.descValueChanged($event.target.value)"></ion-textarea>
             </ion-item>
 
             <ion-item class="form_input">
