@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content appNetworkListener [scrollEvents]="true" (ionScrollStart)="logScrollStart()">
+<ion-content appNetworkListener [scrollEvents]="true">
  
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingText="Aktualisieren durch Ziehen" pullingIcon="arrow-dropdown" refreshingSpinner="bubbles" refreshingText="Aktualisiere...">
