@@ -14,13 +14,13 @@ export class SettingsPagePage implements OnInit {
   private controlListEnabled: boolean;
 
   constructor(private employeeService: EmployeeService) {
-    employeeService.getAllEmployees().then((e) => {
-      this.employees = e;
-      employeeService.getCurrentEmployee().then((e) => {
+    employeeService.getAllEmployees().then((employees: Employee[]) => {
+      this.employees = employees;
+      employeeService.getCurrentEmployee().then((e: Employee) => {
         this.currentEmployee = e;
       });
     });
-    employeeService.isControlListEnabled().then((b) => {
+    employeeService.isControlListEnabled().then((b: boolean) => {
       this.controlListEnabled = b;
     });
   }
