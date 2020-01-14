@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, IonContent } from '@ionic/angular';
 import { ReportsPopovercomponentComponent } from './reports-popovercomponent/reports-popovercomponent.component';
 import { ObjectChecklistService } from '../services/object-checklist.service';
 import { ObjectChecklist } from '../model/object-checklist.model';
-import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
     selector: 'app-object-manager-reports',
@@ -13,6 +12,8 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 })
 
 export class ObjectManagerReportsPage implements OnInit {
+
+    @ViewChild(IonContent, {static: false}) theContent: IonContent;
 
     private objectChecklists: ObjectChecklist[] = [];
     private displayListItems: Array<boolean> = [];
@@ -23,14 +24,14 @@ export class ObjectManagerReportsPage implements OnInit {
         private objectChecklistService: ObjectChecklistService) {
     }
 
-    ngOnInit() {
-    }
+    ngOnInit() { }
 
     /**
      * Aktualisiert die Liste beim öffnen der Page
      */
     ionViewDidEnter() {
         this.refreshChecklistItems();
+        this.theContent.scrollToTop(500);
     }
 
     /**
@@ -42,6 +43,8 @@ export class ObjectManagerReportsPage implements OnInit {
 
     /**
      * Öffne Info IonCard bei Click auf list item
+     * 
+     * @param index Array Index vom Objekt objectChecklists aus HTML
      */
     viewChecklistItemInfo(index:any) {
         if(this.displayListItems[index] == true) {
@@ -52,13 +55,24 @@ export class ObjectManagerReportsPage implements OnInit {
         
         //Maximiere aktuellen Index
         this.displayListItems[index] = true;
+        //Scrolle Item nach oben
+        this.scrollToID(0, 80*index);
     }
 
     /**
-     * Öffne Info IonCard bei Click auf list item
+     * Scrollt bis zur übergebenen Koordninate
+     * 
+     * @param x X-Koordninate
+     * @param y Y-Koordinate
+     */
+    scrollToID(x:number, y:number) {
+        this.theContent.scrollToPoint(x, y, 500);
+    }
+
+    /**
+     * Setzt alle evtl geöffneten IonCard zurück und minimiert diese
      */
     resetChecklistItemInfo() {
-        //Alle minimieren
         this.displayListItems = [];
         this.objectChecklists.forEach((item) => {
             this.displayListItems.push(false);
