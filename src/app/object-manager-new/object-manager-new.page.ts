@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PropertyService} from '../services/property.service';
-import {Router, NavigationExtras} from '@angular/router';
-import {FormGroup} from '@angular/forms';
-import {ToastController} from '@ionic/angular';
+import {Router} from '@angular/router';
 import {Property} from '../model/property.model';
 import {EmployeeService} from '../services/employee.service';
 import {Employee} from '../model/employee.model';
@@ -35,7 +33,15 @@ export class ObjectManagerNewPage implements OnInit {
         this.loadEmployee();
     }
 
-    ngOnInit() {
+    ngOnInit() { }
+
+    /**
+     * Aktualisiert die Liste beim öffnen der Page
+     * und Scrollt nach oben
+     */
+    ionViewDidEnter() {
+        document.getElementById('#om_city_searchbar').setAttribute('value', "");
+        document.getElementById('#om_object_searchbar').setAttribute('value', "");
     }
 
     /**
