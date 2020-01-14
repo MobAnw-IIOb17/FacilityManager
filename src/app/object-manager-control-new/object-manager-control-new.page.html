@@ -8,17 +8,15 @@
 </ion-header>
 
 <ion-content appNetworkListener>
-  <form [formGroup]="myForm">
-    <ion-item>
-      <ion-label position="floating">Kontrollname</ion-label>
-      <ion-input class="Klabels" clearInput="true" (input)="setValue($event.target.value, $event.target.name)" value=""></ion-input>
-    </ion-item>
-    <ion-item *ngFor="let control of myForm.controls | keyvalue">
-      <ion-label position="floating">Eigenschaft</ion-label>
-      <ion-input class ="Klabels" type="text" clearInput="true" [formControlName]="control.key" (input)="setValue($event.target.value, $event.target.name)" value=""></ion-input>
-      <ion-icon name="trash" slot="end" (click)="removeControl(this.control)"></ion-icon>
-    </ion-item>
-    <ion-button id="add" (click) ="addControl()" >Neue Eigenschaft</ion-button>
-    <ion-button id="sub" (click)="submit(this)">Erstellen</ion-button>
-  </form>
+  <ion-item>
+    <ion-label position="floating">Kontrollname</ion-label>
+    <ion-input id="NameOfLabel" clearInput="true" (input)="setName($event.target.value)" value=""></ion-input>
+  </ion-item>
+  <ion-item *ngFor="let label of labels | keyvalue">
+    <ion-label position="floating">Eigenschaft</ion-label>
+    <ion-input class ="Klabels" type="text" clearInput="true" (input)="setValue($event.target.value, $event.target.name)" value=""></ion-input>
+    <ion-icon name="trash" slot="end" (click)="removeControl(this.label)"></ion-icon>
+  </ion-item>
+  <ion-button id="add" (click) ="addControl()" >Neue Eigenschaft</ion-button>
+  <ion-button id="sub" (click)="submit()">Erstellen</ion-button>
 </ion-content>
