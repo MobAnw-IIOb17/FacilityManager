@@ -72,7 +72,8 @@
             </ion-item>
             
             <ion-item-divider *ngFor="let chkitem of chkname.items">
-              {{chkitem.name}} ist {{chkitem.is_ok}}
+              <div *ngIf='chkitem.is_ok === false'>{{chkitem.name}} ist nicht in Ordnung</div>
+              <div *ngIf='chkitem.is_ok === true'>{{chkitem.name}} ist in Ordnung</div>              
             </ion-item-divider>
 
           </ion-list>
