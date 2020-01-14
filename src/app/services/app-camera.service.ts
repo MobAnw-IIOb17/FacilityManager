@@ -7,11 +7,12 @@ import { Base64 } from '@ionic-native/base64/ngx';
   providedIn: 'root'
 })
 export class AppCameraService {
-  options: CameraOptions = {
+  public options: CameraOptions = {
     quality: 30,
     destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE,
+    saveToPhotoAlbum: true,
     correctOrientation: true
   };
 
