@@ -24,7 +24,7 @@ export class ObjectManagerControlViewPage implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private galleryService_01: GalleryService) {
+        private galleryService: GalleryService) {
         this.route.params.subscribe(() => {
             const state = this.router.getCurrentNavigation().extras.state;
             if (state) {
@@ -49,12 +49,12 @@ export class ObjectManagerControlViewPage implements OnInit {
      */
     ionViewDidEnter() {
         this.theContent.scrollToTop(500);
+        this.galleryService.makeGallery(document.getElementById('gallery-grid_03'), this.pictures, false);
     }
 
     ngAfterViewInit() {
         this.fillLabels();
         this.checkValidation();
-        this.galleryService_01.makeGallery(document.getElementById('gallery-grid_01'), [''], false);
     }
     setValue(s: string, thislabel) {
       thislabel.description = s;
