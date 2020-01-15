@@ -10,17 +10,17 @@ import {Employee} from '../../model/employee.model';
 export class SettingsPagePage implements OnInit {
 
   private employees: Employee[];
-  private currentEmployee: string;
+  private currentEmployee: Employee;
   private controlListEnabled: boolean;
 
   constructor(private employeeService: EmployeeService) {
-    employeeService.getAllEmployees().then((e) => {
-      this.employees = e;
+    employeeService.getAllEmployees().then((employees: Employee[]) => {
+      this.employees = employees;
+      employeeService.getCurrentEmployee().then((e: Employee) => {
+        this.currentEmployee = e;
+      });
     });
-    employeeService.getCurrentEmployee().then((e) => {
-      this.currentEmployee = e.uid;
-    });
-    employeeService.isControlListEnabled().then((b) => {
+    employeeService.isControlListEnabled().then((b: boolean) => {
       this.controlListEnabled = b;
     });
   }
@@ -28,14 +28,16 @@ export class SettingsPagePage implements OnInit {
   ngOnInit() {
   }
 
-  async employeeChanged(event) {
-    const e: Employee = await this.employeeService.getEmployee(event.target.value);
-    this.employeeService.setCurrentEmployee(e);
-    this.currentEmployee = event.target.value;
+  employeeChanged() {
+    this.employeeService.setCurrentEmployee(this.currentEmployee);
   }
 
   async controlChanged(event) {
     this.controlListEnabled = event.target.checked;
     await this.employeeService.setControlListEnabled(event.target.checked);
+  }
+
+  compareEmployees(e1: Employee, e2: Employee) {
+    return e1.uid === e2.uid;
   }
 }

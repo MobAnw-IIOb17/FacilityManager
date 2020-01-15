@@ -11,14 +11,14 @@ import {SettingsService} from '../services/settings.service';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
-  private saveLocally: boolean = true;
+  private saveLocally = true;
   private loginForm: FormGroup;
-  private qualitySlide: number = 30;
+  private qualitySlide = 30;
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private router: Router, 
-    private networkSendService: NetworkSendService, 
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private networkSendService: NetworkSendService,
     private appCameraService: AppCameraService,
     private settingsService: SettingsService
   ) {
@@ -26,11 +26,11 @@ export class SettingsPage implements OnInit {
   }
 
   async ngOnInit() {
-    let save:string = await this.settingsService.getSetting('saveLocally');
-    if(save === 'false') this.saveLocally = false;
-    
-    let quality:string = await this.settingsService.getSetting('qualitySlide');
-    if(quality) this.qualitySlide = +quality;
+    const save: string = await this.settingsService.getSetting('saveLocally');
+    if (save === 'false') { this.saveLocally = false; }
+
+    const quality: string = await this.settingsService.getSetting('qualitySlide');
+    if (quality) { this.qualitySlide = +quality; }
   }
 
   login() {
@@ -58,7 +58,7 @@ export class SettingsPage implements OnInit {
 
   qualitySetting() {
     this.appCameraService.setPictureQuality(this.qualitySlide);
-    let value: string = this.qualitySlide.toString();
+    const value: string = this.qualitySlide.toString();
     this.settingsService.putSetting('qualitySlide', value);
   }
 }
