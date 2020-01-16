@@ -14,6 +14,9 @@ import { DamagereportspopoverComponent } from './damagereportspopover/damagerepo
 export class DamageReportsPage {
   damages: Damage[] = [];
   damage: Damage;
+  sortCity:boolean = false;
+  sortDate:boolean = false;
+  sortStatus:boolean = false;
 
   constructor(public damageService: DamageService, private popoverController: PopoverController, private router: Router) {  }
   
@@ -29,7 +32,13 @@ export class DamageReportsPage {
   }
 
   async refreshDamages() {
-    this.damages = await this.damageService.getAllDamages();
+    await this.damageService.getAllDamages().then((items) => {
+      if(items.length !== 0) {
+        this.damages = [];
+        this.damages = items;
+        this.damages.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
+      }
+    });
   }
 
   openDamage(damage: Damage) {
@@ -73,13 +82,31 @@ export class DamageReportsPage {
                   this.refreshDamages();
               }
               if (dataReturned.data === 'city') {
+                if(this.sortCity) {
                   this.damages.sort((a, b) => (a.property.city > b.property.city) ? 1 : -1);
+                  this.sortCity = false;
+                } else {
+                  this.damages.sort((a, b) => (a.property.city < b.property.city) ? 1 : -1);
+                  this.sortCity = true;
+                }
               }
               if (dataReturned.data === 'date') {
-                this.damages.sort((a, b) => (a.sentTimestamp > b.sentTimestamp) ? 1 : -1);
+                if(this.sortDate) {
+                  this.damages.sort((a, b) => (a.sentTimestamp < b.sentTimestamp) ? 1 : -1);
+                  this.sortDate = false;
+                } else {
+                  this.damages.sort((a, b) => (a.sentTimestamp > b.sentTimestamp) ? 1 : -1);
+                  this.sortDate = true;
+                }
               }
               if (dataReturned.data === 'status') {
+                if(this.sortStatus) {
+                  this.damages.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
+                  this.sortStatus = false;
+                } else {
                   this.damages.sort((a, b) => (a.sent > b.sent) ? 1 : -1);
+                  this.sortStatus = true;
+                }
               }
           }
       });
