@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PropertyService} from '../../services/property.service';
 import {Property} from '../../model/property.model';
 import {Router} from '@angular/router';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-list',
@@ -12,7 +13,10 @@ export class ListPage implements OnInit {
 
   private properties: Property[] = [];
 
-  constructor(private propertyService: PropertyService, private router: Router) {
+  constructor(private propertyService: PropertyService, private router: Router, private platform: Platform) {
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      this.router.navigateByUrl('/tabs/home');
+    });
     propertyService.getAllProperties().then((p: Property[]) => {
       this.setProperties(p);
     });

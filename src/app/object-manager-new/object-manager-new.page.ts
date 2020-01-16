@@ -5,6 +5,7 @@ import {Property} from '../model/property.model';
 import {EmployeeService} from '../services/employee.service';
 import {Employee} from '../model/employee.model';
 import {ObjectSearchService} from '../services/object-search.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
     selector: 'app-object-manager-new',
@@ -28,9 +29,13 @@ export class ObjectManagerNewPage implements OnInit {
         private propertyService: PropertyService,
         private employeeService: EmployeeService,
         private objectSearchService: ObjectSearchService,
-        private router: Router) {
-        this.objectSearchService.loadCities(this.firmCities);
-        this.loadEmployee();
+        private router: Router,
+        private platform: Platform) {
+          this.platform.backButton.subscribeWithPriority(0, () => {
+            this.router.navigateByUrl('/tabs/object-manager-reports');
+          });
+          this.objectSearchService.loadCities(this.firmCities);
+          this.loadEmployee();
     }
 
     ngOnInit() { }

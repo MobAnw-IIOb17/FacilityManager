@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { DamageService } from '../services/damage.service';
 import { Damage } from '../model/damage.model';
 import { Router, NavigationExtras } from '@angular/router';
-import { PopoverController, IonContent } from '@ionic/angular';
+import { PopoverController, IonContent, Platform } from '@ionic/angular';
 import { DamagereportspopoverComponent } from './damagereportspopover/damagereportspopover.component';
 
 @Component({
@@ -18,7 +18,11 @@ export class DamageReportsPage {
   sortDate:boolean = false;
   sortStatus:boolean = false;
 
-  constructor(public damageService: DamageService, private popoverController: PopoverController, private router: Router) {  }
+  constructor(public damageService: DamageService, private popoverController: PopoverController, private router: Router, private platform: Platform) {
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      this.router.navigateByUrl('/tabs/home');
+    });
+  }
   
   @ViewChild(IonContent, {static: false}) theContent: IonContent;
 

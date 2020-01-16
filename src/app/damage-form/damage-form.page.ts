@@ -8,6 +8,7 @@ import { EmployeeService } from '../services/employee.service';
 import { Employee } from '../model/employee.model';
 import { ObjectSearchService } from '../services/object-search.service';
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-damage-form',
@@ -38,7 +39,11 @@ export class DamageFormPage {
     private propertyService: PropertyService,
     private employeeService: EmployeeService,
     private objectSearchService: ObjectSearchService,
-    private damageService: DamageService) {
+    private damageService: DamageService, 
+    private platform: Platform) {
+      this.platform.backButton.subscribeWithPriority(0, () => {
+        this.router.navigateByUrl('/tabs/damage-reports');
+      });
       this.objectSearchService.loadCities(this.firmCities);
   }
 

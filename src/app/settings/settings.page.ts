@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {NetworkSendService} from '../services/network-send.service';
 import {AppCameraService} from '../services/app-camera.service';
 import {SettingsService} from '../services/settings.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-settings',
@@ -20,9 +21,12 @@ export class SettingsPage implements OnInit {
     private router: Router,
     private networkSendService: NetworkSendService,
     private appCameraService: AppCameraService,
-    private settingsService: SettingsService
-  ) {
-    this.loginForm = formBuilder.group({});
+    private settingsService: SettingsService,
+    private platform: Platform) {
+      this.platform.backButton.subscribeWithPriority(0, () => {
+        this.router.navigateByUrl('/tabs/home');
+      });
+      this.loginForm = formBuilder.group({});
   }
 
   async ngOnInit() {

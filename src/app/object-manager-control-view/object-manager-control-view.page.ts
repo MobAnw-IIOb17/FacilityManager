@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
 import {Checklist} from '../model/checklist.model';
 import {GalleryService} from '../services/gallery.service';
-import {IonCheckbox, IonTextarea, IonContent} from '@ionic/angular';
+import {IonCheckbox, IonTextarea, IonContent, Platform} from '@ionic/angular';
 import {ChecklistItem} from "../model/checklist-item.model";
 
 @Component({
@@ -24,7 +24,8 @@ export class ObjectManagerControlViewPage implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private galleryService: GalleryService) {
+        private galleryService: GalleryService,
+        private platform: Platform) {
         this.route.params.subscribe(() => {
             const state = this.router.getCurrentNavigation().extras.state;
             if (state) {
@@ -38,6 +39,14 @@ export class ObjectManagerControlViewPage implements OnInit {
 
             }
 
+            this.platform.backButton.subscribeWithPriority(0, () => {
+                if(state) {
+                    this.router.navigateByUrl('/tabs/object-manager-control-new');
+                } else {
+                    this.router.navigateByUrl('/tabs/object-manager-control-list');
+
+                }
+            });
         });
     }
 

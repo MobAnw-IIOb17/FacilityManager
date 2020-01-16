@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PopoverController, IonContent, Events } from '@ionic/angular';
+import { PopoverController, IonContent, Events, Platform, ToastController } from '@ionic/angular';
 import { ReportsPopovercomponentComponent } from './reports-popovercomponent/reports-popovercomponent.component';
 import { ObjectChecklistService } from '../services/object-checklist.service';
 import { ObjectChecklist } from '../model/object-checklist.model';
@@ -24,7 +24,11 @@ export class ObjectManagerReportsPage implements OnInit {
     constructor(
         private router: Router,
         private popoverController: PopoverController,
-        private objectChecklistService: ObjectChecklistService) {
+        private objectChecklistService: ObjectChecklistService,
+        private platform: Platform) {
+          this.platform.backButton.subscribeWithPriority(0, () => {
+            this.router.navigateByUrl('/tabs/home');
+          });
     }
 
     ngOnInit() { }
