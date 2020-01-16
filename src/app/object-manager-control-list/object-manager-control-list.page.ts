@@ -38,7 +38,7 @@ export class ObjectManagerControlListPage implements OnInit {
             if (state) {
                 if (state.object) {
                     this.property = state.object;
-                    this.objectChecklistService.getDefaultChecklist('184').then((item) => { // '184' //this.property.uid
+                    this.objectChecklistService.getDefaultChecklist(this.property.uid).then((item) => { // '184' //this.property.uid
                         this.objectSearchService.copyAnArray(this.controllistItems, item.checklist);
                         this.objectSearchService.copyAnArray(this.usedControllistItems, item.checklist);
                         this.saveItem = item;
