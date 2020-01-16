@@ -60,6 +60,8 @@ export class ObjectManagerControlNewPage implements OnInit {
     checkValidate() {
         const Kname = document.getElementById("NameOfLabel") as unknown as IonInput;
         const input = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
+        this.valid = false;
+        this.validName = false;
         if(Kname.value !== '') {
             this.validName = true;
         }
@@ -89,7 +91,6 @@ export class ObjectManagerControlNewPage implements OnInit {
     addControl() {
         this.labels.push("");
         document.getElementById('sub').setAttribute('disabled', 'true');
-        this.checkValidate();
     }
 
     removeControl(control) {
