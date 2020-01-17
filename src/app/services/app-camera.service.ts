@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { Base64 } from '@ionic-native/base64/ngx';
+import {SettingsService} from '../services/settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,17 @@ export class AppCameraService {
     correctOrientation: true
   };
 
-  constructor(private camera: Camera, private base64: Base64, private file: File) { }
+  constructor(
+    private camera: Camera,
+    private base64: Base64,
+    private file: File, 
+    private settingsService: SettingsService
+  ) { }
+
+  async ngOnInit() {
+    const save: string = await this.settingsService.getSetting('saveLocally');
+    if (save === 'false') this.setSaveToPhotoAlbum(false);
+  }
 
   setCameraOptions(cameraOptions: CameraOptions) {
     this.options = cameraOptions;
