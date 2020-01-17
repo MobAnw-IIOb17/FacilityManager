@@ -4,7 +4,7 @@ import {Router, NavigationExtras} from '@angular/router';
 import {ChecklistItem} from '../model/checklist-item.model';
 import {Checklist} from '../model/checklist.model';
 import {invalid} from '@angular/compiler/src/render3/view/util';
-import { IonInput } from '@ionic/angular';
+import { IonInput, Platform } from '@ionic/angular';
 
 
 @Component({
@@ -17,7 +17,12 @@ export class ObjectManagerControlNewPage implements OnInit {
     private valid = false;
     private validName = false;
 
-    constructor(private router: Router) { }
+    constructor(private router: Router,
+        private platform: Platform) {
+          this.platform.backButton.subscribeWithPriority(0, () => {
+            this.router.navigateByUrl('/tabs/object-manager-control-list');
+          });
+    }
 
     ngOnInit() { }
 
@@ -60,6 +65,8 @@ export class ObjectManagerControlNewPage implements OnInit {
     checkValidate() {
         const Kname = document.getElementById("NameOfLabel") as unknown as IonInput;
         const input = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
+        this.valid = false;
+        this.validName = false;
         if(Kname.value !== '') {
             this.validName = true;
         }
@@ -89,7 +96,6 @@ export class ObjectManagerControlNewPage implements OnInit {
     addControl() {
         this.labels.push("");
         document.getElementById('sub').setAttribute('disabled', 'true');
-        this.checkValidate();
     }
 
     removeControl(control) {

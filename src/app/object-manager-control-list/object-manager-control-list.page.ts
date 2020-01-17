@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {PopoverController, AlertController, IonItemSliding} from '@ionic/angular';
+import {PopoverController, AlertController, IonItemSliding, Platform} from '@ionic/angular';
 import {Router, ActivatedRoute} from '@angular/router';
 import {ObjectChecklistService} from '../services/object-checklist.service';
 import {Property} from '../model/property.model';
@@ -32,51 +32,55 @@ export class ObjectManagerControlListPage implements OnInit {
         private alertController: AlertController,
         private employeeService: EmployeeService,
         private objectSearchService: ObjectSearchService,
-        private objectChecklistService: ObjectChecklistService) {
-        this.route.params.subscribe(() => {
-            const state = this.router.getCurrentNavigation().extras.state;
-            if (state) {
-                if (state.object) {
-                    this.property = state.object;
-                    this.objectChecklistService.getDefaultChecklist('184').then((item) => { // '184' //this.property.uid
-                        this.objectSearchService.copyAnArray(this.controllistItems, item.checklist);
-                        this.objectSearchService.copyAnArray(this.usedControllistItems, item.checklist);
-                        this.saveItem = item;
-                        this.employeeService.getCurrentEmployee().then((employee) => {
-                            this.saveItem.employee = employee;
+        private objectChecklistService: ObjectChecklistService,
+        private platform: Platform) {
+            this.platform.backButton.subscribeWithPriority(0, async () => {
+                this.router.navigateByUrl('/tabs/object-manager-new');
+            });
+            this.route.params.subscribe(() => {
+                const state = this.router.getCurrentNavigation().extras.state;
+                if (state) {
+                    if (state.object) {
+                        this.property = state.object;
+                        this.objectChecklistService.getDefaultChecklist(this.property.uid).then((item) => { // '184' //this.property.uid
+                            this.objectSearchService.copyAnArray(this.controllistItems, item.checklist);
+                            this.objectSearchService.copyAnArray(this.usedControllistItems, item.checklist);
+                            this.saveItem = item;
+                            this.employeeService.getCurrentEmployee().then((employee) => {
+                                this.saveItem.employee = employee;
+                            });
+                            this.finishedUsedControllistItems = [];
+                            item.checklist.forEach((element) => {
+                                this.finishedUsedControllistItems.push({name: element.name, boolean: false});
+                            });
                         });
-                        this.finishedUsedControllistItems = [];
-                        item.checklist.forEach((element) => {
-                            this.finishedUsedControllistItems.push({name: element.name, boolean: false});
+                    }
+                    if (state.checklist) {
+                        const check = state.checklist;
+
+                        // Aktualisieren der Kontrollelemente in der Kontrollliste
+                        this.usedControllistItems.forEach((element, index) => {
+                            if (element.name === check.name) {
+                                this.usedControllistItems[index] = check;
+                            }
                         });
-                    });
-                }
-                if (state.checklist) {
-                    const check = state.checklist;
 
-                    // Aktualisieren der Kontrollelemente in der Kontrollliste
-                    this.usedControllistItems.forEach((element, index) => {
-                        if (element.name === check.name) {
-                            this.usedControllistItems[index] = check;
+                        // Hinzufügen eines neuen Elementes
+                        let used = false;
+                        for (let i = 0; i < this.usedControllistItems.length; i++) {
+                            if (this.usedControllistItems[i].name === check.name) {
+                                used = true;
+                            }
                         }
-                    });
-
-                    // Hinzufügen eines neuen Elementes
-                    let used = false;
-                    for (let i = 0; i < this.usedControllistItems.length; i++) {
-                        if (this.usedControllistItems[i].name === check.name) {
-                            used = true;
+                        if (!used) {
+                            this.usedControllistItems.push(check);
                         }
-                    }
-                    if (!used) {
-                        this.usedControllistItems.push(check);
-                    }
 
-                    // Updaten der Validierungsliste
-                    this.addElementToValidationList(check, true);
+                        // Updaten der Validierungsliste
+                        this.addElementToValidationList(check, true);
+                    }
                 }
-            }
-        });
+            });
     }
 
     isItemValid(item) {

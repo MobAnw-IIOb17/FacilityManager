@@ -114,10 +114,7 @@ export class ObjectChecklistService {
    * Fetches all default checklists from the webservice and writes them in the database.
    */
   async updateChecklists() {
-    const array: Property[] = await this.propertyService.getAllProperties();
-    for (const arrayItem of array) {
-      await this.getDefaultChecklistFromWebservice(arrayItem.uid);
-    }
+    await this.updateDefaultChecklistsFromWebservice();
   }
 
   /**
@@ -163,36 +160,30 @@ export class ObjectChecklistService {
       employee_uid: objectChecklist.employee.uid,
       checklist: objectChecklist.checklist,
     };
-    this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/control/', JSON.stringify(checklist)).subscribe(data => {
+    this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/control/', JSON.stringify(checklist)).subscribe(_ => {
       objectChecklist.sentTimestamp = ts;
       this.sent.push(objectChecklist);
       return this.checklistDb.set(ObjectChecklistService.SENT, this.sent);
-    }, error => {
+    }, _ => {
       this.toSend.push(objectChecklist);
       return this.checklistDb.set(ObjectChecklistService.TO_SEND, this.toSend);
     });
   }
 
   /**
-   * Gets the default checklist of an object/property from the webservice.
-   * @param objectId the id of the object of which we want to get the checklist
-   * @return a promise containing a new ObjectChecklist extracted from the default checklist provided by the webservice
+   * Updates the default checklists of all object/property from the webservice.
    */
-  private getDefaultChecklistFromWebservice(objectId: string): Promise<ObjectChecklist> {
-    return new Promise<ObjectChecklist>(resolve => {
-      this.http.get<ObjectDefaultChecklist>('http://dev.inform-objektservice.de/hmdinterface/rest/control/' + objectId + '/')
-        .subscribe(data => {
-          this.convertObject(data).then(oc => {
-            this.defaultChecklistDb.set(data.object_uid.toString(), oc).then(() => {
-              resolve(oc);
+  private async updateDefaultChecklistsFromWebservice() {
+    this.http.get<ObjectDefaultChecklist[]>('http://dev.inform-objektservice.de/hmdinterface/rest/control/')
+      .subscribe(data => {
+        for (const c of data) {
+          this.convertObject(c).then(oc => {
+            this.defaultChecklistDb.set(oc.property.uid, oc).then(() => {
             });
           });
-        }, error => {
-          this.defaultChecklistDb.get(objectId).then(c => {
-            resolve(c);
-          });
-        });
-    });
+        }
+      }, _ => {
+      });
   }
 
   /**

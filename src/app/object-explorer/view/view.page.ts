@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Property} from '../../model/property.model';
 import {PropertyService} from '../../services/property.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-view',
@@ -12,7 +13,10 @@ export class ViewPage implements OnInit {
 
   private property: Property;
 
-  constructor(private propertyService: PropertyService, private router: Router, private route: ActivatedRoute) {
+  constructor(private propertyService: PropertyService, private router: Router, private route: ActivatedRoute, private platform: Platform) {
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      this.router.navigateByUrl('/tabs/object-explorer');
+    });
     this.property = this.propertyService.getEmptyProperty();
     this.route.params.subscribe(() => {
       const uid: string = this.router.getCurrentNavigation().extras.state.property;

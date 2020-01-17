@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PopoverController, IonContent } from '@ionic/angular';
+import { PopoverController, IonContent, Events, Platform, ToastController } from '@ionic/angular';
 import { ReportsPopovercomponentComponent } from './reports-popovercomponent/reports-popovercomponent.component';
 import { ObjectChecklistService } from '../services/object-checklist.service';
 import { ObjectChecklist } from '../model/object-checklist.model';
@@ -17,11 +17,18 @@ export class ObjectManagerReportsPage implements OnInit {
 
     private objectChecklists: ObjectChecklist[] = [];
     private displayListItems: Array<boolean> = [];
+    sortCity:boolean = false;
+    sortDate:boolean = false;
+    sortStatus:boolean = false;
 
     constructor(
         private router: Router,
         private popoverController: PopoverController,
-        private objectChecklistService: ObjectChecklistService) {
+        private objectChecklistService: ObjectChecklistService,
+        private platform: Platform) {
+          this.platform.backButton.subscribeWithPriority(0, () => {
+            this.router.navigateByUrl('/tabs/home');
+          });
     }
 
     ngOnInit() { }
@@ -80,22 +87,21 @@ export class ObjectManagerReportsPage implements OnInit {
           });
     }
 
-  /**
+   /**
    * Aktualisiert das Checklist Objekt für die Anzeige
    * vorher wird es gelöscht
    */
-  refreshChecklistItems() {
-    setTimeout(() => {
-      this.objectChecklistService.getAllChecklists().then((items) => {
+    async refreshChecklistItems() {
+        await this.objectChecklistService.getAllChecklists().then((items) => {
         if(items.length !== 0) {
-          this.objectChecklists = [];
-          this.objectChecklists = items;
-          this.resetChecklistItemInfo();
+            this.objectChecklists = [];
+            this.objectChecklists = items;
+            this.objectChecklists.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
+            this.resetChecklistItemInfo();
         }
-      });
-    }, 100);
-  }
-
+        });
+      }
+ 
     /**
      * Beim Zeihen nach unten auf der Page, werden alle Elemente aktualisiert
      *
@@ -128,13 +134,31 @@ export class ObjectManagerReportsPage implements OnInit {
                     this.refreshChecklistItems();
                 }
                 if (dataReturned.data === 'city') {
+                  if(this.sortCity) {
                     this.objectChecklists.sort((a, b) => (a.property.city > b.property.city) ? 1 : -1);
+                    this.sortCity = false;
+                  } else {
+                    this.objectChecklists.sort((a, b) => (a.property.city < b.property.city) ? 1 : -1);
+                    this.sortCity = true;
+                  }
                 }
                 if (dataReturned.data === 'date') {
+                  if(this.sortDate) {
+                    this.objectChecklists.sort((a, b) => (a.sentTimestamp < b.sentTimestamp) ? 1 : -1);
+                    this.sortDate = false;
+                  } else {
                     this.objectChecklists.sort((a, b) => (a.sentTimestamp > b.sentTimestamp) ? 1 : -1);
+                    this.sortDate = true;
+                  }
                 }
                 if (dataReturned.data === 'status') {
+                  if(this.sortStatus) {
+                    this.objectChecklists.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
+                    this.sortStatus = false;
+                  } else {
                     this.objectChecklists.sort((a, b) => (a.sent > b.sent) ? 1 : -1);
+                    this.sortStatus = true;
+                  }
                 }
             }
         });
