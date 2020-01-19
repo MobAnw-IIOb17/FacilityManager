@@ -59,6 +59,19 @@ export class PropertyService {
     });
   }
 
+  getPropertyDirectly(uid: string): Promise<Property> {
+    return new Promise<Property>(resolve => {
+      this.http.get<Property>('http://dev.inform-objektservice.de/hmdinterface/rest/object/' + uid + '/').subscribe(data => {
+        console.log(data);
+        resolve(data);
+      }, _ => {
+        this.getProperty(uid).then((p: Property) => {
+          resolve(p);
+        });
+      });
+    });
+  }
+
   /**
    * This method returns all properties/objects for a given city
    * @param city the city's name

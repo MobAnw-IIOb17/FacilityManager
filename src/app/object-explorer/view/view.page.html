@@ -15,7 +15,7 @@
             <p>{{property.owner_zip}} {{property.owner_city}}</p>
         </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="property.administrator !== undefined && property.administrator !== null">
+    <ion-card *ngIf="isArtisanFilled(property.administrator)">
         <ion-card-header>
             <ion-card-title>Verwalter</ion-card-title>
         </ion-card-header>
@@ -29,7 +29,7 @@
             <p><a href="mail:{{property.administrator.email}}">{{property.administrator.email}}</a></p>
         </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="property.elektriker !== undefined && property.elektriker !== null">
+    <ion-card *ngIf="isArtisanFilled(property.elektriker)">
         <ion-card-header>
             <ion-card-title>Elektriker</ion-card-title>
         </ion-card-header>
@@ -43,7 +43,7 @@
             <p><a href="mail:{{property.elektriker.email}}">{{property.elektriker.email}}</a></p>
         </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="property.heizung !== undefined && property.heizung !== null">
+    <ion-card *ngIf="isArtisanFilled(property.heizung)">
         <ion-card-header>
             <ion-card-title>Heizung</ion-card-title>
         </ion-card-header>
@@ -57,21 +57,21 @@
             <p><a href="mail:{{property.heizung.email}}">{{property.heizung.email}}</a></p>
         </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="property.sanitear !== undefined && property.sanitear !== null">
+    <ion-card *ngIf="isArtisanFilled(property.sanitaer)">
         <ion-card-header>
             <ion-card-title>Sanitär</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-            <p>{{property.sanitear.company}}</p>
-            <p>{{property.sanitear.firstname}} {{property.sanitear.lastname}}</p>
-            <p>{{property.sanitear.street}}</p>
-            <p>{{property.sanitear.zip}} {{property.sanitear.city}}</p>
-            <p><a href="tel:{{property.sanitear.telephone}}">{{property.sanitear.telephone}}</a></p>
-            <p><a href="tel:{{property.sanitear.mobile}}">{{property.sanitear.mobile}}</a></p>
-            <p><a href="mail:{{property.sanitear.email}}">{{property.sanitear.email}}</a></p>
+            <p>{{property.sanitaer.company}}</p>
+            <p>{{property.sanitaer.firstname}} {{property.sanitaer.lastname}}</p>
+            <p>{{property.sanitaer.street}}</p>
+            <p>{{property.sanitaer.zip}} {{property.sanitaer.city}}</p>
+            <p><a href="tel:{{property.sanitaer.telephone}}">{{property.sanitaer.telephone}}</a></p>
+            <p><a href="tel:{{property.sanitaer.mobile}}">{{property.sanitaer.mobile}}</a></p>
+            <p><a href="mail:{{property.sanitaer.email}}">{{property.sanitaer.email}}</a></p>
         </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="property.schluesseldienst !== undefined && property.schluesseldienst !== null">
+    <ion-card *ngIf="isArtisanFilled(property.schluesseldienst)">
         <ion-card-header>
             <ion-card-title>Schlüsseldienst</ion-card-title>
         </ion-card-header>
@@ -85,7 +85,7 @@
             <p><a href="mail:{{property.schluesseldienst.email}}">{{property.schluesseldienst.email}}</a></p>
         </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="property.schornsteinfeger !== undefined && property.schornsteinfeger !== null">
+    <ion-card *ngIf="isArtisanFilled(property.schornsteinfeger)">
         <ion-card-header>
             <ion-card-title>Schornsteinfeger</ion-card-title>
         </ion-card-header>
@@ -99,7 +99,7 @@
             <p><a href="mail:{{property.schornsteinfeger.email}}">{{property.schornsteinfeger.email}}</a></p>
         </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="property.brandschutz !== undefined && property.brandschutz !== null">
+    <ion-card *ngIf="isArtisanFilled(property.brandschutz)">
         <ion-card-header>
             <ion-card-title>Brandschutz</ion-card-title>
         </ion-card-header>
@@ -113,7 +113,7 @@
             <p><a href="mail:{{property.brandschutz.email}}">{{property.brandschutz.email}}</a></p>
         </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="property.rohrreinigung !== undefined && property.rohrreinigung !== null">
+    <ion-card *ngIf="isArtisanFilled(property.rohrreinigung)">
         <ion-card-header>
             <ion-card-title>Rohrreinigung</ion-card-title>
         </ion-card-header>
@@ -127,7 +127,7 @@
             <p><a href="mail:{{property.rohrreinigung.email}}">{{property.rohrreinigung.email}}</a></p>
         </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="property.fahrstuhl !== undefined && property.fahrstuhl !== null">
+    <ion-card *ngIf="isArtisanFilled(property.fahrstuhl)">
         <ion-card-header>
             <ion-card-title>Fahrstuhl</ion-card-title>
         </ion-card-header>

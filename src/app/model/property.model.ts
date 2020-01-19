@@ -39,7 +39,7 @@ export class Property {
     administrator: Artisan;
     elektriker: Artisan;
     heizung: Artisan;
-    sanitear: Artisan;
+    sanitaer: Artisan;
     schluesseldienst: Artisan;
     schornsteinfeger: Artisan;
     brandschutz: Artisan;

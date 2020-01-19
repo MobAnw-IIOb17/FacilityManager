@@ -20,7 +20,7 @@ export class ViewPage implements OnInit {
     this.property = this.propertyService.getEmptyProperty();
     this.route.params.subscribe(() => {
       const uid: string = this.router.getCurrentNavigation().extras.state.property;
-      this.propertyService.getProperty(uid).then((p: Property) => {
+      this.propertyService.getPropertyDirectly(uid).then((p: Property) => {
         this.property = p;
       });
     });
@@ -29,4 +29,7 @@ export class ViewPage implements OnInit {
   ngOnInit() {
   }
 
+  isArtisanFilled(artisan) {
+    return artisan !== null && artisan !== undefined && !Array.isArray(artisan);
+  }
 }
