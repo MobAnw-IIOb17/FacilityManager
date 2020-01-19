@@ -55,10 +55,12 @@ export class ObjectManagerControlNewPage implements OnInit {
                 const item: ChecklistItem = {name: this.labels[i], description: '', images: [], is_ok: false};
                 checklist.items.push(item);
             }
-            this.router.navigate(['/tabs/object-manager-control-view'], {state: {checklist}});
-        }
-        else {
 
+            //Füge Dummy für device Zurück hinzu
+            const item: ChecklistItem = {name: "backToNew", description: '', images: [], is_ok: false};
+            checklist.items.push(item);
+
+            this.router.navigate(['/tabs/object-manager-control-view'], {state: {checklist}});
         }
     }
 

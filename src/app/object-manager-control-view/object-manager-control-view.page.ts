@@ -27,9 +27,19 @@ export class ObjectManagerControlViewPage implements OnInit {
         private galleryService: GalleryService,
         private platform: Platform) {
         this.route.params.subscribe(() => {
+            let backRoute:string = "/tabs/object-manager-control-list";
             const state = this.router.getCurrentNavigation().extras.state;
-            if (state) {
+            if (state) {               
                 this.checklist = state.checklist;
+
+                //Wenn Item.name backToNew da ist, dann zurück nach new setzen, sonst nach list
+                this.checklist.items.forEach( (item) => {
+                    if(item.name === "backToNew") {
+                        backRoute = "/tabs/object-manager-control-new";
+                        this.checklist.items.pop();
+                    }
+                });
+
                 this.name = this.checklist.name;
                 this.labels = this.checklist.items;
             }
@@ -40,12 +50,7 @@ export class ObjectManagerControlViewPage implements OnInit {
             }
 
             this.platform.backButton.subscribeWithPriority(0, () => {
-                if(state) {
-                    this.router.navigateByUrl('/tabs/object-manager-control-new');
-                } else {
-                    this.router.navigateByUrl('/tabs/object-manager-control-list');
-
-                }
+                this.router.navigateByUrl(backRoute);
             });
         });
     }
