@@ -78,8 +78,13 @@ export class ObjectManagerControlNewPage implements OnInit {
                 if (input[i].value !== '' ) {
                     this.valid = true;
                 } else {
-                    this.valid = false;
-                    break;
+                    if ( this.labels[i] !== '') {
+                        this.valid = true;
+                    }
+                    else {
+                        this.valid = false;
+                        break;
+                    }
                 }
             }
         }

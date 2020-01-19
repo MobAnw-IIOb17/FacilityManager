@@ -10,11 +10,11 @@
 <ion-content appNetworkListener>
   <ion-item>
     <ion-label position="floating">Kontrollname</ion-label>
-    <ion-input id="NameOfLabel" clearInput="true" (input)="setName($event.target.value)" value=""></ion-input>
+    <ion-input id="NameOfLabel" (input)="setName($event.target.value)" value=""></ion-input>
   </ion-item>
   <ion-item *ngFor="let label of labels | keyvalue ;let i = index; trackBy: customTrackBy">
     <ion-label position="floating">Eigenschaft</ion-label>
-    <ion-input class ="Klabels" name="label.name" [(ngModel)]="labels[i]" clearInput="true" (input)="setValue($event.target.value, $event.target.name)"></ion-input>
+    <ion-input class ="Klabels" name="label.name" [(ngModel)]="labels[i]" (input)="setValue($event.target.value, $event.target.name)"></ion-input>
     <ion-icon name="trash" slot="end" (click)="removeControl(this.label)"></ion-icon>
   </ion-item>
   <ion-button id="add" (click) ="addControl()" >Neue Eigenschaft</ion-button>
