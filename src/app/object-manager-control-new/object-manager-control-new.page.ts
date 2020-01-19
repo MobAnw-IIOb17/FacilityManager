@@ -29,6 +29,15 @@ export class ObjectManagerControlNewPage implements OnInit {
     ngAfterViewInit() {
         this.checkValidate();
     }
+    ionViewDidEnter() {
+        const input = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
+        const x = document.getElementById("NameOfLabel") as unknown as IonInput;
+        x.value = "";
+        for(let i=0; i<input.length;i++) {
+            input[i].value = "";
+        }
+        this.checkValidate();
+    }
     setName(s: string) {
         const x = document.getElementById("NameOfLabel") as unknown as IonInput;
         x.value = s;
