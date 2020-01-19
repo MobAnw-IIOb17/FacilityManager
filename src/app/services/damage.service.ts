@@ -102,17 +102,18 @@ export class DamageService {
   /**
    * This method sends all not yet sent damages to the webservice and puts them to `SENT`.
    */
-  sendPendingDamages() {
+  async sendPendingDamages() {
     if (this.toSend === []) {
       delay(this.DELAY_TIME);
       if (this.toSend === []) {
         return;
       }
     }
-    this.toSend.forEach((value) => {
-      this.deleteItemFromArray(value, this.toSend);
-      this.sendDamage(value);
-    });
+    for (let i = 0; i < this.toSend.length; i++) {
+      const value = this.toSend[i];
+      this.toSend.splice(i, 1);
+      await this.sendDamage(value);
+    }
   }
 
   /**
@@ -120,7 +121,7 @@ export class DamageService {
    * adding all required attributes which are not given by the damage object specification.
    * @param damage the damage object to be sent
    */
-  private sendDamage(damage: Damage) {
+  private async sendDamage(damage: Damage) {
     const ts: number = Date.now();
     const sendData = {
       pid: 0,
@@ -141,26 +142,19 @@ export class DamageService {
       images: damage.images,
       seen: 0,
     };
-    this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/damage/', JSON.stringify(sendData)).subscribe(data => {
-      damage.sentTimestamp = ts;
-      this.sent.push(damage);
-      return this.damageDb.set(DamageService.SENT, this.sent);
-    }, error => {
-      this.toSend.push(damage);
-      return this.damageDb.set(DamageService.TO_SEND, this.toSend);
-    });
-  }
-
-  /**
-   * This is a helper method to delete an item from an array.
-   * @param item the item that should be deleted, e.g. a damage object
-   * @param array the array that the item should be deleted from
-   */
-  private deleteItemFromArray(item: any, array: any[]) {
-    array.forEach((arrayItem, index) => {
-      if (arrayItem === item) {
-        array.splice(index, 1);
-      }
+    return new Promise(resolve => {
+      this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/damage/', JSON.stringify(sendData)).subscribe(_ => {
+        damage.sentTimestamp = ts;
+        this.sent.push(damage);
+        this.damageDb.set(DamageService.SENT, this.sent).then(() => {
+          resolve();
+        });
+      }, _ => {
+        this.toSend.push(damage);
+        this.damageDb.set(DamageService.TO_SEND, this.toSend).then(() => {
+          resolve();
+        });
+      });
     });
   }
 }

@@ -34,14 +34,9 @@ export class NetworkSendService {
 
   /**
    * This method is triggered by the NetworkListenerDirective as soon as the online event is fired.
-   * It sends pending damage reports and syncs the wrapper databases.
    */
   onOnline() {
-    this.damageService.sendPendingDamages();
-    this.objectChecklistService.sendPendingChecklists();
-    this.employeeService.updateEmployees();
-    this.propertyService.updateProperties();
-    this.objectChecklistService.updateChecklists();
+    this.syncData();
   }
 
   /**
@@ -50,9 +45,20 @@ export class NetworkSendService {
    */
   sync() {
     if (Network.type !== 'none') {
-      this.onOnline();
+      this.syncData();
     } else {
       alert('Keine Netzwerkverbindung. Bitte versuchen Sie es später erneut.');
     }
+  }
+
+  /**
+   * This method sends pending damage reports and checklists and syncs the wrapper databases.
+   */
+  private async syncData() {
+    await this.damageService.sendPendingDamages();
+    await this.objectChecklistService.sendPendingChecklists();
+    await this.employeeService.updateEmployees();
+    await this.propertyService.updateProperties();
+    await this.objectChecklistService.updateChecklists();
   }
 }

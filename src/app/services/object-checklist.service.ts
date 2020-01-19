@@ -132,24 +132,25 @@ export class ObjectChecklistService {
   /**
    * Sends all checklists contained in toSend and moves them to sent.
    */
-  sendPendingChecklists() {
+  async sendPendingChecklists() {
     if (this.toSend === []) {
       delay(this.DELAY_TIME);
       if (this.toSend === []) {
         return;
       }
     }
-    this.toSend.forEach((value) => {
-      this.deleteItemFromArray(value, this.toSend);
-      this.sendChecklist(value);
-    });
+    for (let i = 0; i < this.toSend.length; i++) {
+      const value = this.toSend[i];
+      this.toSend.splice(i, 1);
+      await this.sendChecklist(value);
+    }
   }
 
   /**
    * This method sends a checklist to the webservice.
    * @param objectChecklist the checklist to be sent
    */
-  private sendChecklist(objectChecklist: ObjectChecklist) {
+  private async sendChecklist(objectChecklist: ObjectChecklist) {
     const ts: number = Date.now();
     const checklist = {
       object_uid: parseInt(objectChecklist.property.uid, 10),
@@ -160,13 +161,19 @@ export class ObjectChecklistService {
       employee_uid: objectChecklist.employee.uid,
       checklist: objectChecklist.checklist,
     };
-    this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/control/', JSON.stringify(checklist)).subscribe(_ => {
-      objectChecklist.sentTimestamp = ts;
-      this.sent.push(objectChecklist);
-      return this.checklistDb.set(ObjectChecklistService.SENT, this.sent);
-    }, _ => {
-      this.toSend.push(objectChecklist);
-      return this.checklistDb.set(ObjectChecklistService.TO_SEND, this.toSend);
+    return new Promise(resolve => {
+      this.http.post('http://dev.inform-objektservice.de/hmdinterface/rest/control/', JSON.stringify(checklist)).subscribe(_ => {
+        objectChecklist.sentTimestamp = ts;
+        this.sent.push(objectChecklist);
+        this.checklistDb.set(ObjectChecklistService.SENT, this.sent).then(() => {
+          resolve();
+        });
+      }, _ => {
+        this.toSend.push(objectChecklist);
+        this.checklistDb.set(ObjectChecklistService.TO_SEND, this.toSend).then(() => {
+          resolve();
+        });
+      });
     });
   }
 
@@ -184,19 +191,6 @@ export class ObjectChecklistService {
         }
       }, _ => {
       });
-  }
-
-  /**
-   * This is a helper method to delete an item from an array.
-   * @param item the item that should be deleted, e.g. a damage object
-   * @param array the array that the item should be deleted from
-   */
-  private deleteItemFromArray(item: any, array: any[]) {
-    array.forEach((arrayItem, index) => {
-      if (arrayItem === item) {
-        array.splice(index, 1);
-      }
-    });
   }
 
   /**
