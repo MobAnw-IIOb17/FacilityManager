@@ -19,7 +19,7 @@ export class ObjectManagerControlViewPage implements OnInit {
     private labels: Array<ChecklistItem> = [];
     private checklist = new Checklist();
     private valid = false;
-    private pictures: Array<string[]> = [];
+    private grids: Array<HTMLElement> = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -41,9 +41,6 @@ export class ObjectManagerControlViewPage implements OnInit {
                 });
                 this.name = this.checklist.name;
                 this.labels = this.checklist.items;
-                for ( let i = 0; i < this.labels.length;i++) {
-                    this.pictures[i] = this.checklist.items[i].images;
-                }
             }
             try {
                 this.fillLabels();
@@ -65,7 +62,8 @@ export class ObjectManagerControlViewPage implements OnInit {
      */
     ionViewDidEnter() {
         this.theContent.scrollToTop(500);
-        this.galleryService.makeGallery(document.getElementById('gallery-grid_03'), this.pictures[0], false);
+        this.grids = document.getElementsByClassName('grids') as unknown as Array<HTMLElement>;
+        //this.galleryService.makeGallery(document.getElementById('gallery-grid_03'), this.pictures[0], false); //ALT!
     }
 
     ngAfterViewInit() {
@@ -123,18 +121,22 @@ export class ObjectManagerControlViewPage implements OnInit {
     }
 
     openCamera(item: ChecklistItem) {
+        for ( let i = 0; i< this.labels.length; i++) {
+            if ( item.name == this.labels[i].name) {
+                this.galleryService.makeGallery(this.grids[i], this.checklist.items[i].images, false);
+            }
+        }
         this.galleryService.addCameraPicture();
-        item.images = this.pictures[0];
     }
 
     openGallery(item: ChecklistItem) {
+        
         for ( let i = 0; i< this.labels.length; i++) {
             if ( item.name == this.labels[i].name) {
-
+                this.galleryService.makeGallery(this.grids[i], this.checklist.items[i].images, false);
             }
         }
         this.galleryService.addGalleryPicture();
-        item.images = this.pictures[0];
     }
 
     submit() {
