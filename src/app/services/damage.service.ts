@@ -5,7 +5,6 @@ import {Storage} from '@ionic/storage';
 import {Damage} from '../model/damage.model';
 
 import {HttpClient} from '@angular/common/http';
-import {delay} from 'rxjs/operators';
 import {NetworkQueryService} from './network-query.service';
 
 @Injectable({
@@ -34,7 +33,8 @@ export class DamageService {
   private damageDb: Storage;
   private toSend: Damage[] = [];
   private sent: Damage[] = [];
-  private DELAY_TIME = 0.1;
+  private DELAY_TIME = 100;
+  private dataLoaded = false;
 
   /**
    * The constructor creates a new ionic storage as damage database with two columns:
@@ -55,13 +55,15 @@ export class DamageService {
       } else {
         this.toSend = toSend;
       }
-    });
-    this.damageDb.get(DamageService.SENT).then((sent) => {
-      if (sent === null) {
-        this.damageDb.set(DamageService.SENT, this.sent);
-      } else {
-        this.sent = sent;
-      }
+    }).then(() => {
+      this.damageDb.get(DamageService.SENT).then((sent) => {
+        if (sent === null) {
+          this.damageDb.set(DamageService.SENT, this.sent);
+        } else {
+          this.sent = sent;
+        }
+        this.dataLoaded = true;
+      });
     });
   }
 
@@ -103,15 +105,13 @@ export class DamageService {
    * This method sends all not yet sent damages to the webservice and puts them to `SENT`.
    */
   async sendPendingDamages() {
-    if (this.toSend === []) {
-      delay(this.DELAY_TIME);
-      if (this.toSend === []) {
-        return;
-      }
+    while (!this.dataLoaded) {
+      await this.delay(this.DELAY_TIME);
     }
     for (let i = 0; i < this.toSend.length; i++) {
       const value = this.toSend[i];
       this.toSend.splice(i, 1);
+      await this.damageDb.set(DamageService.TO_SEND, this.toSend);
       await this.sendDamage(value);
     }
   }
@@ -156,5 +156,9 @@ export class DamageService {
         });
       });
     });
+  }
+
+  async delay(ms: number) {
+    await new Promise(resolve => setTimeout(() => resolve(), ms));
   }
 }
