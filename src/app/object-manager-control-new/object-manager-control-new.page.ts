@@ -30,6 +30,7 @@ export class ObjectManagerControlNewPage implements OnInit {
         this.checkValidate();
     }
     ionViewDidEnter() {
+        this.labels.splice(1);
         const input = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
         const x = document.getElementById("NameOfLabel") as unknown as IonInput;
         x.value = "";
