@@ -7,7 +7,6 @@ import {ObjectChecklist} from '../model/object-checklist.model';
 import {Property} from '../model/property.model';
 import {PropertyService} from './property.service';
 import {ObjectDefaultChecklist} from '../model/object-default-checklist.model';
-import {delay} from 'rxjs/operators';
 import {NetworkQueryService} from './network-query.service';
 
 @Injectable({
@@ -39,7 +38,8 @@ export class ObjectChecklistService {
   private toSend: ObjectChecklist[] = [];
   private sent: ObjectChecklist[] = [];
   private defaultChecklistDb: Storage;
-  private DELAY_TIME = 0.1;
+  private DELAY_TIME = 100;
+  private dataLoaded = false;
 
   /**
    * The constructor creates a new ionic storage as employee database.
@@ -61,13 +61,14 @@ export class ObjectChecklistService {
       } else {
         this.toSend = toSend;
       }
-    });
-    this.checklistDb.get(ObjectChecklistService.SENT).then((sent) => {
-      if (sent === null) {
-        this.checklistDb.set(ObjectChecklistService.SENT, this.sent);
-      } else {
-        this.sent = sent;
-      }
+      this.checklistDb.get(ObjectChecklistService.SENT).then((sent) => {
+        if (sent === null) {
+          this.checklistDb.set(ObjectChecklistService.SENT, this.sent);
+        } else {
+          this.sent = sent;
+        }
+        this.dataLoaded = true;
+      });
     });
 
     this.defaultChecklistDb = new Storage({
@@ -133,15 +134,13 @@ export class ObjectChecklistService {
    * Sends all checklists contained in toSend and moves them to sent.
    */
   async sendPendingChecklists() {
-    if (this.toSend === []) {
-      delay(this.DELAY_TIME);
-      if (this.toSend === []) {
-        return;
-      }
+    while (!this.dataLoaded) {
+      await this.delay(this.DELAY_TIME);
     }
     for (let i = 0; i < this.toSend.length; i++) {
       const value = this.toSend[i];
       this.toSend.splice(i, 1);
+      await this.checklistDb.set(ObjectChecklistService.TO_SEND, this.toSend);
       await this.sendChecklist(value);
     }
   }
@@ -224,5 +223,9 @@ export class ObjectChecklistService {
       sent: false,
       sentTimestamp: null,
     };
+  }
+
+  async delay(ms: number) {
+    await new Promise(resolve => setTimeout(() => resolve(), ms));
   }
 }
