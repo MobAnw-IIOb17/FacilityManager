@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PopoverController, IonContent, Events, Platform, ToastController } from '@ionic/angular';
+import { PopoverController, IonContent, Platform } from '@ionic/angular';
 import { ReportsPopovercomponentComponent } from './reports-popovercomponent/reports-popovercomponent.component';
 import { ObjectChecklistService } from '../services/object-checklist.service';
 import { ObjectChecklist } from '../model/object-checklist.model';
@@ -17,9 +17,10 @@ export class ObjectManagerReportsPage implements OnInit {
 
     private objectChecklists: ObjectChecklist[] = [];
     private displayListItems: Array<boolean> = [];
-    sortCity:boolean = false;
-    sortDate:boolean = false;
-    sortStatus:boolean = false;
+    private sortCity:boolean = false;
+    private sortDate:boolean = false;
+    private sortStatus:boolean = false;
+    private dateYesterday:Date = new Date();
 
     constructor(
         private router: Router,
@@ -38,8 +39,8 @@ export class ObjectManagerReportsPage implements OnInit {
      * und Scrollt nach oben
      */
     ionViewDidEnter() {
-        this.refreshChecklistItems();
-        this.theContent.scrollToTop(500);
+      this.refreshChecklistItems();
+      this.theContent.scrollToTop(500);
     }
 
     /**
@@ -88,19 +89,21 @@ export class ObjectManagerReportsPage implements OnInit {
     }
 
    /**
+    * Setzt aktuelle zeit - 1 Tag für Anzeige maximal 24h
    * Aktualisiert das Checklist Objekt für die Anzeige
    * vorher wird es gelöscht
    */
     async refreshChecklistItems() {
-        await this.objectChecklistService.getAllChecklists().then((items) => {
-        if(items.length !== 0) {
-            this.objectChecklists = [];
-            this.objectChecklists = items;
-            this.objectChecklists.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
-            this.resetChecklistItemInfo();
-        }
-        });
+      this.dateYesterday = ( d => new Date(d.setDate(d.getDate()-1)) )(new Date);
+      await this.objectChecklistService.getAllChecklists().then((items) => {
+      if(items.length !== 0) {
+          this.objectChecklists = [];
+          this.objectChecklists = items;
+          this.objectChecklists.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
+          this.resetChecklistItemInfo();
       }
+      });
+    }
  
     /**
      * Beim Zeihen nach unten auf der Page, werden alle Elemente aktualisiert

@@ -12,11 +12,12 @@ import { DamagereportspopoverComponent } from './damagereportspopover/damagerepo
   providers: [DamageService]
 })
 export class DamageReportsPage {
-  damages: Damage[] = [];
-  damage: Damage;
-  sortCity:boolean = false;
-  sortDate:boolean = false;
-  sortStatus:boolean = false;
+  private damages: Damage[] = [];
+  private damage: Damage;
+  private sortCity:boolean = false;
+  private sortDate:boolean = false;
+  private sortStatus:boolean = false;  
+  private dateYesterday:Date = new Date();
 
   constructor(public damageService: DamageService, private popoverController: PopoverController, private router: Router, private platform: Platform) {
     this.platform.backButton.subscribeWithPriority(0, () => {
@@ -34,8 +35,14 @@ export class DamageReportsPage {
     this.refreshDamages();
     this.theContent.scrollToTop(500);
   }
-
+  
+   /**
+    * Setzt aktuelle zeit - 1 Tag für Anzeige maximal 24h
+   * Aktualisiert das Checklist Objekt für die Anzeige
+   * vorher wird es gelöscht
+   */
   async refreshDamages() {
+    this.dateYesterday = ( d => new Date(d.setDate(d.getDate()-1)) )(new Date);
     await this.damageService.getAllDamages().then((items) => {
       if(items.length !== 0) {
         this.damages = [];
