@@ -20,7 +20,7 @@ export class DamageReportsPage {
 
   constructor(public damageService: DamageService, private popoverController: PopoverController, private router: Router, private platform: Platform) {
     this.platform.backButton.subscribeWithPriority(0, () => {
-      this.router.navigateByUrl('/tabs/home');
+      navigator['app'].exitApp();
     });
   }
   

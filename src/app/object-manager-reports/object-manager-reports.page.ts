@@ -27,7 +27,7 @@ export class ObjectManagerReportsPage implements OnInit {
         private objectChecklistService: ObjectChecklistService,
         private platform: Platform) {
           this.platform.backButton.subscribeWithPriority(0, () => {
-            this.router.navigateByUrl('/tabs/home');
+            navigator['app'].exitApp();
           });
     }
 

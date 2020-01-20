@@ -15,7 +15,7 @@ export class ListPage implements OnInit {
 
   constructor(private propertyService: PropertyService, private router: Router, private platform: Platform) {
     this.platform.backButton.subscribeWithPriority(0, () => {
-      this.router.navigateByUrl('/tabs/home');
+      navigator['app'].exitApp();
     });
     propertyService.getAllProperties().then((p: Property[]) => {
       this.setProperties(p);
