@@ -19,7 +19,7 @@ export class ObjectManagerControlViewPage implements OnInit {
     private labels: Array<ChecklistItem> = [];
     private checklist = new Checklist();
     private valid = false;
-    private pictures: string[] = [];
+    private pictures: Array<string[]> = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -39,9 +39,11 @@ export class ObjectManagerControlViewPage implements OnInit {
                         this.checklist.items.pop();
                     }
                 });
-
                 this.name = this.checklist.name;
                 this.labels = this.checklist.items;
+                for ( let i = 0; i < this.labels.length;i++) {
+                    this.pictures[i] = this.checklist.items[i].images;
+                }
             }
             try {
                 this.fillLabels();
@@ -63,7 +65,7 @@ export class ObjectManagerControlViewPage implements OnInit {
      */
     ionViewDidEnter() {
         this.theContent.scrollToTop(500);
-        this.galleryService.makeGallery(document.getElementById('gallery-grid_03'), this.pictures, false);
+        this.galleryService.makeGallery(document.getElementById('gallery-grid_03'), this.pictures[0], false);
     }
 
     ngAfterViewInit() {
@@ -120,12 +122,14 @@ export class ObjectManagerControlViewPage implements OnInit {
         }
     }
 
-    openCamera() {
-
+    openCamera(item: ChecklistItem) {
+        this.galleryService.addCameraPicture();
+        item.images = this.pictures[0];
     }
 
-    openPhotos() {
-
+    openGallery(item: ChecklistItem) {
+        this.galleryService.addGalleryPicture();
+        item.images = this.pictures[0];
     }
 
     submit() {
@@ -135,5 +139,4 @@ export class ObjectManagerControlViewPage implements OnInit {
     customTrackBy(index: number, obj: any): any {
         return index;
     }
-
 }

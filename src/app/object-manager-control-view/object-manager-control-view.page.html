@@ -23,12 +23,12 @@
       </ion-item>
       <ion-item>
         <section class="image_buttons">
-          <ion-button (click)='galleryService.addCameraPicture()'>
+          <ion-button (click)='openCamera(this.label)'>
               AUFNAHME
               <ion-icon slot="end" name="camera"></ion-icon>
           </ion-button>
           
-          <ion-button (click)='galleryService.addGalleryPicture()'>
+          <ion-button (click)='openGallery(this.label)'>
               GALERIE
               <ion-icon slot="end" name="photos"></ion-icon>
           </ion-button>
