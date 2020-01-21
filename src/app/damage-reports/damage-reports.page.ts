@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { DamageService } from '../services/damage.service';
 import { Damage } from '../model/damage.model';
 import { Router, NavigationExtras } from '@angular/router';
-import { PopoverController, IonContent, Platform } from '@ionic/angular';
+import { PopoverController, IonContent, Platform, LoadingController } from '@ionic/angular';
 import { DamagereportspopoverComponent } from './damagereportspopover/damagereportspopover.component';
 
 @Component({
@@ -19,7 +19,7 @@ export class DamageReportsPage {
   private sortStatus:boolean = false;  
   private dateYesterday:Date = new Date();
 
-  constructor(public damageService: DamageService, private popoverController: PopoverController, private router: Router, private platform: Platform) { }
+  constructor(public damageService: DamageService, private loadingController: LoadingController, private popoverController: PopoverController, private router: Router, private platform: Platform) { }
   
   @ViewChild(IonContent, {static: false}) theContent: IonContent;
 
@@ -28,7 +28,7 @@ export class DamageReportsPage {
    * und Scrollt nach oben
    */
   ionViewDidEnter() {
-    this.refreshDamages();
+    this.refreshDamages(true);
     this.theContent.scrollToTop(500);
 
     //Handle für device back button
@@ -36,20 +36,36 @@ export class DamageReportsPage {
       navigator['app'].exitApp();
     });
   }
-  
+   
    /**
     * Setzt aktuelle zeit - 1 Tag für Anzeige maximal 24h
    * Aktualisiert das Checklist Objekt für die Anzeige
    * vorher wird es gelöscht
    */
-  async refreshDamages() {
+  async refreshDamages(loader:boolean) {
     this.dateYesterday = ( d => new Date(d.setDate(d.getDate()-1)) )(new Date);
+    
+    let loading: HTMLIonLoadingElement;
+
+    if(loader) {
+        loading = await this.loadingController.create({
+            spinner: 'circles',
+        });
+        
+        await loading.present();
+
+        await setTimeout(() => {
+            loading.dismiss();
+        }, 5000);
+    }
+    
     await this.damageService.getAllDamages().then((items) => {
       if(items.length !== 0) {
         this.damages = [];
         this.damages = items;
         this.damages.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
       }
+      if(loader) { loading.dismiss(); }
     });
   }
 
@@ -68,7 +84,7 @@ export class DamageReportsPage {
    * @param event Refresh Event
    */
   doRefresh(event) {
-    this.refreshDamages();
+    this.refreshDamages(false);
 
     setTimeout(() => {
         event.target.complete();
@@ -91,7 +107,7 @@ export class DamageReportsPage {
     popover.onDidDismiss().then((dataReturned) => {
       if (dataReturned !== null) {
         if (dataReturned.data === 'refresh') {
-            this.refreshDamages();
+            this.refreshDamages(true);
         }
         if (dataReturned.data === 'city') {
           if(this.sortCity) {

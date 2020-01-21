@@ -37,7 +37,7 @@ export class ObjectManagerReportsPage implements OnInit {
      * und Scrollt nach oben
      */
     ionViewDidEnter() {
-        this.refreshChecklistItems();
+        this.refreshChecklistItems(true);
         this.theContent.scrollToTop(500);
         
         // Handle für device back button
@@ -96,15 +96,23 @@ export class ObjectManagerReportsPage implements OnInit {
      * Aktualisiert das Checklist Objekt für die Anzeige
      * vorher wird es gelöscht
      */
-    async refreshChecklistItems() {
+    async refreshChecklistItems(loader:boolean) {
         this.dateYesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
-        const loading = await this.loadingController.create({
-            spinner: 'circles',
-        });
-        await loading.present();
-        await setTimeout(() => {
-            loading.dismiss();
-        }, 5000);
+
+        let loading: HTMLIonLoadingElement;
+
+        if(loader) {
+            loading = await this.loadingController.create({
+                spinner: 'circles',
+            });
+            
+            await loading.present();
+
+            await setTimeout(() => {
+                loading.dismiss();
+            }, 5000);
+        }
+
         await this.objectChecklistService.getAllChecklists().then((items) => {
             if (items.length !== 0) {
                 this.objectChecklists = [];
@@ -112,7 +120,7 @@ export class ObjectManagerReportsPage implements OnInit {
                 this.objectChecklists.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
                 this.resetChecklistItemInfo();
             }
-            loading.dismiss();
+            if(loader) { loading.dismiss(); }
         });
     }
 
@@ -122,7 +130,7 @@ export class ObjectManagerReportsPage implements OnInit {
      * @param event Refresh Event
      */
     doRefresh(event) {
-        this.refreshChecklistItems();
+        this.refreshChecklistItems(false);
 
         setTimeout(() => {
             event.target.complete();
@@ -145,7 +153,7 @@ export class ObjectManagerReportsPage implements OnInit {
         popover.onDidDismiss().then((dataReturned) => {
             if (dataReturned !== null) {
                 if (dataReturned.data === 'refresh') {
-                    this.refreshChecklistItems();
+                    this.refreshChecklistItems(true);
                 }
                 if (dataReturned.data === 'city') {
                     if (this.sortCity) {
