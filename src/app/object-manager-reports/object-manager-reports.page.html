@@ -10,109 +10,109 @@
 </ion-header>
 
 <ion-content appNetworkListener [scrollEvents]="true">
- 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content pullingText="Aktualisieren durch Ziehen" pullingIcon="arrow-dropdown" refreshingSpinner="bubbles" refreshingText="Aktualisiere...">
+    <ion-refresher-content pullingText="Aktualisieren durch Ziehen" pullingIcon="arrow-dropdown"
+      refreshingSpinner="bubbles" refreshingText="Aktualisiere...">
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-list *ngFor="let item of objectChecklists; let i = index;" >
-    <ion-item (click)="viewChecklistItemInfo(i)" id="i" *ngIf="item.sentTimestamp === null || item.sentTimestamp > dateYesterday">
-      <ion-label>
+  <ion-list *ngFor="let item of objectChecklists; let i = index;">
+    <div *ngIf="item.sentTimestamp === null || item.sentTimestamp > dateYesterday">
+      <ion-item (click)="viewChecklistItemInfo(i)" id="i">
+        <ion-label>
           <h2>{{item.property.city}}, {{item.property.street}}</h2>
           <p>Objektkontrolle</p>
-      </ion-label>
+        </ion-label>
 
-      <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='item.sent === true'>
+        <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf="item.sent === true">
           <p style="font-weight: 600; text-align: right;">gesendet</p>
-          <p style="text-align: right;">{{item.sentTimestamp | date: 'dd.MM.yyyy H:mm'}}</p>
-      </ion-label>   
+          <p style="text-align: right;">
+            {{item.sentTimestamp | date: 'dd.MM.yyyy H:mm'}}
+          </p>
+        </ion-label>
 
-      <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='item.sent === false'>
-          <p style="font-weight: 600; text-align: right; color: #FF9800;">ausstehend</p>
-      </ion-label>  
-    </ion-item>
+        <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf="item.sent === false">
+          <p style="font-weight: 600; text-align: right; color: #FF9800;">
+            ausstehend
+          </p>
+        </ion-label>
+      </ion-item>
 
-    <ion-card *ngIf="displayListItems[i]">
-      <ion-card-content>
-        
-        <ion-list>
+      <ion-card *ngIf="displayListItems[i]">
+        <ion-card-content>
+          <ion-list>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label position="stacked"><u>Status</u></ion-label>
+                    <p *ngIf="item.sent === true">
+                      gesendet {{item.sentTimestamp | date: 'dd.MM.yyyy H:mm'}}
+                    </p>
+                    <p *ngIf="item.sent === false">wird gesendet</p>
+                  </ion-item>
+                </ion-col>
 
-          <ion-grid>
-            <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label position="stacked"><u>Mitarbeiter</u></ion-label>
+                    <p>{{item.employee.name}}</p>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
 
-              <ion-col>
-                <ion-item>
-                  <ion-label position="stacked"><u>Status</u></ion-label>
-                    <p *ngIf='item.sent === true'>gesendet {{item.sentTimestamp | date: 'dd.MM.yyyy H:mm'}}</p>
-                    <p *ngIf='item.sent === false'>wird gesendet</p>
-                </ion-item>
-              </ion-col>
-
-              <ion-col>
-                <ion-item>
-                  <ion-label position="stacked"><u>Mitarbeiter</u></ion-label>
-                  <p>{{item.employee.name}}</p>
-                </ion-item>
-              </ion-col>
-
-            </ion-row>
-          </ion-grid>
-
-          <ion-item-divider>
-            Objektinfo
-          </ion-item-divider>
-
-          <ion-item>
-            <ion-label position="stacked"><u>Besitzer</u></ion-label>
-            <p>{{item.property.owner}}</p>
-          </ion-item>
-
-          <ion-item>
-            <ion-label position="stacked"><u>Straße</u></ion-label>
-            <p>{{item.property.street}}</p>
-          </ion-item>
-
-          <ion-item>
-            <ion-label position="stacked"><u>PLZ, Ort</u></ion-label>
-            <p>{{item.property.zip}}, {{item.property.city}}</p>
-          </ion-item>
-
-          <ion-item-divider>
-            Checkliste
-          </ion-item-divider>
-
-          <ion-list *ngFor="let chkname of item.checklist">
-
-            <ion-item>
-              <p>
-                <ion-icon name="checkbox-outline"></ion-icon>
-                {{chkname.name}}
-              </p>
-            </ion-item>
-            
-            <ion-item-divider *ngFor="let chkitem of chkname.items">
-              
-              <div *ngIf='chkitem.is_ok === false'>
-                <ion-icon name="close"></ion-icon>
-                {{chkitem.name}} ist nicht in Ordnung
-              </div>
-              <div *ngIf='chkitem.is_ok === true'>
-                <ion-icon name="checkmark"></ion-icon>
-                {{chkitem.name}} ist in Ordnung
-              </div>  
-
+            <ion-item-divider>
+              Objektinfo
             </ion-item-divider>
 
+            <ion-item>
+              <ion-label position="stacked"><u>Besitzer</u></ion-label>
+              <p>{{item.property.owner}}</p>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked"><u>Straße</u></ion-label>
+              <p>{{item.property.street}}</p>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked"><u>PLZ, Ort</u></ion-label>
+              <p>{{item.property.zip}}, {{item.property.city}}</p>
+            </ion-item>
+
+            <ion-item-divider>
+              Checkliste
+            </ion-item-divider>
+
+            <ion-list *ngFor="let chkname of item.checklist">
+              <ion-item>
+                <p>
+                  <ion-icon name="checkbox-outline"></ion-icon>
+                  {{chkname.name}}
+                </p>
+              </ion-item>
+
+              <ion-item-divider *ngFor="let chkitem of chkname.items">
+                <div *ngIf="chkitem.is_ok === false">
+                  <ion-icon name="close"></ion-icon>
+                  {{chkitem.name}} ist nicht in Ordnung
+                </div>
+                <div *ngIf="chkitem.is_ok === true">
+                  <ion-icon name="checkmark"></ion-icon>
+                  {{chkitem.name}} ist in Ordnung
+                </div>
+              </ion-item-divider>
+            </ion-list>
           </ion-list>
-        </ion-list>
-      </ion-card-content> 
-    </ion-card>
+        </ion-card-content>
+      </ion-card>
+    </div>
   </ion-list>
-  
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button taget="_self" color="secondary" (click)="navToControlManagerNewPage()">
-        <ion-icon name="add" ></ion-icon>
+      <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

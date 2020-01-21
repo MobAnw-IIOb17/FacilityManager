@@ -1,9 +1,9 @@
-import {Component, ViewChild, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {PopoverController, IonContent, Platform, LoadingController} from '@ionic/angular';
-import {ReportsPopovercomponentComponent} from './reports-popovercomponent/reports-popovercomponent.component';
-import {ObjectChecklistService} from '../services/object-checklist.service';
-import {ObjectChecklist} from '../model/object-checklist.model';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PopoverController, IonContent, Platform, LoadingController } from '@ionic/angular';
+import { ReportsPopovercomponentComponent } from './reports-popovercomponent/reports-popovercomponent.component';
+import { ObjectChecklistService } from '../services/object-checklist.service';
+import { ObjectChecklist } from '../model/object-checklist.model';
 
 @Component({
     selector: 'app-object-manager-reports',
@@ -13,7 +13,7 @@ import {ObjectChecklist} from '../model/object-checklist.model';
 
 export class ObjectManagerReportsPage implements OnInit {
 
-    @ViewChild(IonContent, {static: false}) theContent: IonContent;
+    @ViewChild(IonContent, { static: false }) theContent: IonContent;
 
     private objectChecklists: ObjectChecklist[] = [];
     private displayListItems: Array<boolean> = [];
@@ -39,7 +39,7 @@ export class ObjectManagerReportsPage implements OnInit {
     ionViewDidEnter() {
         this.refreshChecklistItems(true);
         this.theContent.scrollToTop(500);
-        
+
         // Handle für device back button
         this.platform.backButton.subscribeWithPriority(0, () => {
             navigator['app'].exitApp();
@@ -96,8 +96,8 @@ export class ObjectManagerReportsPage implements OnInit {
      * Aktualisiert das Checklist Objekt für die Anzeige
      * vorher wird es gelöscht
      */
-    async refreshChecklistItems(loader:boolean) {
-        this.dateYesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
+    async refreshChecklistItems(loader: boolean) {
+        this.dateYesterday = (d => new Date(d.setDate(d.getDate() - 10)))(new Date());
 
         let loading: HTMLIonLoadingElement;
 
@@ -118,7 +118,7 @@ export class ObjectManagerReportsPage implements OnInit {
                 this.resetChecklistItemInfo();
             }
 
-            if (loader) { 
+            if (loader) {
                 loading.dismiss();
             }
         });

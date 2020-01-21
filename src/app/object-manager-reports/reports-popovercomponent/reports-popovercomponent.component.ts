@@ -9,8 +9,8 @@ import { PopoverController } from '@ionic/angular';
 export class ReportsPopovercomponentComponent implements OnInit {
 
   constructor(public popoverController: PopoverController) { }
- 
-  ngOnInit() {}
+
+  ngOnInit() { }
 
   /**
    * Popover gibt refresh, für das Aktualisieren zurück
