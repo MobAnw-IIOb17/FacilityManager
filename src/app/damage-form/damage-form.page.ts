@@ -39,15 +39,15 @@ export class DamageFormPage {
     private propertyService: PropertyService,
     private employeeService: EmployeeService,
     private objectSearchService: ObjectSearchService,
-    private damageService: DamageService, 
+    private damageService: DamageService,
     private alertController: AlertController,
     private platform: Platform) {
-      this.objectSearchService.loadCities(this.firmCities);
+    this.objectSearchService.loadCities(this.firmCities);
   }
 
   ionViewDidEnter() {
     this.date = new Date;
-    let dateString = this.date.getDate()+"."+(this.date.getMonth()+1)+"."+this.date.getFullYear();
+    let dateString = this.date.getDate() + "." + (this.date.getMonth() + 1) + "." + this.date.getFullYear();
     document.getElementById('date_input').setAttribute("value", dateString);
 
     this.employeeService.getCurrentEmployee().then((item) => {
@@ -69,18 +69,18 @@ export class DamageFormPage {
 
   async alertOnChangetoDamageReportsPage() {
     const alert = await this.alertController.create({
-        header: "Möchten Sie diese Seite wirklich verlassen?",
-        message: "Alle hier vorgenommenen Änderungen werden verworfen",
-        buttons: [
-            {
-                text: 'Zurück',
-                handler: data => {                        
-                    this.router.navigate(['/tabs/damage-reports']);
-                }
-            },
-            {
-                text: 'Abbrechen'
-            }]
+      header: "Möchten Sie diese Seite wirklich verlassen?",
+      message: "Alle hier vorgenommenen Änderungen werden verworfen",
+      buttons: [
+        {
+          text: 'Zurück',
+          handler: data => {
+            this.router.navigate(['/tabs/damage-reports']);
+          }
+        },
+        {
+          text: 'Abbrechen'
+        }]
     });
     await alert.present();
   }
@@ -88,18 +88,18 @@ export class DamageFormPage {
   getPropertyByCityAndStreet(list: Array<Property>, cityName: string, streetName: string) {
     let loc_prop = new Property();
     loc_prop = list.filter((values) => {
-        return (values.city === cityName && values.street === streetName);
+      return (values.city === cityName && values.street === streetName);
     })[0];
     return loc_prop;
   }
 
-  checkForm(): boolean{
+  checkForm(): boolean {
     let check = false;
-    if(this.date){
-      if(this.objectSearchService.validateObject(undefined, this.city, this.firmCities, this.object, this.firmObjects)){
-        if(this.employee){
-          if(this.description && this.description.length > 0){
-            if(this.pictures.length >= 0){
+    if (this.date) {
+      if (this.objectSearchService.validateObject(undefined, this.city, this.firmCities, this.object, this.firmObjects)) {
+        if (this.employee) {
+          if (this.description && this.description.length > 0) {
+            if (this.pictures.length >= 0) {
               check = true;
             } else { this.objectSearchService.showToast('Bitte fügen Sie mindestens ein Bild hinzu!', 2000); }
           } else { this.objectSearchService.showToast('Bitte fügen Sie eine Beschreibung hinzu!', 2000); }
@@ -110,19 +110,19 @@ export class DamageFormPage {
   }
 
   submitForm() {
-    if(this.checkForm()){
+    if (this.checkForm()) {
       var dmg = new Damage();
 
       this.damageService.getAllDamages().then((damages) => {
         if (damages.length > 0) {
-          dmg.uid = "" + (1 + +(damages[damages.length-1].uid));
+          dmg.uid = "" + (1 + +(damages[damages.length - 1].uid));
         } else {
           dmg.uid = "0";
         }
       });
 
-      dmg.createDate = this.date.getDate()+"."+(this.date.getMonth()+1)+"."+this.date.getFullYear()+" "+
-        this.date.getHours()+":"+this.date.getMinutes();
+      dmg.createDate = this.date.getDate() + "." + (this.date.getMonth() + 1) + "." + this.date.getFullYear() + " " +
+        this.date.getHours() + ":" + this.date.getMinutes();
       dmg.property = this.object;
       dmg.employee = this.employee;
       dmg.description = this.description;
@@ -145,7 +145,7 @@ export class DamageFormPage {
 
   chooseItem(chosenObject: string, firmList: Array<any>, s: string) {
     const val = this.objectSearchService.chooseItem(chosenObject, firmList, s, 'df',
-        this.city, this.cities, this.firmCities, this.object, this.objects, this.firmObjects);
+      this.city, this.cities, this.firmCities, this.object, this.objects, this.firmObjects);
     this.city = val.city;
     this.object = val.object;
   }

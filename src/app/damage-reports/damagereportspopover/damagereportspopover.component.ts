@@ -10,7 +10,7 @@ export class DamagereportspopoverComponent implements OnInit {
 
   constructor(public popoverController: PopoverController) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   /**
    * Popover gibt refresh, für das Aktualisieren zurück

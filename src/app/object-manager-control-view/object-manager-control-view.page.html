@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="tabs/object-manager-control-list"></ion-back-button>
     </ion-buttons>
 
-    <ion-title>       
+    <ion-title>
       <h2 style="margin: 0; padding: 0;">Kontrolle - {{name}}</h2>
     </ion-title>
   </ion-toolbar>
@@ -14,23 +14,25 @@
   <ion-item *ngFor="let label of labels; trackBy: customTrackBy">
     <ion-list style='width: 100%;'>
       <ion-item>
-        <ion-label class= 'labelname' style='align-self: auto;'>{{ label.name }}</ion-label>
-        <ion-checkbox (ionChange)='checkCheckbox(this.label,$event.target)' checked="false" class="checkboxes"></ion-checkbox>
+        <ion-label class='labelname' style='align-self: auto;'>{{ label.name }}</ion-label>
+        <ion-checkbox (ionChange)='checkCheckbox(this.label,$event.target)' checked="false" class="checkboxes">
+        </ion-checkbox>
         <ion-label class='labelIO' style='align-self: auto;'>In Ordnung</ion-label>
       </ion-item>
       <ion-item>
-        <ion-textarea clearInput= 'true' class="descr" rows="5" (input)="setValue($event.target.value, this.label)" value='' placeholder='Beschreibung des Problems'></ion-textarea>
+        <ion-textarea clearInput='true' class="descr" rows="5" (input)="setValue($event.target.value, this.label)"
+          value='' placeholder='Beschreibung des Problems'></ion-textarea>
       </ion-item>
       <ion-item>
         <section class="image_buttons">
           <ion-button (click)='openCamera(this.label)'>
-              AUFNAHME
-              <ion-icon slot="end" name="camera"></ion-icon>
+            AUFNAHME
+            <ion-icon slot="end" name="camera"></ion-icon>
           </ion-button>
-          
+
           <ion-button (click)='openGallery(this.label)'>
-              GALERIE
-              <ion-icon slot="end" name="photos"></ion-icon>
+            GALERIE
+            <ion-icon slot="end" name="photos"></ion-icon>
           </ion-button>
         </section>
       </ion-item>

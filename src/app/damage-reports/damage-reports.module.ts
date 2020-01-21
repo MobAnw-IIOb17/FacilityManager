@@ -7,9 +7,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { DamageReportsPage } from './damage-reports.page';
 
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatListModule} from "@angular/material/list";
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatListModule } from "@angular/material/list";
 import { DamagereportspopoverComponent } from './damagereportspopover/damagereportspopover.component';
 
 const routes: Routes = [
@@ -20,16 +20,16 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        IonicModule,
-        MatInputModule,
-        MatFormFieldModule,
-        RouterModule.forChild(routes),
-        MatListModule
-    ],
-    entryComponents: [DamagereportspopoverComponent],
-    declarations: [DamageReportsPage, DamagereportspopoverComponent]
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    MatInputModule,
+    MatFormFieldModule,
+    RouterModule.forChild(routes),
+    MatListModule
+  ],
+  entryComponents: [DamagereportspopoverComponent],
+  declarations: [DamageReportsPage, DamagereportspopoverComponent]
 })
-export class DamageReportsPageModule {}
+export class DamageReportsPageModule { }

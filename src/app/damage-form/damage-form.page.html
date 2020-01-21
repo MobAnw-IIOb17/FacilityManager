@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+    <ion-toolbar>
         <ion-buttons slot="start">
             <ion-button (click)="alertOnChangetoDamageReportsPage()">
                 <ion-icon name="arrow-back"></ion-icon>
@@ -14,26 +14,26 @@
     <form>
         <ion-list>
             <ion-list>
-                <ion-searchbar id="#df_city_searchbar"
-                               (ionBlur)=  "this.objectSearchService.hideItems(cities)"
-                               (ionChange)="chooseItem($event.target.value, firmCities, 'city')"
-                               (ionFocus)= "this.objectSearchService.predictiveCitySearch($event, cities, firmCities)"
-                               (ionInput)= "this.objectSearchService.predictiveCitySearch($event, cities, firmCities)"
-                               showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt*" >
+                <ion-searchbar id="#df_city_searchbar" (ionBlur)="this.objectSearchService.hideItems(cities)"
+                    (ionChange)="chooseItem($event.target.value, firmCities, 'city')"
+                    (ionFocus)="this.objectSearchService.predictiveCitySearch($event, cities, firmCities)"
+                    (ionInput)="this.objectSearchService.predictiveCitySearch($event, cities, firmCities)"
+                    showCancelButton="focus" animated="true" spellcheck="true" placeholder="Stadt*">
                 </ion-searchbar>
 
                 <ion-list id="#df_city_list">
-                    <ion-item *ngFor="let city of cities" (click)="chooseItem(city, firmCities, 'city')">{{ city }}</ion-item>
+                    <ion-item *ngFor="let city of cities" (click)="chooseItem(city, firmCities, 'city')">{{ city }}
+                    </ion-item>
                 </ion-list>
 
-                <ion-searchbar id="#df_object_searchbar"
-                               (ionBlur)= "this.objectSearchService.hideItems(objects)"
-                               (ionChange)="chooseItem($event.target.value, firmObjects, 'object')"
-                               (ionFocus)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
-                               (ionInput)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
-                               showCancelButton="focus" animated="true" spellcheck="true" placeholder="Adresse*"></ion-searchbar>
+                <ion-searchbar id="#df_object_searchbar" (ionBlur)="this.objectSearchService.hideItems(objects)"
+                    (ionChange)="chooseItem($event.target.value, firmObjects, 'object')"
+                    (ionFocus)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
+                    (ionInput)="this.objectSearchService.predictiveCitySearch($event, objects, firmObjects)"
+                    showCancelButton="focus" animated="true" spellcheck="true" placeholder="Adresse*"></ion-searchbar>
                 <ion-list id="#df_object_list">
-                    <ion-item *ngFor="let object of objects" (click)="chooseItem(object.street, firmObjects, 'object')">{{ object.street }}</ion-item>
+                    <ion-item *ngFor="let object of objects" (click)="chooseItem(object.street, firmObjects, 'object')">
+                        {{ object.street }}</ion-item>
                 </ion-list>
             </ion-list>
 
@@ -43,18 +43,19 @@
             </ion-item>
 
             <ion-item class="form_input">
-                    <ion-label position="floating">Beschreibung*</ion-label>
-                    <ion-textarea [(ngModel)]="description" name="desc_input" required auto-grow wrap="hard" id="desc_input"></ion-textarea>
+                <ion-label position="floating">Beschreibung*</ion-label>
+                <ion-textarea [(ngModel)]="description" name="desc_input" required auto-grow wrap="hard"
+                    id="desc_input"></ion-textarea>
             </ion-item>
 
             <ion-item class="form_input">
-                    <ion-label position="floating">Mitarbeiter</ion-label>
-                    <ion-input id="employee_input" readonly="true" value="No Employee found." disabled="true"></ion-input>
+                <ion-label position="floating">Mitarbeiter</ion-label>
+                <ion-input id="employee_input" readonly="true" value="No Employee found." disabled="true"></ion-input>
             </ion-item>
 
             <ion-item class="form_input">
-                    <ion-label position="floating">Datum</ion-label>
-                    <ion-input id="date_input" readonly="true" value="" disabled="true"></ion-input>
+                <ion-label position="floating">Datum</ion-label>
+                <ion-input id="date_input" readonly="true" value="" disabled="true"></ion-input>
             </ion-item>
         </ion-list>
 
@@ -63,7 +64,7 @@
                 AUFNAHME
                 <ion-icon slot="end" name="camera"></ion-icon>
             </ion-button>
-            
+
             <ion-button (click)='galleryService.addGalleryPicture()'>
                 GALERIE
                 <ion-icon slot="end" name="photos"></ion-icon>
@@ -73,7 +74,8 @@
         <ion-grid id="gallery-grid_01"></ion-grid>
 
         <section class="submit_button">
-            <ion-button type="submit" fill="outline" expand="block" color="medium" (click)='submitForm()'>SENDEN</ion-button>
+            <ion-button type="submit" fill="outline" expand="block" color="medium" (click)='submitForm()'>SENDEN
+            </ion-button>
         </section>
     </form>
 

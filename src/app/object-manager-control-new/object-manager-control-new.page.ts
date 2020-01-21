@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {ChecklistItem} from '../model/checklist-item.model';
-import {Checklist} from '../model/checklist.model';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ChecklistItem } from '../model/checklist-item.model';
+import { Checklist } from '../model/checklist.model';
 import { IonInput, Platform } from '@ionic/angular';
 
 @Component({
@@ -28,7 +28,7 @@ export class ObjectManagerControlNewPage implements OnInit {
         const input = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
         const x = document.getElementById("NameOfLabel") as unknown as IonInput;
         x.value = "";
-        for(let i=0; i<input.length;i++) {
+        for (let i = 0; i < input.length; i++) {
             input[i].value = "";
         }
         this.checkValidate();
@@ -38,7 +38,7 @@ export class ObjectManagerControlNewPage implements OnInit {
             this.router.navigateByUrl('/tabs/object-manager-control-list');
         });
     }
-    
+
     setName(s: string) {
         const x = document.getElementById("NameOfLabel") as unknown as IonInput;
         x.value = s;
@@ -47,11 +47,11 @@ export class ObjectManagerControlNewPage implements OnInit {
     setValue(s: string, target) {
         const x = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
         for (let i = 0; i < x.length; i++) {
-            if(x[i].name == target) {
-                this.labels[i]=x[i].value;
+            if (x[i].name == target) {
+                this.labels[i] = x[i].value;
             }
         }
-        
+
         this.checkValidate();
     }
     submit() {
@@ -59,18 +59,18 @@ export class ObjectManagerControlNewPage implements OnInit {
         const Kname = document.getElementById("NameOfLabel") as unknown as IonInput;
         const x = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
         checklist.name = Kname.value;
-        if(this.labels.length > 0) {
+        if (this.labels.length > 0) {
             checklist.items = [];
             for (let i = 0; i < this.labels.length; i++) {
-                const item: ChecklistItem = {name: this.labels[i], description: '', images: [], is_ok: false};
+                const item: ChecklistItem = { name: this.labels[i], description: '', images: [], is_ok: false };
                 checklist.items.push(item);
             }
 
             //Füge Dummy für device Zurück hinzu, wird unter view ausgewertet und gelöscht
-            const item: ChecklistItem = {name: "backToNew", description: '', images: [], is_ok: false};
+            const item: ChecklistItem = { name: "backToNew", description: '', images: [], is_ok: false };
             checklist.items.push(item);
 
-            this.router.navigate(['/tabs/object-manager-control-view'], {state: {checklist}});
+            this.router.navigate(['/tabs/object-manager-control-view'], { state: { checklist } });
         }
     }
 
@@ -79,18 +79,18 @@ export class ObjectManagerControlNewPage implements OnInit {
         const input = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
         this.valid = false;
         this.validName = false;
-        if(Kname.value !== '') {
+        if (Kname.value !== '') {
             this.validName = true;
         }
-        else { 
+        else {
             this.validName = false
         }
-        if(this.labels.length > 0){
+        if (this.labels.length > 0) {
             for (let i = 0; i < input.length; i++) {
-                if (input[i].value !== '' ) {
+                if (input[i].value !== '') {
                     this.valid = true;
                 } else {
-                    if ( this.labels[i] !== '') {
+                    if (this.labels[i] !== '') {
                         this.valid = true;
                     }
                     else {
@@ -116,9 +116,9 @@ export class ObjectManagerControlNewPage implements OnInit {
     }
 
     removeControl(control) {
-        for(let i = 0; i < this.labels.length; i++) {
-            if(i == control.key) {
-                this.labels.splice(i,1);
+        for (let i = 0; i < this.labels.length; i++) {
+            if (i == control.key) {
+                this.labels.splice(i, 1);
             }
         }
         document.getElementById('sub').setAttribute('disabled', 'true');

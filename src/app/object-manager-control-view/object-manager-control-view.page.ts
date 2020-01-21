@@ -1,10 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Router} from '@angular/router';
-import {Checklist} from '../model/checklist.model';
-import {GalleryService} from '../services/gallery.service';
-import {IonCheckbox, IonTextarea, IonContent, Platform} from '@ionic/angular';
-import {ChecklistItem} from "../model/checklist-item.model";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { Checklist } from '../model/checklist.model';
+import { GalleryService } from '../services/gallery.service';
+import { IonCheckbox, IonTextarea, IonContent, Platform } from '@ionic/angular';
+import { ChecklistItem } from "../model/checklist-item.model";
 
 @Component({
     selector: 'app-object-manager-control-view',
@@ -13,8 +13,8 @@ import {ChecklistItem} from "../model/checklist-item.model";
 })
 export class ObjectManagerControlViewPage implements OnInit {
 
-    @ViewChild(IonContent, {static: false}) theContent: IonContent;
-    
+    @ViewChild(IonContent, { static: false }) theContent: IonContent;
+
     private name: string;
     private labels: Array<ChecklistItem> = [];
     private checklist = new Checklist();
@@ -29,12 +29,12 @@ export class ObjectManagerControlViewPage implements OnInit {
         private platform: Platform) {
         this.route.params.subscribe(() => {
             const state = this.router.getCurrentNavigation().extras.state;
-            if (state) {               
+            if (state) {
                 this.checklist = state.checklist;
 
                 //Wenn Item.name backToNew da ist, dann zurück nach new setzen und löschen, sonst nach list
-                this.checklist.items.forEach( (item) => {
-                    if(item.name === "backToNew") {
+                this.checklist.items.forEach((item) => {
+                    if (item.name === "backToNew") {
                         this.backRoute = "/tabs/object-manager-control-new";
                         this.checklist.items.pop();
                     }
@@ -52,7 +52,7 @@ export class ObjectManagerControlViewPage implements OnInit {
     }
 
     ngOnInit() { }
-    
+
     /**
      * Aktualisiert die Liste beim öffnen der Page
      * und Scrollt nach oben
@@ -74,11 +74,11 @@ export class ObjectManagerControlViewPage implements OnInit {
         this.checkValidation();
     }
     setValue(s: string, thislabel) {
-      thislabel.description = s;
-      this.checkValidation();
+        thislabel.description = s;
+        this.checkValidation();
     }
     fillLabels() {
-        const text = document.getElementsByClassName('descr')as unknown as Array<IonTextarea>;
+        const text = document.getElementsByClassName('descr') as unknown as Array<IonTextarea>;
         const check = document.getElementsByClassName('checkboxes') as unknown as Array<IonCheckbox>;
         for (let i = 0; i < this.labels.length; i++) {
             text[i].value = this.labels[i].description;
@@ -124,8 +124,8 @@ export class ObjectManagerControlViewPage implements OnInit {
     }
 
     openCamera(item: ChecklistItem) {
-        for ( let i = 0; i< this.labels.length; i++) {
-            if ( item.name == this.labels[i].name) {
+        for (let i = 0; i < this.labels.length; i++) {
+            if (item.name == this.labels[i].name) {
                 this.galleryService.makeGallery(this.grids[i], this.checklist.items[i].images, false);
             }
         }
@@ -133,9 +133,9 @@ export class ObjectManagerControlViewPage implements OnInit {
     }
 
     openGallery(item: ChecklistItem) {
-        
-        for ( let i = 0; i< this.labels.length; i++) {
-            if ( item.name == this.labels[i].name) {
+
+        for (let i = 0; i < this.labels.length; i++) {
+            if (item.name == this.labels[i].name) {
                 this.galleryService.makeGallery(this.grids[i], this.checklist.items[i].images, false);
             }
         }
@@ -144,7 +144,7 @@ export class ObjectManagerControlViewPage implements OnInit {
 
     submit() {
         this.checklist.items = this.labels;
-        this.router.navigate(['/tabs/object-manager-control-list'], {state: {checklist: this.checklist}});
+        this.router.navigate(['/tabs/object-manager-control-list'], { state: { checklist: this.checklist } });
     }
     customTrackBy(index: number, obj: any): any {
         return index;

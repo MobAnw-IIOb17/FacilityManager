@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {PropertyService} from '../../services/property.service';
-import {Property} from '../../model/property.model';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { PropertyService } from '../../services/property.service';
+import { Property } from '../../model/property.model';
+import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 
 @Component({
@@ -13,7 +13,7 @@ export class ListPage implements OnInit {
 
   private properties: Property[] = [];
 
-  constructor(private propertyService: PropertyService, private router: Router, private platform: Platform) {   
+  constructor(private propertyService: PropertyService, private router: Router, private platform: Platform) {
     propertyService.getAllProperties().then((p: Property[]) => {
       this.setProperties(p);
     });
@@ -30,7 +30,7 @@ export class ListPage implements OnInit {
   }
 
   propertyClick(p: Property) {
-    this.router.navigate(['/tabs/object-explorer-view'], {state: {property: p.uid}});
+    this.router.navigate(['/tabs/object-explorer-view'], { state: { property: p.uid } });
   }
 
   searchProperty(event) {

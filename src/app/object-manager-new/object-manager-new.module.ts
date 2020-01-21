@@ -24,4 +24,4 @@ const routes: Routes = [
   ],
   declarations: [ObjectManagerNewPage]
 })
-export class ObjectManagerNewPageModule {}
+export class ObjectManagerNewPageModule { }

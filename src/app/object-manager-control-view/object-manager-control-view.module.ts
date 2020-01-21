@@ -25,4 +25,4 @@ const routes: Routes = [
   ],
   declarations: [ObjectManagerControlViewPage]
 })
-export class ObjectManagerControlViewPageModule {}
+export class ObjectManagerControlViewPageModule { }

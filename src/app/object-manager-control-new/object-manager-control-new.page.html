@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/object-manager-control-list"></ion-back-button>
-        </ion-buttons>
-      <ion-title>Neue Kontrolle anlegen</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/object-manager-control-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Neue Kontrolle anlegen</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,9 +14,10 @@
   </ion-item>
   <ion-item *ngFor="let label of labels | keyvalue ;let i = index; trackBy: customTrackBy">
     <ion-label position="floating">Eigenschaft</ion-label>
-    <ion-input class ="Klabels" name="label.name" [(ngModel)]="labels[i]" (input)="setValue($event.target.value, $event.target.name)"></ion-input>
+    <ion-input class="Klabels" name="label.name" [(ngModel)]="labels[i]"
+      (input)="setValue($event.target.value, $event.target.name)"></ion-input>
     <ion-icon name="trash" slot="end" (click)="removeControl(this.label)"></ion-icon>
   </ion-item>
-  <ion-button id="add" (click) ="addControl()" >Neue Eigenschaft</ion-button>
+  <ion-button id="add" (click)="addControl()">Neue Eigenschaft</ion-button>
   <ion-button id="sub" (click)="submit()">Erstellen</ion-button>
 </ion-content>

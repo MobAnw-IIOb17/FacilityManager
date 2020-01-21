@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { Damage } from '../model/damage.model';
-import { Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { GalleryService } from '../services/gallery.service';
 import { Platform } from '@ionic/angular';
 

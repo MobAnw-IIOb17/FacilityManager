@@ -18,13 +18,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        IonicModule,
-        RouterModule.forChild(routes)
-    ],
-    entryComponents: [ControlListPopoverComponentComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    RouterModule.forChild(routes)
+  ],
+  entryComponents: [ControlListPopoverComponentComponent],
   declarations: [ObjectManagerControlListPage, ControlListPopoverComponentComponent, NetworkListenerDirective]
 })
-export class ObjectManagerControlListPageModule {}
+export class ObjectManagerControlListPageModule { }

@@ -8,7 +8,7 @@ import { Platform } from '@ionic/angular';
 })
 export class HomePage implements OnInit {
 
-  constructor(private platform: Platform) {  }
+  constructor(private platform: Platform) { }
 
   ngOnInit() {
   }
