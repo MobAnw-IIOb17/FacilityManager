@@ -1,9 +1,9 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { PopoverController, IonContent, Platform } from '@ionic/angular';
-import { ReportsPopovercomponentComponent } from './reports-popovercomponent/reports-popovercomponent.component';
-import { ObjectChecklistService } from '../services/object-checklist.service';
-import { ObjectChecklist } from '../model/object-checklist.model';
+import {Component, ViewChild, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {PopoverController, IonContent, Platform, LoadingController} from '@ionic/angular';
+import {ReportsPopovercomponentComponent} from './reports-popovercomponent/reports-popovercomponent.component';
+import {ObjectChecklistService} from '../services/object-checklist.service';
+import {ObjectChecklist} from '../model/object-checklist.model';
 
 @Component({
     selector: 'app-object-manager-reports',
@@ -17,31 +17,33 @@ export class ObjectManagerReportsPage implements OnInit {
 
     private objectChecklists: ObjectChecklist[] = [];
     private displayListItems: Array<boolean> = [];
-    private sortCity:boolean = false;
-    private sortDate:boolean = false;
-    private sortStatus:boolean = false;
-    private dateYesterday:Date = new Date();
+    private sortCity: boolean = false;
+    private sortDate: boolean = false;
+    private sortStatus: boolean = false;
+    private dateYesterday: Date = new Date();
 
     constructor(
         private router: Router,
+        private loadingController: LoadingController,
         private popoverController: PopoverController,
         private objectChecklistService: ObjectChecklistService,
         private platform: Platform) {
-          //Handle für device back button
-          this.platform.backButton.subscribeWithPriority(0, () => {
+        // Handle für device back button
+        this.platform.backButton.subscribeWithPriority(0, () => {
             navigator['app'].exitApp();
-          });
+        });
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+    }
 
     /**
      * Aktualisiert die Liste beim öffnen der Page
      * und Scrollt nach oben
      */
     ionViewDidEnter() {
-      this.refreshChecklistItems();
-      this.theContent.scrollToTop(500);
+        this.refreshChecklistItems();
+        this.theContent.scrollToTop(500);
     }
 
     /**
@@ -53,29 +55,29 @@ export class ObjectManagerReportsPage implements OnInit {
 
     /**
      * Öffne Info IonCard bei Click auf list item
-     * 
+     *
      * @param index Array Index vom Objekt objectChecklists aus HTML
      */
-    viewChecklistItemInfo(index:any) {
-        if(this.displayListItems[index] == true) {
+    viewChecklistItemInfo(index: any) {
+        if (this.displayListItems[index] === true) {
             this.resetChecklistItemInfo();
             return;
         }
         this.resetChecklistItemInfo();
-        
-        //Maximiere aktuellen Index
+
+        // Maximiere aktuellen Index
         this.displayListItems[index] = true;
-        //Scrolle Item nach oben
-        this.scrollToID(0, 80*index);
+        // Scrolle Item nach oben
+        this.scrollToID(0, 80 * index);
     }
 
     /**
      * Scrollt bis zur übergebenen Koordinate
-     * 
+     *
      * @param x X-Koordinate
      * @param y Y-Koordinate
      */
-    scrollToID(x:number, y:number) {
+    scrollToID(x: number, y: number) {
         this.theContent.scrollToPoint(x, y, 500);
     }
 
@@ -86,26 +88,34 @@ export class ObjectManagerReportsPage implements OnInit {
         this.displayListItems = [];
         this.objectChecklists.forEach((item) => {
             this.displayListItems.push(false);
-          });
+        });
     }
 
-   /**
-   * Setzt aktuelle zeit - 1 Tag für Anzeige maximal 24h
-   * Aktualisiert das Checklist Objekt für die Anzeige
-   * vorher wird es gelöscht
-   */
+    /**
+     * Setzt aktuelle zeit - 1 Tag für Anzeige maximal 24h
+     * Aktualisiert das Checklist Objekt für die Anzeige
+     * vorher wird es gelöscht
+     */
     async refreshChecklistItems() {
-      this.dateYesterday = ( d => new Date(d.setDate(d.getDate()-1)) )(new Date);
-      await this.objectChecklistService.getAllChecklists().then((items) => {
-      if(items.length !== 0) {
-          this.objectChecklists = [];
-          this.objectChecklists = items;
-          this.objectChecklists.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
-          this.resetChecklistItemInfo();
-      }
-      });
+        this.dateYesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
+        const loading = await this.loadingController.create({
+            spinner: 'circles',
+        });
+        await loading.present();
+        await setTimeout(() => {
+            loading.dismiss();
+        }, 5000);
+        await this.objectChecklistService.getAllChecklists().then((items) => {
+            if (items.length !== 0) {
+                this.objectChecklists = [];
+                this.objectChecklists = items;
+                this.objectChecklists.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
+                this.resetChecklistItemInfo();
+            }
+            loading.dismiss();
+        });
     }
- 
+
     /**
      * Beim Zeihen nach unten auf der Page, werden alle Elemente aktualisiert
      *
@@ -127,46 +137,46 @@ export class ObjectManagerReportsPage implements OnInit {
      * unter onDidDismiss() wird die Rückgabe des Popover verarbeitet
      */
     async openPopover() {
-      const popover = await this.popoverController.create({
-          component: ReportsPopovercomponentComponent,
-          event
-      });
+        const popover = await this.popoverController.create({
+            component: ReportsPopovercomponentComponent,
+            event
+        });
 
-      popover.onDidDismiss().then((dataReturned) => {
-        if (dataReturned !== null) {
-          if (dataReturned.data === 'refresh') {
-              this.refreshChecklistItems();
-          }
-          if (dataReturned.data === 'city') {
-            if(this.sortCity) {
-              this.objectChecklists.sort((a, b) => (a.property.city > b.property.city) ? 1 : -1);
-              this.sortCity = false;
-            } else {
-              this.objectChecklists.sort((a, b) => (a.property.city < b.property.city) ? 1 : -1);
-              this.sortCity = true;
+        popover.onDidDismiss().then((dataReturned) => {
+            if (dataReturned !== null) {
+                if (dataReturned.data === 'refresh') {
+                    this.refreshChecklistItems();
+                }
+                if (dataReturned.data === 'city') {
+                    if (this.sortCity) {
+                        this.objectChecklists.sort((a, b) => (a.property.city > b.property.city) ? 1 : -1);
+                        this.sortCity = false;
+                    } else {
+                        this.objectChecklists.sort((a, b) => (a.property.city < b.property.city) ? 1 : -1);
+                        this.sortCity = true;
+                    }
+                }
+                if (dataReturned.data === 'date') {
+                    if (this.sortDate) {
+                        this.objectChecklists.sort((a, b) => (a.sentTimestamp < b.sentTimestamp) ? 1 : -1);
+                        this.sortDate = false;
+                    } else {
+                        this.objectChecklists.sort((a, b) => (a.sentTimestamp > b.sentTimestamp) ? 1 : -1);
+                        this.sortDate = true;
+                    }
+                }
+                if (dataReturned.data === 'status') {
+                    if (this.sortStatus) {
+                        this.objectChecklists.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
+                        this.sortStatus = false;
+                    } else {
+                        this.objectChecklists.sort((a, b) => (a.sent > b.sent) ? 1 : -1);
+                        this.sortStatus = true;
+                    }
+                }
             }
-          }
-          if (dataReturned.data === 'date') {
-            if(this.sortDate) {
-              this.objectChecklists.sort((a, b) => (a.sentTimestamp < b.sentTimestamp) ? 1 : -1);
-              this.sortDate = false;
-            } else {
-              this.objectChecklists.sort((a, b) => (a.sentTimestamp > b.sentTimestamp) ? 1 : -1);
-              this.sortDate = true;
-            }
-          }
-          if (dataReturned.data === 'status') {
-            if(this.sortStatus) {
-              this.objectChecklists.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
-              this.sortStatus = false;
-            } else {
-              this.objectChecklists.sort((a, b) => (a.sent > b.sent) ? 1 : -1);
-              this.sortStatus = true;
-            }
-          }
-        }
-      });
+        });
 
-      return await popover.present();
+        return await popover.present();
     }
 }

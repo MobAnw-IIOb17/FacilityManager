@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {PopoverController, AlertController, IonItemSliding, Platform} from '@ionic/angular';
+import {PopoverController, AlertController, IonItemSliding, Platform, LoadingController} from '@ionic/angular';
 import {Router, ActivatedRoute} from '@angular/router';
 import {ObjectChecklistService} from '../services/object-checklist.service';
 import {Property} from '../model/property.model';
@@ -28,13 +28,14 @@ export class ObjectManagerControlListPage implements OnInit {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
+        private loadingController: LoadingController,
         private popoverController: PopoverController,
         private alertController: AlertController,
         private employeeService: EmployeeService,
         private objectSearchService: ObjectSearchService,
         private objectChecklistService: ObjectChecklistService,
         private platform: Platform) {
-            //Handle für device back button
+            // Handle für device back button
             this.platform.backButton.subscribeWithPriority(0, async () => {
                 this.router.navigateByUrl('/tabs/object-manager-new');
             });
@@ -44,9 +45,9 @@ export class ObjectManagerControlListPage implements OnInit {
                 if (state) {
                     if (state.object) {
                         this.property = state.object;
-                        this.objectChecklistService.getDefaultChecklist(this.property.uid).then((item) => { // '184' //this.property.uid
-                            this.objectSearchService.copyAnArray(this.controllistItems, item.checklist);
-                            this.objectSearchService.copyAnArray(this.usedControllistItems, item.checklist);
+                        this.objectChecklistService.getDefaultChecklist(this.property.uid).then((item) => {
+                            this.controllistItems = item.checklist;
+                            this.usedControllistItems = item.checklist;
                             this.saveItem = item;
                             this.employeeService.getCurrentEmployee().then((employee) => {
                                 this.saveItem.employee = employee;
@@ -58,7 +59,7 @@ export class ObjectManagerControlListPage implements OnInit {
                         });
                     }
                     if (state.checklist) {
-                        const check = state.checklist;
+                        const check: Checklist = state.checklist;
 
                         // Aktualisieren der Kontrollelemente in der Kontrollliste
                         this.usedControllistItems.forEach((element, index) => {
@@ -192,10 +193,18 @@ export class ObjectManagerControlListPage implements OnInit {
                 button = [
                     {
                         text: 'Abschicken',
-                        handler: data => {
+                        handler: async data => {
                             this.saveItem.checklist = this.usedControllistItems;
-                            this.objectChecklistService.addChecklist(this.saveItem);
-                            this.router.navigate(['/tabs/object-manager-reports']);
+                            const loading = await this.loadingController.create({
+                                spinner: 'circles',
+                            });
+                            await loading.present();
+
+                            this.objectChecklistService.addChecklist(this.saveItem).then(() => {
+                                loading.dismiss();
+                                this.router.navigate(['/tabs/object-manager-reports']);
+                            });
+
                         }
                     },
                     {
