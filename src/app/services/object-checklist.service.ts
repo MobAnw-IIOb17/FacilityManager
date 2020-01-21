@@ -84,12 +84,12 @@ export class ObjectChecklistService {
    * If there is online access, it directly sends the object checklist to the webservice.
    * @param checklist the checklist to be added
    */
-  addChecklist(checklist: ObjectChecklist): Promise<void> {
+  async addChecklist(checklist: ObjectChecklist) {
     if (this.networkService.isOnline) {
-      this.sendChecklist(checklist);
+      await this.sendChecklist(checklist);
     } else {
       this.toSend.push(checklist);
-      return this.checklistDb.set(ObjectChecklistService.TO_SEND, this.toSend);
+      await this.checklistDb.set(ObjectChecklistService.TO_SEND, this.toSend);
     }
   }
 
