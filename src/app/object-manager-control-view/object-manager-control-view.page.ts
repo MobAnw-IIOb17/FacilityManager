@@ -64,6 +64,7 @@ export class ObjectManagerControlViewPage implements OnInit {
     ionViewDidEnter() {
         this.theContent.scrollToTop(500);
         this.grids = document.getElementsByClassName('grids') as unknown as Array<HTMLElement>;
+        this.grids = new Array<HTMLElement>();
         //this.galleryService.makeGallery(document.getElementById('gallery-grid_03'), this.pictures[0], false); //ALT!
     }
 
