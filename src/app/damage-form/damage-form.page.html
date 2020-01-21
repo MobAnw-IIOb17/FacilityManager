@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/tabs/damage-reports"></ion-back-button>
+            <ion-button (click)="alertOnChangetoDamageReportsPage()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
         </ion-buttons>
 
         <ion-title>Schadensmeldung Erstellen</ion-title>

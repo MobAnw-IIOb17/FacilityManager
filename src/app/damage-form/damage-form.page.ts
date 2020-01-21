@@ -8,7 +8,7 @@ import { EmployeeService } from '../services/employee.service';
 import { Employee } from '../model/employee.model';
 import { ObjectSearchService } from '../services/object-search.service';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-damage-form',
@@ -40,6 +40,7 @@ export class DamageFormPage {
     private employeeService: EmployeeService,
     private objectSearchService: ObjectSearchService,
     private damageService: DamageService, 
+    private alertController: AlertController,
     private platform: Platform) {
       this.objectSearchService.loadCities(this.firmCities);
   }
@@ -62,8 +63,26 @@ export class DamageFormPage {
 
     //Handle für device back button
     this.platform.backButton.subscribeWithPriority(0, () => {
-      this.router.navigateByUrl('/tabs/damage-reports');
+      this.alertOnChangetoDamageReportsPage();
     });
+  }
+
+  async alertOnChangetoDamageReportsPage() {
+    const alert = await this.alertController.create({
+        header: "Möchten Sie diese Seite wirklich verlassen?",
+        message: "Alle hier vorgenommenen Änderungen werden verworfen",
+        buttons: [
+            {
+                text: 'Zurück',
+                handler: data => {                        
+                    this.router.navigate(['/tabs/damage-reports']);
+                }
+            },
+            {
+                text: 'Abbrechen'
+            }]
+    });
+    await alert.present();
   }
 
   getPropertyByCityAndStreet(list: Array<Property>, cityName: string, streetName: string) {

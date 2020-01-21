@@ -81,6 +81,33 @@ export class ObjectManagerControlListPage implements OnInit {
             });
     }
 
+    ngOnInit() { }
+    
+    ionViewDidEnter() {
+        //Handle für device back button
+        this.platform.backButton.subscribeWithPriority(0, () => {
+            this.alertOnChangetoManagerNewPage();
+        });
+    }
+
+    async alertOnChangetoManagerNewPage() {
+        const alert = await this.alertController.create({
+            header: "Möchten Sie diese Seite wirklich verlassen?",
+            message: "Alle hier vorgenommenen Änderungen werden verworfen",
+            buttons: [
+                {
+                    text: 'Zurück',
+                    handler: data => {                        
+                        this.router.navigate(['/tabs/object-manager-reports']);
+                    }
+                },
+                {
+                    text: 'Abbrechen'
+                }]
+        });
+        await alert.present();
+    }
+      
     isItemValid(item) {
         const help = this.finishedUsedControllistItems.map((clItem) => {
             return( clItem.name === item.name && clItem.boolean === true);
@@ -90,15 +117,6 @@ export class ObjectManagerControlListPage implements OnInit {
         }
         return false;
     }
-
-    ngOnInit() {   }
-
-    ionViewDidEnter() {
-        //Handle für device back button
-        this.platform.backButton.subscribeWithPriority(0, () => {
-            this.router.navigateByUrl('/tabs/object-manager-new');
-        });
-      }
 
     addElementToValidationList(newElement: Checklist, status: boolean) {
         this.removeElementFromValidationList(newElement);
