@@ -19,12 +19,7 @@ export class DamageReportsPage {
   private sortStatus:boolean = false;  
   private dateYesterday:Date = new Date();
 
-  constructor(public damageService: DamageService, private popoverController: PopoverController, private router: Router, private platform: Platform) {
-    //Handle für device back button
-    this.platform.backButton.subscribeWithPriority(0, () => {
-      navigator['app'].exitApp();
-    });
-  }
+  constructor(public damageService: DamageService, private popoverController: PopoverController, private router: Router, private platform: Platform) { }
   
   @ViewChild(IonContent, {static: false}) theContent: IonContent;
 
@@ -35,6 +30,11 @@ export class DamageReportsPage {
   ionViewDidEnter() {
     this.refreshDamages();
     this.theContent.scrollToTop(500);
+
+    //Handle für device back button
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      navigator['app'].exitApp();
+    });
   }
   
    /**

@@ -24,12 +24,7 @@ export class ObjectManagerNewPage implements OnInit {
 
     private employee: Employee = new Employee();
 
-    constructor(private employeeService: EmployeeService, private objectSearchService: ObjectSearchService, private router: Router, private platform: Platform) {
-        //Handle für device back button
-        this.platform.backButton.subscribeWithPriority(0, () => {
-            this.router.navigateByUrl('/tabs/object-manager-reports');
-        });
-    }
+    constructor(private employeeService: EmployeeService, private objectSearchService: ObjectSearchService, private router: Router, private platform: Platform) { }
 
     ngOnInit() { }
 
@@ -42,6 +37,11 @@ export class ObjectManagerNewPage implements OnInit {
         document.getElementById('#om_object_searchbar').setAttribute('value', '');
         this.objectSearchService.loadCities(this.firmCities);
         this.loadEmployee();
+
+        //Handle für device back button
+        this.platform.backButton.subscribeWithPriority(0, () => {
+            this.router.navigateByUrl('/tabs/object-manager-reports');
+        });
     }
 
     /**

@@ -35,11 +35,6 @@ export class ObjectManagerControlListPage implements OnInit {
         private objectSearchService: ObjectSearchService,
         private objectChecklistService: ObjectChecklistService,
         private platform: Platform) {
-            // Handle für device back button
-            this.platform.backButton.subscribeWithPriority(0, async () => {
-                this.router.navigateByUrl('/tabs/object-manager-new');
-            });
-
             this.route.params.subscribe(() => {
                 const state = this.router.getCurrentNavigation().extras.state;
                 if (state) {
@@ -97,6 +92,13 @@ export class ObjectManagerControlListPage implements OnInit {
     }
 
     ngOnInit() {   }
+
+    ionViewDidEnter() {
+        //Handle für device back button
+        this.platform.backButton.subscribeWithPriority(0, () => {
+            this.router.navigateByUrl('/tabs/object-manager-new');
+        });
+      }
 
     addElementToValidationList(newElement: Checklist, status: boolean) {
         this.removeElementFromValidationList(newElement);

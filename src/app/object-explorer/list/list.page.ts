@@ -13,18 +13,20 @@ export class ListPage implements OnInit {
 
   private properties: Property[] = [];
 
-  constructor(private propertyService: PropertyService, private router: Router, private platform: Platform) {
-    //Handle für device back button
-    this.platform.backButton.subscribeWithPriority(0, () => {
-      navigator['app'].exitApp();
-    });
-    
+  constructor(private propertyService: PropertyService, private router: Router, private platform: Platform) {   
     propertyService.getAllProperties().then((p: Property[]) => {
       this.setProperties(p);
     });
   }
 
   ngOnInit() {
+  }
+
+  ionViewDidEnter() {
+    //Handle für device back button
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      navigator['app'].exitApp();
+    });
   }
 
   propertyClick(p: Property) {

@@ -23,10 +23,6 @@ export class SettingsPage implements OnInit {
     private appCameraService: AppCameraService,
     private settingsService: SettingsService,
     private platform: Platform) {
-      //Handle für device back button
-      this.platform.backButton.subscribeWithPriority(0, () => {
-        this.router.navigateByUrl('/tabs/home');
-      });
       this.loginForm = formBuilder.group({});
   }
 
@@ -38,6 +34,13 @@ export class SettingsPage implements OnInit {
     if (quality) { this.qualitySlide = +quality; }
   }
 
+  ionViewDidEnter() {
+    //Handle für device back button
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      this.router.navigateByUrl('/tabs/home');
+    });
+  }
+  
   login() {
     const passwordField = document.getElementById('adminPassword') as HTMLIonInputElement;
     if (passwordField.value === 'Admin1234') {

@@ -27,12 +27,7 @@ export class ObjectManagerReportsPage implements OnInit {
         private loadingController: LoadingController,
         private popoverController: PopoverController,
         private objectChecklistService: ObjectChecklistService,
-        private platform: Platform) {
-        // Handle für device back button
-        this.platform.backButton.subscribeWithPriority(0, () => {
-            navigator['app'].exitApp();
-        });
-    }
+        private platform: Platform) { }
 
     ngOnInit() {
     }
@@ -44,6 +39,11 @@ export class ObjectManagerReportsPage implements OnInit {
     ionViewDidEnter() {
         this.refreshChecklistItems();
         this.theContent.scrollToTop(500);
+        
+        // Handle für device back button
+        this.platform.backButton.subscribeWithPriority(0, () => {
+            navigator['app'].exitApp();
+        });
     }
 
     /**

@@ -41,11 +41,6 @@ export class DamageFormPage {
     private objectSearchService: ObjectSearchService,
     private damageService: DamageService, 
     private platform: Platform) {
-      //Handle für device back button
-      this.platform.backButton.subscribeWithPriority(0, () => {
-        this.router.navigateByUrl('/tabs/damage-reports');
-      });
-
       this.objectSearchService.loadCities(this.firmCities);
   }
 
@@ -64,6 +59,11 @@ export class DamageFormPage {
     });
 
     this.galleryService.makeGallery(document.getElementById('gallery-grid_01'), this.pictures, true);
+
+    //Handle für device back button
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      this.router.navigateByUrl('/tabs/damage-reports');
+    });
   }
 
   getPropertyByCityAndStreet(list: Array<Property>, cityName: string, streetName: string) {

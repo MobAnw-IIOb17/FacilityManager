@@ -20,6 +20,7 @@ export class ObjectManagerControlViewPage implements OnInit {
     private checklist = new Checklist();
     private valid = false;
     private grids: Array<HTMLElement> = [];
+    private backRoute: string = "/tabs/object-manager-control-list";
 
     constructor(
         private route: ActivatedRoute,
@@ -27,7 +28,6 @@ export class ObjectManagerControlViewPage implements OnInit {
         private galleryService: GalleryService,
         private platform: Platform) {
         this.route.params.subscribe(() => {
-            let backRoute:string = "/tabs/object-manager-control-list";
             const state = this.router.getCurrentNavigation().extras.state;
             if (state) {               
                 this.checklist = state.checklist;
@@ -35,7 +35,7 @@ export class ObjectManagerControlViewPage implements OnInit {
                 //Wenn Item.name backToNew da ist, dann zurück nach new setzen und löschen, sonst nach list
                 this.checklist.items.forEach( (item) => {
                     if(item.name === "backToNew") {
-                        backRoute = "/tabs/object-manager-control-new";
+                        this.backRoute = "/tabs/object-manager-control-new";
                         this.checklist.items.pop();
                     }
                 });
@@ -48,10 +48,6 @@ export class ObjectManagerControlViewPage implements OnInit {
 
             }
 
-            //Handle für device back button
-            this.platform.backButton.subscribeWithPriority(0, () => {
-                this.router.navigateByUrl(backRoute);
-            });
         });
     }
 
@@ -66,6 +62,11 @@ export class ObjectManagerControlViewPage implements OnInit {
         this.grids = document.getElementsByClassName('grids') as unknown as Array<HTMLElement>;
         this.grids = new Array<HTMLElement>();
         //this.galleryService.makeGallery(document.getElementById('gallery-grid_03'), this.pictures[0], false); //ALT!
+
+        //Handle für device back button
+        this.platform.backButton.subscribeWithPriority(0, () => {
+            this.router.navigateByUrl(this.backRoute);
+        });
     }
 
     ngAfterViewInit() {

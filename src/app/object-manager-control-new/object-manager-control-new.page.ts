@@ -15,18 +15,14 @@ export class ObjectManagerControlNewPage implements OnInit {
     private valid = false;
     private validName = false;
 
-    constructor(private router: Router, private platform: Platform) {
-        //Handle für device back button
-        this.platform.backButton.subscribeWithPriority(0, () => {
-            this.router.navigateByUrl('/tabs/object-manager-control-list');
-          });
-    }
+    constructor(private router: Router, private platform: Platform) { }
 
     ngOnInit() { }
 
     ngAfterViewInit() {
         this.checkValidate();
     }
+
     ionViewDidEnter() {
         this.labels.splice(1);
         const input = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
@@ -36,7 +32,13 @@ export class ObjectManagerControlNewPage implements OnInit {
             input[i].value = "";
         }
         this.checkValidate();
+
+        //Handle für device back button
+        this.platform.backButton.subscribeWithPriority(0, () => {
+            this.router.navigateByUrl('/tabs/object-manager-control-list');
+        });
     }
+    
     setName(s: string) {
         const x = document.getElementById("NameOfLabel") as unknown as IonInput;
         x.value = s;
