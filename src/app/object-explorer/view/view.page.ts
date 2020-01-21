@@ -22,7 +22,7 @@ export class ViewPage implements OnInit {
     this.property = this.propertyService.getEmptyProperty();
     this.route.params.subscribe(() => {
       const uid: string = this.router.getCurrentNavigation().extras.state.property;
-      this.propertyService.getPropertyDirectly(uid).then((p: Property) => {
+      this.propertyService.getProperty(uid).then((p: Property) => {
         this.property = p;
       });
     });
