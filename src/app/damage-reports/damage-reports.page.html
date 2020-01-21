@@ -17,23 +17,21 @@
       </ion-refresher>
 
     <ion-list *ngFor="let damage of damages">
-      <div *ngIf="damage.sentTimestamp === null || damage.sentTimestamp > dateYesterday">
-        <ion-item (click)="openDamage(damage)">        
-            <ion-label>
-                <h2>{{damage.property.city}}, {{damage.property.street}}</h2>
-                <p>{{damage.description}}</p>
-            </ion-label>
+      <ion-item (click)="openDamage(damage)" *ngIf="damage.sentTimestamp === null || damage.sentTimestamp > dateYesterday">        
+          <ion-label>
+              <h2>{{damage.property.city}}, {{damage.property.street}}</h2>
+              <p>{{damage.description}}</p>
+          </ion-label>
 
-            <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='damage.sent === true'>
-                <p style="font-weight: 600; text-align: right;">gesendet</p>
-                <p style="text-align: right;">{{damage.sentTimestamp | date: 'dd.MM.yyyy H:mm'}}</p>
-            </ion-label>   
-      
-            <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='damage.sent === false'>
-                <p style="font-weight: 600; text-align: right; color: #FF9800;">ausstehend</p>
-            </ion-label>  
-        </ion-item>
-      </div>
+          <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='damage.sent === true'>
+              <p style="font-weight: 600; text-align: right;">gesendet</p>
+              <p style="text-align: right;">{{damage.sentTimestamp | date: 'dd.MM.yyyy H:mm'}}</p>
+          </ion-label>   
+    
+          <ion-label style="min-width: 25% !important; max-width: 25% !important;" *ngIf='damage.sent === false'>
+              <p style="font-weight: 600; text-align: right; color: #FF9800;">ausstehend</p>
+          </ion-label>  
+      </ion-item>
     </ion-list>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
