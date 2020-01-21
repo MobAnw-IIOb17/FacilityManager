@@ -70,9 +70,9 @@ export class ObjectManagerReportsPage implements OnInit {
     }
 
     /**
-     * Scrollt bis zur übergebenen Koordninate
+     * Scrollt bis zur übergebenen Koordinate
      * 
-     * @param x X-Koordninate
+     * @param x X-Koordinate
      * @param y Y-Koordinate
      */
     scrollToID(x:number, y:number) {
@@ -90,7 +90,7 @@ export class ObjectManagerReportsPage implements OnInit {
     }
 
    /**
-    * Setzt aktuelle zeit - 1 Tag für Anzeige maximal 24h
+   * Setzt aktuelle zeit - 1 Tag für Anzeige maximal 24h
    * Aktualisiert das Checklist Objekt für die Anzeige
    * vorher wird es gelöscht
    */
@@ -127,46 +127,46 @@ export class ObjectManagerReportsPage implements OnInit {
      * unter onDidDismiss() wird die Rückgabe des Popover verarbeitet
      */
     async openPopover() {
-        const popover = await this.popoverController.create({
-            component: ReportsPopovercomponentComponent,
-            event
-        });
+      const popover = await this.popoverController.create({
+          component: ReportsPopovercomponentComponent,
+          event
+      });
 
-        popover.onDidDismiss().then((dataReturned) => {
-            if (dataReturned !== null) {
-                if (dataReturned.data === 'refresh') {
-                    this.refreshChecklistItems();
-                }
-                if (dataReturned.data === 'city') {
-                  if(this.sortCity) {
-                    this.objectChecklists.sort((a, b) => (a.property.city > b.property.city) ? 1 : -1);
-                    this.sortCity = false;
-                  } else {
-                    this.objectChecklists.sort((a, b) => (a.property.city < b.property.city) ? 1 : -1);
-                    this.sortCity = true;
-                  }
-                }
-                if (dataReturned.data === 'date') {
-                  if(this.sortDate) {
-                    this.objectChecklists.sort((a, b) => (a.sentTimestamp < b.sentTimestamp) ? 1 : -1);
-                    this.sortDate = false;
-                  } else {
-                    this.objectChecklists.sort((a, b) => (a.sentTimestamp > b.sentTimestamp) ? 1 : -1);
-                    this.sortDate = true;
-                  }
-                }
-                if (dataReturned.data === 'status') {
-                  if(this.sortStatus) {
-                    this.objectChecklists.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
-                    this.sortStatus = false;
-                  } else {
-                    this.objectChecklists.sort((a, b) => (a.sent > b.sent) ? 1 : -1);
-                    this.sortStatus = true;
-                  }
-                }
+      popover.onDidDismiss().then((dataReturned) => {
+        if (dataReturned !== null) {
+          if (dataReturned.data === 'refresh') {
+              this.refreshChecklistItems();
+          }
+          if (dataReturned.data === 'city') {
+            if(this.sortCity) {
+              this.objectChecklists.sort((a, b) => (a.property.city > b.property.city) ? 1 : -1);
+              this.sortCity = false;
+            } else {
+              this.objectChecklists.sort((a, b) => (a.property.city < b.property.city) ? 1 : -1);
+              this.sortCity = true;
             }
-        });
+          }
+          if (dataReturned.data === 'date') {
+            if(this.sortDate) {
+              this.objectChecklists.sort((a, b) => (a.sentTimestamp < b.sentTimestamp) ? 1 : -1);
+              this.sortDate = false;
+            } else {
+              this.objectChecklists.sort((a, b) => (a.sentTimestamp > b.sentTimestamp) ? 1 : -1);
+              this.sortDate = true;
+            }
+          }
+          if (dataReturned.data === 'status') {
+            if(this.sortStatus) {
+              this.objectChecklists.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
+              this.sortStatus = false;
+            } else {
+              this.objectChecklists.sort((a, b) => (a.sent > b.sent) ? 1 : -1);
+              this.sortStatus = true;
+            }
+          }
+        }
+      });
 
-        return await popover.present();
+      return await popover.present();
     }
 }

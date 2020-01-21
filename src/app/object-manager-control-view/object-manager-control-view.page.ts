@@ -32,7 +32,7 @@ export class ObjectManagerControlViewPage implements OnInit {
             if (state) {               
                 this.checklist = state.checklist;
 
-                //Wenn Item.name backToNew da ist, dann zurück nach new setzen, sonst nach list
+                //Wenn Item.name backToNew da ist, dann zurück nach new setzen und löschen, sonst nach list
                 this.checklist.items.forEach( (item) => {
                     if(item.name === "backToNew") {
                         backRoute = "/tabs/object-manager-control-new";

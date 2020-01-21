@@ -64,7 +64,7 @@ export class ObjectManagerControlNewPage implements OnInit {
                 checklist.items.push(item);
             }
 
-            //Füge Dummy für device Zurück hinzu
+            //Füge Dummy für device Zurück hinzu, wird unter view ausgewertet und gelöscht
             const item: ChecklistItem = {name: "backToNew", description: '', images: [], is_ok: false};
             checklist.items.push(item);
 
