@@ -34,19 +34,19 @@ export class ObjectManagerNewPage implements OnInit {
           this.platform.backButton.subscribeWithPriority(0, () => {
             this.router.navigateByUrl('/tabs/object-manager-reports');
           });
-          this.objectSearchService.loadCities(this.firmCities);
-          this.loadEmployee();
     }
 
     ngOnInit() { }
 
     /**
-     * Aktualisiert die Liste beim öffnen der Page
-     * und Scrollt nach oben
+     * Aktualisiert die Liste beim Öffnen der Seite und Scrollt nach oben
+     * Laden der verfügbaren Städte sowie des Mitarbeiters aus der Datenbank
      */
     ionViewDidEnter() {
-        document.getElementById('#om_city_searchbar').setAttribute('value', "");
-        document.getElementById('#om_object_searchbar').setAttribute('value', "");
+        document.getElementById('#om_city_searchbar').setAttribute('value', '');
+        document.getElementById('#om_object_searchbar').setAttribute('value', '');
+        this.objectSearchService.loadCities(this.firmCities);
+        this.loadEmployee();
     }
 
     /**
@@ -60,6 +60,12 @@ export class ObjectManagerNewPage implements OnInit {
         });
     }
 
+    /**
+     *
+     * @param chosenObject
+     * @param firmList
+     * @param s
+     */
     chooseItem(chosenObject: string, firmList: Array<any>, s: string) {
         const val = this.objectSearchService.chooseItem(chosenObject, firmList, s, 'om',
             this.city, this.cities, this.firmCities, this.object, this.objects, this.firmObjects);

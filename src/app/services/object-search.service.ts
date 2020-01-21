@@ -31,7 +31,7 @@ export class ObjectSearchService {
     /**
      * Kopiert sourceList in targetList ohne Referenzen zu zerstören
      * @param targetList Liste in die rein kopiert wird
-     * @param sourceList Liste von der kopiert wird
+     * @param sourceList Liste, welche kopiert wird
      */
     public copyAnArray(targetList: Array<any>, sourceList: Array<any>) {
         this.clearAnArray(targetList);
@@ -50,15 +50,20 @@ export class ObjectSearchService {
     }
 
     /**
-     * Leer Itemliste, damit sie in der Oberfläche verschwindet
+     * Leert list nach 150 ms, damit sie in der Oberfläche verschwindet, jedoch die Elemente noch kurz verbleiben
      * Benötigt Verzögerung, damit man ein Item aus der Liste auswählen kann,
      * ansonsten würde die Liste verschwinden bevor man ein Item anklicken kann
+     * @param list Liste, welche geleert wird
      */
     async hideItems(list: Array<string>) {
         await this.delay(150);
         this.clearAnArray(list);
     }
 
+    /**
+     * Läd die Städte aus der Datenbank in eine Liste
+     * @param firmList Liste, welche mit den Städten gefüllt wird
+     */
     loadCities(firmList: Array<string>) {
         this.propertyService.getPropertyCities().then((items) => {
             if (items.length !== 0) {
@@ -70,9 +75,11 @@ export class ObjectSearchService {
     }
 
     /**
-     *
-     * @param list Parameter
-     * @param show gibt an, ob die geladene Liste gleich angezeigt wird
+     * Läd die verfügbaren Straßen in der ausgewählten Stadt @param city in die Liste @param firmList
+     * @param city String, welcher den Stadtnamen repräsentiert
+     * @param firmList Liste, in die die gefundenen Objekte gespeichert werden
+     * @param objects Liste, welche zur Anzeige in der GUI dient
+     * @param show Boolean bestimmt, ob die @param objects Liste gleich gefüllt und in der Oberfläche angezeigt werden soll
      */
     loadObjects(city: string, firmList: Array<Property>, objects: Array<Property>, show: boolean) {
         this.propertyService.getPropertiesByCity(city).then((items) => {
@@ -89,9 +96,16 @@ export class ObjectSearchService {
 
     /**
      *
-     * @param chosenObject aus
-     * @param firmList fest
-     * @param s str
+     * @param chosenObject
+     * @param firmList
+     * @param s
+     * @param searchbarName
+     * @param city
+     * @param cities
+     * @param firmCities
+     * @param object
+     * @param objects
+     * @param firmObjects
      */
     chooseItem(chosenObject: string, firmList: Array<any>, s: string, searchbarName: string,
                city: string, cities: Array<string>, firmCities: Array<string>,
@@ -123,14 +137,20 @@ export class ObjectSearchService {
         return {city, object};
     }
 
+    /**
+     * Gibt das erste Objekt aus der Liste @param list wieder, für welches der eingegebene Stadt- und Straßenname übereinstimmt
+     * @param list Liste, in der gesucht wird
+     * @param cityName String: gesuchter Stadtname
+     * @param streetName String: gesuchter Straßenname
+     * @returns Property: erstes gefundenes Objekt
+     */
     getPropertyByCityAndStreet(list: Array<Property>, cityName: string, streetName: string) {
         let prop = new Property();
-        prop = list.filter((values) => {
-            return (values.city === cityName && values.street === streetName);
-        })[0];
+        prop = list.filter((values) =>
+            values.city === cityName && values.street === streetName
+        )[0];
         return prop;
     }
-
 
 
     /**
@@ -190,7 +210,7 @@ export class ObjectSearchService {
      * Ruft die nächste Seite auf und übergibt die ausgewählte Stadt und das ausgewählte Objekt
      */
     validateObject(jmpTo: string, city: string, firmCities: Array<string>, obj: Property, firmObjects: Array<Property>): boolean {
-        if(jmpTo){
+        if (jmpTo) {
             if (firmCities.includes(city)) {
                 if (this.propertyListContainsProperty(firmObjects, obj)) {
                     this.router.navigate([jmpTo], {state: {object: obj}});
