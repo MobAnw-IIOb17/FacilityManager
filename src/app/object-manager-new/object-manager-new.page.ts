@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {PropertyService} from '../services/property.service';
 import {Router} from '@angular/router';
 import {Property} from '../model/property.model';
 import {EmployeeService} from '../services/employee.service';
@@ -25,15 +24,11 @@ export class ObjectManagerNewPage implements OnInit {
 
     private employee: Employee = new Employee();
 
-    constructor(
-        private propertyService: PropertyService,
-        private employeeService: EmployeeService,
-        private objectSearchService: ObjectSearchService,
-        private router: Router,
-        private platform: Platform) {
-          this.platform.backButton.subscribeWithPriority(0, () => {
+    constructor(private employeeService: EmployeeService, private objectSearchService: ObjectSearchService, private router: Router, private platform: Platform) {
+        //Handle für device back button
+        this.platform.backButton.subscribeWithPriority(0, () => {
             this.router.navigateByUrl('/tabs/object-manager-reports');
-          });
+        });
     }
 
     ngOnInit() { }

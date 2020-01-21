@@ -14,9 +14,11 @@ export class ListPage implements OnInit {
   private properties: Property[] = [];
 
   constructor(private propertyService: PropertyService, private router: Router, private platform: Platform) {
+    //Handle für device back button
     this.platform.backButton.subscribeWithPriority(0, () => {
       navigator['app'].exitApp();
     });
+    
     propertyService.getAllProperties().then((p: Property[]) => {
       this.setProperties(p);
     });

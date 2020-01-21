@@ -23,6 +23,7 @@ export class SettingsPage implements OnInit {
     private appCameraService: AppCameraService,
     private settingsService: SettingsService,
     private platform: Platform) {
+      //Handle für device back button
       this.platform.backButton.subscribeWithPriority(0, () => {
         this.router.navigateByUrl('/tabs/home');
       });

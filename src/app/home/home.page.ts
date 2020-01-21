@@ -14,6 +14,7 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidEnter() {
+    //Handle für device back button
     this.platform.backButton.subscribeWithPriority(0, () => {
       navigator['app'].exitApp();
     });

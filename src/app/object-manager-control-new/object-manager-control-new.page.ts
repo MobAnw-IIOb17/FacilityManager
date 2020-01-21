@@ -1,25 +1,23 @@
 import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormBuilder, FormControl} from '@angular/forms';
-import {Router, NavigationExtras} from '@angular/router';
+import {Router} from '@angular/router';
 import {ChecklistItem} from '../model/checklist-item.model';
 import {Checklist} from '../model/checklist.model';
-import {invalid} from '@angular/compiler/src/render3/view/util';
 import { IonInput, Platform } from '@ionic/angular';
-
 
 @Component({
     selector: 'app-object-manager-control-new',
     templateUrl: './object-manager-control-new.page.html',
     styleUrls: ['./object-manager-control-new.page.scss'],
 })
+
 export class ObjectManagerControlNewPage implements OnInit {
     private labels: Array<string> = [""];
     private valid = false;
     private validName = false;
 
-    constructor(private router: Router,
-        private platform: Platform) {
-          this.platform.backButton.subscribeWithPriority(0, () => {
+    constructor(private router: Router, private platform: Platform) {
+        //Handle für device back button
+        this.platform.backButton.subscribeWithPriority(0, () => {
             this.router.navigateByUrl('/tabs/object-manager-control-list');
           });
     }

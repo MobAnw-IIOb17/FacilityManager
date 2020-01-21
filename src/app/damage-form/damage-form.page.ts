@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GalleryService } from '../services/gallery.service';
 import { Damage } from '../model/damage.model';
 import { DamageService } from '../services/damage.service';
@@ -41,9 +41,11 @@ export class DamageFormPage {
     private objectSearchService: ObjectSearchService,
     private damageService: DamageService, 
     private platform: Platform) {
+      //Handle für device back button
       this.platform.backButton.subscribeWithPriority(0, () => {
         this.router.navigateByUrl('/tabs/damage-reports');
       });
+
       this.objectSearchService.loadCities(this.firmCities);
   }
 

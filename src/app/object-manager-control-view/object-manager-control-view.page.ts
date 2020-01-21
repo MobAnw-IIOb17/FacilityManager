@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
 import {Checklist} from '../model/checklist.model';
 import {GalleryService} from '../services/gallery.service';
-import {IonCheckbox, IonTextarea, IonContent, Platform, IonButton, IonGrid} from '@ionic/angular';
+import {IonCheckbox, IonTextarea, IonContent, Platform} from '@ionic/angular';
 import {ChecklistItem} from "../model/checklist-item.model";
 
 @Component({
@@ -48,6 +48,7 @@ export class ObjectManagerControlViewPage implements OnInit {
 
             }
 
+            //Handle für device back button
             this.platform.backButton.subscribeWithPriority(0, () => {
                 this.router.navigateByUrl(backRoute);
             });

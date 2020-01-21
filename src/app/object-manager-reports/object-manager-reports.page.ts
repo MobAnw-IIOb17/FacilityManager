@@ -27,6 +27,7 @@ export class ObjectManagerReportsPage implements OnInit {
         private popoverController: PopoverController,
         private objectChecklistService: ObjectChecklistService,
         private platform: Platform) {
+          //Handle für device back button
           this.platform.backButton.subscribeWithPriority(0, () => {
             navigator['app'].exitApp();
           });
