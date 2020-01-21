@@ -217,6 +217,7 @@ export class ObjectManagerControlListPage implements OnInit {
                             this.saveItem.checklist = this.usedControllistItems;
                             const loading = await this.loadingController.create({
                                 spinner: 'circles',
+                                message: 'Lade',
                             });
                             await loading.present();
 

@@ -47,16 +47,14 @@ export class DamageReportsPage {
     
     let loading: HTMLIonLoadingElement;
 
-    if(loader) {
+    if (loader) {
         loading = await this.loadingController.create({
             spinner: 'circles',
+            message: 'Lade',
+            duration: 4000
         });
         
         await loading.present();
-
-        await setTimeout(() => {
-            loading.dismiss();
-        }, 5000);
     }
     
     await this.damageService.getAllDamages().then((items) => {
@@ -65,7 +63,9 @@ export class DamageReportsPage {
         this.damages = items;
         this.damages.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
       }
-      if(loader) { loading.dismiss(); }
+      if (loader) {
+        loading.dismiss();
+      }
     });
   }
 

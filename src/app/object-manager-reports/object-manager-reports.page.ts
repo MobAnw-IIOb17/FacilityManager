@@ -101,16 +101,13 @@ export class ObjectManagerReportsPage implements OnInit {
 
         let loading: HTMLIonLoadingElement;
 
-        if(loader) {
+        if (loader) {
             loading = await this.loadingController.create({
                 spinner: 'circles',
+                message: 'Lade',
+                duration: 4000
             });
-            
             await loading.present();
-
-            await setTimeout(() => {
-                loading.dismiss();
-            }, 5000);
         }
 
         await this.objectChecklistService.getAllChecklists().then((items) => {
@@ -120,7 +117,10 @@ export class ObjectManagerReportsPage implements OnInit {
                 this.objectChecklists.sort((a, b) => (a.sent < b.sent) ? 1 : -1);
                 this.resetChecklistItemInfo();
             }
-            if(loader) { loading.dismiss(); }
+
+            if (loader) { 
+                loading.dismiss();
+            }
         });
     }
 
