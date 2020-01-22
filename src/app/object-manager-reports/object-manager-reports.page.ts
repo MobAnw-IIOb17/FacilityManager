@@ -97,7 +97,7 @@ export class ObjectManagerReportsPage implements OnInit {
      * vorher wird es gelöscht
      */
     async refreshChecklistItems(loader: boolean) {
-        this.dateYesterday = (d => new Date(d.setDate(d.getDate() - 10)))(new Date());
+        this.dateYesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
 
         let loading: HTMLIonLoadingElement;
 
