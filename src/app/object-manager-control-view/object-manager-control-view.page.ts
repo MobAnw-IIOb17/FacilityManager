@@ -5,6 +5,7 @@ import { Checklist } from '../model/checklist.model';
 import { GalleryService } from '../services/gallery.service';
 import { IonCheckbox, IonTextarea, IonContent, Platform } from '@ionic/angular';
 import { ChecklistItem } from "../model/checklist-item.model";
+import { MatGridList } from '@angular/material';
 
 @Component({
     selector: 'app-object-manager-control-view',
@@ -59,9 +60,11 @@ export class ObjectManagerControlViewPage implements OnInit {
      */
     ionViewDidEnter() {
         this.theContent.scrollToTop(500);
+
         this.grids = document.getElementsByClassName('grids') as unknown as Array<HTMLElement>;
-        this.grids = new Array<HTMLElement>();
-        //this.galleryService.makeGallery(document.getElementById('gallery-grid_03'), this.pictures[0], false); //ALT!
+        for (let i = 0; i < this.labels.length; i++) {
+            this.galleryService.makeGallery(this.grids[i], this.checklist.items[i].images, true);
+        }
 
         //Handle für device back button
         this.platform.backButton.subscribeWithPriority(0, () => {
@@ -126,7 +129,7 @@ export class ObjectManagerControlViewPage implements OnInit {
     openCamera(item: ChecklistItem) {
         for (let i = 0; i < this.labels.length; i++) {
             if (item.name == this.labels[i].name) {
-                this.galleryService.makeGallery(this.grids[i], this.checklist.items[i].images, false);
+                this.galleryService.makeGallery(this.grids[i], this.checklist.items[i].images, true);
             }
         }
         this.galleryService.addCameraPicture();
@@ -136,7 +139,7 @@ export class ObjectManagerControlViewPage implements OnInit {
 
         for (let i = 0; i < this.labels.length; i++) {
             if (item.name == this.labels[i].name) {
-                this.galleryService.makeGallery(this.grids[i], this.checklist.items[i].images, false);
+                this.galleryService.makeGallery(this.grids[i], this.checklist.items[i].images, true);
             }
         }
         this.galleryService.addGalleryPicture();
