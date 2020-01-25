@@ -6,6 +6,7 @@ import {DamageService} from './damage.service';
 import {EmployeeService} from './employee.service';
 import {PropertyService} from './property.service';
 import {ObjectChecklistService} from './object-checklist.service';
+import {LoadingController} from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +25,14 @@ export class NetworkSendService {
    * @param objectChecklistService the objectChecklistService to send pending object checklists
    * @param employeeService the EmployeeService the NetworkService connects to for initiating database syncing
    * @param propertyService the propertyService to update properties
+   * @param loadingController the loading controller which is needed to display an HTMLIonLoadingElement
    */
   constructor(private http: HttpClient,
               private damageService: DamageService,
               private objectChecklistService: ObjectChecklistService,
               private employeeService: EmployeeService,
-              private propertyService: PropertyService) {
+              private propertyService: PropertyService,
+              private loadingController: LoadingController) {
   }
 
   /**
@@ -55,10 +58,16 @@ export class NetworkSendService {
    * This method sends pending damage reports and checklists and syncs the wrapper databases.
    */
   private async syncData() {
+    const loading: HTMLIonLoadingElement = await this.loadingController.create({
+      spinner: 'circles',
+      message: 'Synchronisiere',
+    });
+    await loading.present();
     await this.damageService.sendPendingDamages();
     await this.objectChecklistService.sendPendingChecklists();
     await this.employeeService.updateEmployees();
     await this.propertyService.updateProperties();
     await this.objectChecklistService.updateChecklists();
+    await loading.dismiss();
   }
 }
