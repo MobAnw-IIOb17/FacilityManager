@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { PopoverController, AlertController, IonItemSliding, Platform, LoadingController } from '@ionic/angular';
-import { Router, ActivatedRoute } from '@angular/router';
-import { ObjectChecklistService } from '../services/object-checklist.service';
-import { Property } from '../model/property.model';
-import { Checklist } from '../model/checklist.model';
-import { _countGroupLabelsBeforeOption } from '@angular/material';
-import { ObjectChecklist } from '../model/object-checklist.model';
-import { ControlListPopoverComponentComponent } from './control-list-popover-component/control-list-popover-component.component';
-import { EmployeeService } from '../services/employee.service';
-import { ObjectSearchService } from '../services/object-search.service';
+import {Component, OnInit} from '@angular/core';
+import {PopoverController, AlertController, IonItemSliding, Platform, LoadingController} from '@ionic/angular';
+import {Router, ActivatedRoute} from '@angular/router';
+import {ObjectChecklistService} from '../services/object-checklist.service';
+import {Property} from '../model/property.model';
+import {Checklist} from '../model/checklist.model';
+import {_countGroupLabelsBeforeOption} from '@angular/material';
+import {ObjectChecklist} from '../model/object-checklist.model';
+import {ControlListPopoverComponentComponent} from './control-list-popover-component/control-list-popover-component.component';
+import {EmployeeService} from '../services/employee.service';
+import {ObjectSearchService} from '../services/object-search.service';
 
 @Component({
     selector: 'app-object-manager-control-list',
@@ -20,9 +20,9 @@ export class ObjectManagerControlListPage implements OnInit {
     [x: string]: any;
 
     private property = new Property();
-    private controllistItems: Array<Checklist> = [];
-    private usedControllistItems: Array<Checklist> = [];
-    private finishedUsedControllistItems: Array<{ name: string, boolean: boolean }> = [];
+    private controlListItems: Array<Checklist> = [];
+    private usedControlListItems: Array<Checklist> = [];
+    private finishedUsedControlListItems: Array<{ name: string, boolean: boolean }> = [];
     private saveItem: ObjectChecklist;
 
     constructor(
@@ -41,15 +41,15 @@ export class ObjectManagerControlListPage implements OnInit {
                 if (state.object) {
                     this.property = state.object;
                     this.objectChecklistService.getDefaultChecklist(this.property.uid).then((item) => {
-                        this.controllistItems = item.checklist;
-                        this.usedControllistItems = item.checklist;
+                        this.controlListItems = item.checklist;
+                        this.usedControlListItems = item.checklist;
                         this.saveItem = item;
                         this.employeeService.getCurrentEmployee().then((employee) => {
                             this.saveItem.employee = employee;
                         });
-                        this.finishedUsedControllistItems = [];
+                        this.finishedUsedControlListItems = [];
                         item.checklist.forEach((element) => {
-                            this.finishedUsedControllistItems.push({ name: element.name, boolean: false });
+                            this.finishedUsedControlListItems.push({name: element.name, boolean: false});
                         });
                     });
                 }
@@ -57,21 +57,21 @@ export class ObjectManagerControlListPage implements OnInit {
                     const check: Checklist = state.checklist;
 
                     // Aktualisieren der Kontrollelemente in der Kontrollliste
-                    this.usedControllistItems.forEach((element, index) => {
+                    this.usedControlListItems.forEach((element, index) => {
                         if (element.name === check.name) {
-                            this.usedControllistItems[index] = check;
+                            this.usedControlListItems[index] = check;
                         }
                     });
 
                     // Hinzufügen eines neuen Elementes
                     let used = false;
-                    for (let i = 0; i < this.usedControllistItems.length; i++) {
-                        if (this.usedControllistItems[i].name === check.name) {
+                    for (let i = 0; i < this.usedControlListItems.length; i++) {
+                        if (this.usedControlListItems[i].name === check.name) {
                             used = true;
                         }
                     }
                     if (!used) {
-                        this.usedControllistItems.push(check);
+                        this.usedControlListItems.push(check);
                     }
 
                     // Updaten der Validierungsliste
@@ -81,19 +81,20 @@ export class ObjectManagerControlListPage implements OnInit {
         });
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+    }
 
     ionViewDidEnter() {
-        //Handle für device back button
+        // Handle für device back button
         this.platform.backButton.subscribeWithPriority(0, () => {
-            this.alertOnChangetoManagerNewPage();
+            this.alertOnChangeToManagerNewPage();
         });
     }
 
-    async alertOnChangetoManagerNewPage() {
+    async alertOnChangeToManagerNewPage() {
         const alert = await this.alertController.create({
-            header: "Möchten Sie diese Seite wirklich verlassen?",
-            message: "Alle hier vorgenommenen Änderungen werden verworfen",
+            header: 'Möchten Sie diese Seite wirklich verlassen?',
+            message: 'Alle hier vorgenommenen Änderungen werden verworfen',
             buttons: [
                 {
                     text: 'Zurück',
@@ -108,8 +109,13 @@ export class ObjectManagerControlListPage implements OnInit {
         await alert.present();
     }
 
-    isItemValid(item) {
-        const help = this.finishedUsedControllistItems.map((clItem) => {
+    /**
+     * Überprüft, ob ein Item in der finishedUsedControlListItems Liste enthalten ist und auch fertig bearbeitet wurde
+     * @param item Checklist-Objekt, welches überprüft wird
+     * @return boolean true, wenn das Element bearbeitet wurde und fertig zum abschicken ist, ansonsten false
+     */
+    isItemValid(item: Checklist): boolean {
+        const help = this.finishedUsedControlListItems.map((clItem) => {
             return (clItem.name === item.name && clItem.boolean === true);
         }).filter((bool) => bool)[0];
         if (help) {
@@ -118,15 +124,24 @@ export class ObjectManagerControlListPage implements OnInit {
         return false;
     }
 
+    /**
+     * Fügt newElement zu der finishedUsedControlListItems Liste hinzu
+     * @param newElement Checklist-Ojekt, welches zur Liste hinzugefügt werden soll
+     * @param status Boolean, ob das Element ausgefüllt ist, oder nicht
+     */
     addElementToValidationList(newElement: Checklist, status: boolean) {
         this.removeElementFromValidationList(newElement);
-        this.finishedUsedControllistItems.push({ name: newElement.name, boolean: status });
+        this.finishedUsedControlListItems.push({name: newElement.name, boolean: status});
     }
 
+    /**
+     * Löscht newElement aus der finishedUsedControlListItems Liste
+     * @param newElement Checklist-Ojekt, welches aus der Liste entfernt werden soll
+     */
     removeElementFromValidationList(newElement: Checklist) {
-        this.finishedUsedControllistItems.forEach((element, index) => {
+        this.finishedUsedControlListItems.forEach((element, index) => {
             if (element.name === newElement.name) {
-                this.finishedUsedControllistItems.splice(index, 1);
+                this.finishedUsedControlListItems.splice(index, 1);
             }
         });
     }
@@ -137,9 +152,9 @@ export class ObjectManagerControlListPage implements OnInit {
      * @param selectedItem Das Item was selectiert bzw. geschoben/swiped wurde
      */
     async deleteItem(selectedItem: Checklist) {
-        const index: number = this.usedControllistItems.indexOf(selectedItem);
+        const index: number = this.usedControlListItems.indexOf(selectedItem);
         if (index !== -1) {
-            this.usedControllistItems.splice(index, 1);
+            this.usedControlListItems.splice(index, 1);
             this.removeElementFromValidationList(selectedItem);
         }
     }
@@ -151,8 +166,8 @@ export class ObjectManagerControlListPage implements OnInit {
      * @param slidingItem Setzt das geswipte Item zurück
      */
     async editItem(selectedItem: Checklist, slidingItem: IonItemSliding) {
-        slidingItem.close();
-        this.router.navigate(['/tabs/object-manager-control-view'], { state: { checklist: selectedItem } });
+        await slidingItem.close();
+        await this.router.navigate(['/tabs/object-manager-control-view'], {state: {checklist: selectedItem}});
     }
 
     /**
@@ -161,9 +176,9 @@ export class ObjectManagerControlListPage implements OnInit {
      */
     async createPopOver() {
         const missingControllistItems: Array<Checklist> = [];
-        this.objectSearchService.copyAnArray(missingControllistItems, this.controllistItems.filter((item) => {
-            for (let i = 0; i < this.usedControllistItems.length; i++) {
-                if (this.usedControllistItems[i].name === item.name) {
+        this.objectSearchService.copyAnArray(missingControllistItems, this.controlListItems.filter((item) => {
+            for (let i = 0; i < this.usedControlListItems.length; i++) {
+                if (this.usedControlListItems[i].name === item.name) {
                     return false;
                 }
             }
@@ -180,7 +195,7 @@ export class ObjectManagerControlListPage implements OnInit {
 
         popover.onDidDismiss().then((dataReturned) => {
             if (dataReturned.role === 'add') {
-                this.usedControllistItems.push(dataReturned.data);
+                this.usedControlListItems.push(dataReturned.data);
                 this.addElementToValidationList(dataReturned.data, false);
             }
         });
@@ -196,14 +211,14 @@ export class ObjectManagerControlListPage implements OnInit {
      * sonst
      *  Alert was noch fehlt
      */
-    async saveControllElements() {
+    async saveControlElements() {
         const missingItems: Array<{ name: string, boolean: boolean }> = [];
         let button = null;
-        const text = { head: '', subHead: '', msg: '' };
-        if (this.finishedUsedControllistItems.length > 0) {
-            for (let i = 0; i < this.finishedUsedControllistItems.length; i++) {
-                if (!this.finishedUsedControllistItems[i].boolean) {
-                    missingItems.push(this.finishedUsedControllistItems[i]);
+        const text = {head: '', subHead: '', msg: ''};
+        if (this.finishedUsedControlListItems.length > 0) {
+            for (let i = 0; i < this.finishedUsedControlListItems.length; i++) {
+                if (!this.finishedUsedControlListItems[i].boolean) {
+                    missingItems.push(this.finishedUsedControlListItems[i]);
                 }
             }
             if (missingItems.length === 0) {
@@ -214,7 +229,7 @@ export class ObjectManagerControlListPage implements OnInit {
                     {
                         text: 'Abschicken',
                         handler: async data => {
-                            this.saveItem.checklist = this.usedControllistItems;
+                            this.saveItem.checklist = this.usedControlListItems;
                             const loading = await this.loadingController.create({
                                 spinner: 'circles',
                                 message: 'Lade',

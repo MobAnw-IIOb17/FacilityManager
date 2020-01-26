@@ -176,7 +176,7 @@ export class ObjectSearchService {
     }
 
     /**
-     * Zeigt einen Toast mit dem Eingabetext für 2 Sekunden.
+     * Zeigt einen Toast mit dem Eingabetext für time Millisekunden.
      * @param text anzuzeigender Text
      * @param time Anzeigedauer in ms
      */
@@ -185,16 +185,20 @@ export class ObjectSearchService {
             message: text,
             duration: time
         });
-        toast.present();
+        await toast.present();
     }
 
+    /**
+     * Überprüft, ob ein Objekt in einer Objekt-Liste enthalten ist
+     * @param list Liste, in welcher gesucht wird
+     * @param prop Objekt, welches gesucht wird
+     * @return boolean Wenn Element in der Liste true, ansonsten false
+     */
     propertyListContainsProperty(list: Array<Property>, prop: Property) {
         if (!(list === null || prop === null)) {
             return list.map((val) => {
                 return (
                     val.city === prop.city &&
-                    val.deleted === prop.deleted &&
-                    val.hidden === prop.hidden &&
                     val.owner === prop.owner &&
                     val.street === prop.street &&
                     val.title === prop.title &&
@@ -207,32 +211,25 @@ export class ObjectSearchService {
     }
 
     /**
+     * Überprüft die Eingaben auf Vollständigkeit und Richtigkeit dann:
      * Ruft die nächste Seite auf und übergibt die ausgewählte Stadt und das ausgewählte Objekt
      */
     validateObject(jmpTo: string, city: string, firmCities: Array<string>, obj: Property, firmObjects: Array<Property>): boolean {
-        if (jmpTo) {
-            if (firmCities.includes(city)) {
-                if (this.propertyListContainsProperty(firmObjects, obj)) {
+        if (firmCities.includes(city)) {
+            if (this.propertyListContainsProperty(firmObjects, obj)) {
+                if (jmpTo) {
                     this.router.navigate([jmpTo], {state: {object: obj}});
                 } else {
-                    this.showToast('Bitte wählen Sie eine verfügbare Straße.', 2000);
-                }
-            } else {
-                this.showToast('Bitte wählen Sie eine verfügbare Stadt.', 2000);
-            }
-            return true;
-        } else {
-            if (firmCities.includes(city)) {
-                if (this.propertyListContainsProperty(firmObjects, obj)) {
                     return true;
-                } else {
-                    this.showToast('Bitte wählen Sie eine verfügbare Straße.', 2000);
-                    return false;
                 }
             } else {
-                this.showToast('Bitte wählen Sie eine verfügbare Stadt.', 2000);
+                this.showToast('Bitte wählen Sie eine verfügbare Straße.', 2000);
                 return false;
             }
+        } else {
+            this.showToast('Bitte wählen Sie eine verfügbare Stadt.', 2000);
+            return false;
         }
+        return true;
     }
 }

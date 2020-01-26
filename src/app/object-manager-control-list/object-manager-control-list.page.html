@@ -2,7 +2,7 @@
   <ion-toolbar>
 
     <ion-buttons slot="start">
-      <ion-button (click)="alertOnChangetoManagerNewPage()">
+      <ion-button (click)="alertOnChangeToManagerNewPage()">
         <ion-icon name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -15,7 +15,7 @@
 
     <!-- Button mit checkmark oben rechts zum Speichern -->
     <ion-buttons slot="end">
-      <ion-button (click)="saveControllElements()">
+      <ion-button (click)="saveControlElements()">
         <ion-icon size="large" name="checkmark" color="dark-tint"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -25,7 +25,7 @@
 
 <ion-content appNetworkListener>
   <ion-list>
-    <ion-item-sliding #slidingItem *ngFor="let item of usedControllistItems" (click)="editItem(item, slidingItem)">
+    <ion-item-sliding #slidingItem *ngFor="let item of usedControlListItems" (click)="editItem(item, slidingItem)">
       <ion-item-options side="start" (ionSwipe)="deleteItem(item)">
         <ion-item-option color="danger" expandable>
           <ion-icon name="trash" slot="end"></ion-icon>
