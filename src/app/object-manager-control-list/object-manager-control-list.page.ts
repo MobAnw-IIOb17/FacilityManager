@@ -35,9 +35,11 @@ export class ObjectManagerControlListPage implements OnInit {
         private objectSearchService: ObjectSearchService,
         private objectChecklistService: ObjectChecklistService,
         private platform: Platform) {
+        // entgegennehmen der Übergabewerte von den anderen Seiten
         this.route.params.subscribe(() => {
             const state = this.router.getCurrentNavigation().extras.state;
             if (state) {
+                // new-page Übergabewerte
                 if (state.object) {
                     this.property = state.object;
                     this.objectChecklistService.getDefaultChecklist(this.property.uid).then((item) => {
@@ -53,6 +55,7 @@ export class ObjectManagerControlListPage implements OnInit {
                         });
                     });
                 }
+                // control-view Übergabewerte
                 if (state.checklist) {
                     const check: Checklist = state.checklist;
 
@@ -91,6 +94,9 @@ export class ObjectManagerControlListPage implements OnInit {
         });
     }
 
+    /**
+     * Erstellt Popup bei dem gefragt wird, ob, alle Änderungen verworfen werden sollen, da man die Seite verlässt
+     */
     async alertOnChangeToManagerNewPage() {
         const alert = await this.alertController.create({
             header: 'Möchten Sie diese Seite wirklich verlassen?',

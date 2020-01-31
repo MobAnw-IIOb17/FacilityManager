@@ -95,17 +95,8 @@ export class ObjectSearchService {
     }
 
     /**
-     *
-     * @param chosenObject
-     * @param firmList
-     * @param s
-     * @param searchbarName
-     * @param city
-     * @param cities
-     * @param firmCities
-     * @param object
-     * @param objects
-     * @param firmObjects
+     * Regelt die Auswahl eines Items, auf das man bei der Suche drückt
+     * Dabei wir unterschieden, ob man gerade die Stadt- bzw. Objektsuchleiste bearbeitet
      */
     chooseItem(chosenObject: string, firmList: Array<any>, s: string, searchbarName: string,
                city: string, cities: Array<string>, firmCities: Array<string>,
@@ -145,7 +136,7 @@ export class ObjectSearchService {
      * @returns Property: erstes gefundenes Objekt
      */
     getPropertyByCityAndStreet(list: Array<Property>, cityName: string, streetName: string) {
-        let prop = new Property();
+        let prop: Property;
         prop = list.filter((values) =>
             values.city === cityName && values.street === streetName
         )[0];
@@ -176,14 +167,15 @@ export class ObjectSearchService {
     }
 
     /**
-     * Zeigt einen Toast mit dem Eingabetext für time Millisekunden.
+     * Zeigt einen Toast in der Bildschrimmitte mit dem Eingabetext text für time Millisekunden.
      * @param text anzuzeigender Text
      * @param time Anzeigedauer in ms
      */
     async showToast(text: string, time: number) {
         const toast = await this.toastController.create({
             message: text,
-            duration: time
+            duration: time,
+            position: 'middle'
         });
         await toast.present();
     }

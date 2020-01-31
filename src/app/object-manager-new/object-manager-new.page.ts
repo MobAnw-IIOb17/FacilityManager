@@ -4,7 +4,7 @@ import {Property} from '../model/property.model';
 import {EmployeeService} from '../services/employee.service';
 import {Employee} from '../model/employee.model';
 import {ObjectSearchService} from '../services/object-search.service';
-import {Platform} from '@ionic/angular';
+import {AlertController, Platform, PopoverController} from '@ionic/angular';
 
 @Component({
     selector: 'app-object-manager-new',
@@ -24,6 +24,7 @@ export class ObjectManagerNewPage implements OnInit {
 
     constructor(
         private employeeService: EmployeeService,
+        private alertController: AlertController,
         private objectSearchService: ObjectSearchService,
         private router: Router,
         private platform: Platform
@@ -51,20 +52,38 @@ export class ObjectManagerNewPage implements OnInit {
 
     /**
      * Läd den Mitarbeiter aus der Datenbank und speichert ihn in der Variable employee ab
+     * Bring Fehler Alert, wenn kein gültiger Mitarbeiter ausgewählt wurde
      */
     loadEmployee() {
-        this.employeeService.getCurrentEmployee().then(item => {
+        this.employeeService.getCurrentEmployee().then(async item => {
             if (item != null) {
                 this.employee = item;
+            } else {
+                // this.objectSearchService.showToast('Achtung! Es wurde kein Mitarbeiter angemeldet', 4000);
+                document.getElementById('om_employee_input').setAttribute('value', 'Kein Mitarbeiter angemeldet!');
+                const alert = await this.alertController.create({
+                    header: 'Achtung!',
+                    message: 'Es wurde kein Mitarbeiter angemeldet.',
+                    buttons: [
+                        {
+                            text: 'Fortfahren'
+                        },
+                        {
+                            text: 'Einstellungen',
+                            handler: async () => {
+                                await this.router.navigateByUrl('/tabs/settings');
+                            }
+                        }
+                    ]
+                });
+                await alert.present();
             }
         });
     }
 
     /**
      * Aktualiesiert die Stadt und das Objekt in Abhängigkeit der ausgewählten Elementen in den Suchlisten
-     * @param chosenObject
-     * @param firmList
-     * @param s
+     * Ruft die Item Auswahl im Service auf und bekommt die aktuelle Auswahl als Objekt zurück
      */
     chooseItem(chosenObject: string, firmList: Array<any>, s: string) {
         const val = this.objectSearchService.chooseItem(

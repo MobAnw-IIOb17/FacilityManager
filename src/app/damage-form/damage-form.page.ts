@@ -50,18 +50,34 @@ export class DamageFormPage {
     let dateString = this.date.getDate() + "." + (this.date.getMonth() + 1) + "." + this.date.getFullYear();
     document.getElementById('date_input').setAttribute("value", dateString);
 
-    this.employeeService.getCurrentEmployee().then((item) => {
+    this.employeeService.getCurrentEmployee().then(async (item) => {
       if (item != null) {
         this.employee = item;
         document.getElementById('employee_input').setAttribute("value", this.employee.name);
       } else {
         document.getElementById('employee_input').setAttribute("value", "Kein Mitarbeiter angemeldet!");
+        const alert = await this.alertController.create({
+          header: 'Achtung!',
+          message: 'Es wurde kein Mitarbeiter angemeldet.',
+          buttons: [
+            {
+              text: 'Fortfahren'
+            },
+            {
+              text: 'Einstellungen',
+              handler: async () => {
+                await this.router.navigateByUrl('/tabs/settings');
+              }
+            }
+          ]
+        });
+        await alert.present();
       }
     });
 
     this.galleryService.makeGallery(document.getElementById('gallery-grid_01'), this.pictures, true);
 
-    //Handle für device back button
+    // Handle für device back button
     this.platform.backButton.subscribeWithPriority(0, () => {
       this.alertOnChangetoDamageReportsPage();
     });
