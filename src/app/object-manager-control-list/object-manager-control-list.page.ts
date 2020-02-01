@@ -105,7 +105,7 @@ export class ObjectManagerControlListPage implements OnInit {
                 {
                     text: 'Zurück',
                     handler: data => {
-                        this.router.navigate(['/tabs/object-manager-reports']);
+                        this.router.navigate(['/tabs/object-manager-new']);
                     }
                 },
                 {
