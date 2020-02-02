@@ -32,8 +32,8 @@ import {Artisan} from './artisan.model';
  *  an artisan object containing all relevant information about the property's electrician
  * @var {Artisan} heizung
  *  an artisan object containing all relevant information about the property's heating mechanic
- * @var {Artisan} sanitaeter
- *  an artisan object containing all relevant information about the property's paramedic
+ * @var {Artisan} sanitaer
+ *  an artisan object containing all relevant information about the property's plumber
  * @var {Artisan} schluesseldienst
  *  an artisan object containing all relevant information about the property's locksmith service
  * @var {Artisan} schornsteinfeger
@@ -63,7 +63,7 @@ export class Property {
     administrator: Artisan;
     elektriker: Artisan;
     heizung: Artisan;
-    sanitaeter: Artisan;
+    sanitaer: Artisan;
     schluesseldienst: Artisan;
     schornsteinfeger: Artisan;
     brandschutz: Artisan;
