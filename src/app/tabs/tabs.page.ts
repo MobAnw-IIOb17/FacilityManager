@@ -8,11 +8,11 @@ import {EmployeeService} from '../services/employee.service';
 })
 export class TabsPage implements OnInit {
 
-  private objectMangerEnabled = false;
+  private objectManagerEnabled = false;
 
   constructor(private employeeService: EmployeeService) {
     employeeService.controlListEnabledObserve((b: boolean) => {
-      this.objectMangerEnabled = b;
+      this.objectManagerEnabled = b;
     });
   }
 

@@ -17,9 +17,9 @@ export class ObjectManagerReportsPage implements OnInit {
 
     private objectChecklists: ObjectChecklist[] = [];
     private displayListItems: Array<boolean> = [];
-    private sortCity: boolean = false;
-    private sortDate: boolean = false;
-    private sortStatus: boolean = false;
+    private sortCity = false;
+    private sortDate = false;
+    private sortStatus = false;
     private dateYesterday: Date = new Date();
 
     constructor(

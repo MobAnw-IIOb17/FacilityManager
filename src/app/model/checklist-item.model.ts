@@ -1,6 +1,7 @@
 /**
  * This class describes an item for the object checklist.
  * Its use is for documenting the state of each part that needs to be checked in a certain object/property.
+ *
  * @var {string} name
  *  the name of the checklist item
  * @var {string} description

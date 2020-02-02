@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 import {Storage} from '@ionic/storage';
 
 import {Damage} from '../model/damage.model';
-
-import {HttpClient} from '@angular/common/http';
 import {NetworkQueryService} from './network-query.service';
 
 @Injectable({
@@ -25,6 +24,11 @@ import {NetworkQueryService} from './network-query.service';
  *  an array with all the damage reports pending to send
  * @var {Damage[]} sent
  *  an array with all damage reports that are already sent
+ * @var {number} DELAY_TIME
+ *  the time the program waits for all data to be loaded
+ * @var {boolean} dataLoaded
+ *  whether all data is loaded or not, is set after having downloaded all
+ *  sent damage reports from the webservice
  */
 export class DamageService {
 
@@ -40,6 +44,7 @@ export class DamageService {
    * The constructor creates a new ionic storage as damage database with two columns:
    * `TO_SEND` and `SEND` for distinguishing between pending damage reports and already sent ones.
    * It also creates two arrays for storing the damage reports of each of these two columns.
+   *
    * @param http the http client to interact with the webservice
    * @param networkService networkService for checking if internet is available
    */
@@ -71,6 +76,7 @@ export class DamageService {
    * This method adds a new damage to the database by first pushing it to the `toSend` array and then
    * syncing the array with the database.
    * If there is online access, it directly sends the damage report to the webservice.
+   *
    * @param damage the damage object to be added to the database
    * @return promise containing the execution of the database adding method
    */
@@ -85,6 +91,7 @@ export class DamageService {
 
   /**
    * This method lists all damage objects contained in the database.
+   *
    * @return promise with an array containing all damages
    */
   async getAllDamages(): Promise<Damage[]> {
@@ -119,6 +126,7 @@ export class DamageService {
   /**
    * This is a helper method to send a single damage report to the webservice,
    * adding all required attributes which are not given by the damage object specification.
+   *
    * @param damage the damage object to be sent
    */
   private async sendDamage(damage: Damage) {

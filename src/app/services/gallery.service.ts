@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AppCameraService } from '../services/app-camera.service';
+
 import { PopoverController, Platform } from '@ionic/angular';
+
+import { AppCameraService } from './app-camera.service';
 import { DeletePopoverPage } from './gallery.service.components/deletePopover/deletePopover.page';
 
 @Injectable({
@@ -50,19 +52,19 @@ export class GalleryService {
 
   private imgBase64: string[] = [];
   private galleryHTML: HTMLElement;
-  private deletable: boolean = false;
+  private deletable = false;
   private columns: number;
 
   constructor(
     private popover: PopoverController,
     private platform: Platform,
     public appCameraService: AppCameraService
-  ) { 
+  ) {
     this.platform.ready().then(() => {
-      this.columns = Math.floor(this.platform.width()/100);
+      this.columns = Math.floor(this.platform.width() / 100);
 
-      platform.resize.subscribe(()=>{
-        this.columns = Math.floor(this.platform.width()/100);
+      platform.resize.subscribe(() => {
+        this.columns = Math.floor(this.platform.width() / 100);
         this.buildGalleryHTML();
       });
     });
@@ -76,50 +78,51 @@ export class GalleryService {
   }
 
   public async addGalleryPicture() {
-    let image = await this.appCameraService.importPicture();
+    const image = await this.appCameraService.importPicture();
     this.imgBase64.push(image);
-    this.addToGallery(this.imgBase64[(this.imgBase64.length-1)]);
+    this.addToGallery(this.imgBase64[(this.imgBase64.length - 1)]);
   }
 
   public async addCameraPicture() {
-    let image = await this.appCameraService.takePicture();
+    const image = await this.appCameraService.takePicture();
     this.imgBase64.push(image);
-    this.addToGallery(this.imgBase64[(this.imgBase64.length-1)]);
+    this.addToGallery(this.imgBase64[(this.imgBase64.length - 1)]);
   }
 
+  // tslint:disable-next-line:variable-name
   public openDeletePopover = (local_index: number, local_src: string, local_deletable: boolean) => {
     this.popover.create({
-      component:DeletePopoverPage,
+      component: DeletePopoverPage,
       componentProps: {
         index: local_index,
         src: local_src,
         deletable: local_deletable,
         galleryService: this
       },
-      showBackdrop:true
-    }).then((popoverElement)=>{
+      showBackdrop: true
+    }).then((popoverElement) => {
       popoverElement.present();
-    })
+    });
   }
 
-  public deleteFromGallery(index: number){
+  public deleteFromGallery(index: number) {
     this.imgBase64.splice(index, 1);
     this.buildGalleryHTML();
   }
 
   private addToGallery(src: string) {
-    if(this.galleryHTML){
-      if((this.imgBase64.length-1)%this.columns==0){
-        var newRow = document.createElement("ion-row");
-        for(var i = 0; i<this.columns; i++){
-          newRow.appendChild(document.createElement("ion-col"));
+    if (this.galleryHTML) {
+      if ((this.imgBase64.length - 1) % this.columns === 0) {
+        const newRow = document.createElement('ion-row');
+        for (let i = 0; i < this.columns; i++) {
+          newRow.appendChild(document.createElement('ion-col'));
         }
         this.galleryHTML.appendChild(newRow);
       }
-      var row = this.galleryHTML.children[this.galleryHTML.children.length-1];
-      var col = row.children[(this.imgBase64.length-1)%this.columns];
+      const row = this.galleryHTML.children[this.galleryHTML.children.length - 1];
+      const col = row.children[(this.imgBase64.length - 1) % this.columns];
 
-      let newPicture = this.makeNewPicture(src, this.imgBase64.length-1);
+      const newPicture = this.makeNewPicture(src, this.imgBase64.length - 1);
 
       col.appendChild(newPicture);
     } else {
@@ -133,16 +136,16 @@ export class GalleryService {
 
   private buildGalleryHTML() {
     this.resetGallery();
-    let images = this.imgBase64;
-    if(this.galleryHTML){
+    const images = this.imgBase64;
+    if (this.galleryHTML) {
       let imageIndex = 0;
-      for(let i=0; i<Math.ceil(images.length/this.columns); i++) {
-          let row = document.createElement('ion-row');
-          for(let j=0; j<this.columns; j++) {
-              let col = document.createElement('ion-col');
-              if(imageIndex<images.length) {
-                  let src = images[imageIndex];
-                  let newPicture = this.makeNewPicture(src, imageIndex);
+      for (let i = 0; i < Math.ceil(images.length / this.columns); i++) {
+          const row = document.createElement('ion-row');
+          for (let j = 0; j < this.columns; j++) {
+              const col = document.createElement('ion-col');
+              if (imageIndex < images.length) {
+                  const src = images[imageIndex];
+                  const newPicture = this.makeNewPicture(src, imageIndex);
 
                   col.appendChild(newPicture);
               }
@@ -152,22 +155,22 @@ export class GalleryService {
           this.galleryHTML.appendChild(row);
       }
     } else {
-      throw ('No Grid has been selected for the Gallery'); 
+      throw ('No Grid has been selected for the Gallery');
     }
   }
 
   private resetGallery() {
-    let gallery = this.galleryHTML;
-    while(gallery.lastChild) {
+    const gallery = this.galleryHTML;
+    while (gallery.lastChild) {
       gallery.removeChild(gallery.firstChild);
     }
   }
 
-  private makeNewPicture(source: string, index: number){
-    let newPicture = document.createElement("ion-img");
+  private makeNewPicture(source: string, index: number) {
+    const newPicture = document.createElement('ion-img');
     source = 'data:image/png;base64,' + source;
-    newPicture.setAttribute("src", source);
-    newPicture.addEventListener("click", () => { this.openDeletePopover(index, source, this.deletable) });
+    newPicture.setAttribute('src', source);
+    newPicture.addEventListener('click', () => { this.openDeletePopover(index, source, this.deletable); });
     return newPicture;
   }
 }

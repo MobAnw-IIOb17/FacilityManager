@@ -35,12 +35,12 @@ export class SettingsPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    //Handle für device back button
+    // Handle für device back button
     this.platform.backButton.subscribeWithPriority(0, () => {
       this.router.navigateByUrl('/tabs/home');
     });
   }
-  
+
   login() {
     const passwordField = document.getElementById('adminPassword') as HTMLIonInputElement;
     if (passwordField.value === 'Admin1234') {
@@ -53,7 +53,7 @@ export class SettingsPage implements OnInit {
 
   toggleSaveLocally() {
     this.appCameraService.setSaveToPhotoAlbum(this.saveLocally);
-    if(this.saveLocally) {
+    if (this.saveLocally) {
       this.settingsService.putSetting('saveLocally', 'true');
     } else {
       this.settingsService.putSetting('saveLocally', 'false');

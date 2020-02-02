@@ -1,6 +1,10 @@
 import {Directive, HostListener} from '@angular/core';
 import { NetworkSendService } from '../services/network-send.service';
 
+@Directive({
+  selector: '[appNetworkListener]'
+})
+
 /**
  * This directive provides a network listener which should be included in each part of the app's gui.
  *
@@ -9,10 +13,6 @@ import { NetworkSendService } from '../services/network-send.service';
  * `<ion-content appNetworkListener>`
  * 2. add `CommonModule` to the imports in your module.ts (if it's not there already)
  */
-@Directive({
-  selector: '[appNetworkListener]'
-})
-
 export class NetworkListenerDirective {
 
   /**
@@ -35,6 +35,6 @@ export class NetworkListenerDirective {
    * which performs all routines that are scheduled for when the app goes online again.
    */
   onOnline() {
-    this.networkService.onOnline(); // TODO: find out why this gets triggered thrice
+    this.networkService.onOnline();
   }
 }

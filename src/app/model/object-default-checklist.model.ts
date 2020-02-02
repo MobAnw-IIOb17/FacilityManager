@@ -1,9 +1,10 @@
 /**
  * Interface to contain the fetched checklist data from the web service.
+ *
  * @var {number} object_uid
  *  the uid of the object/property
  * @var {string} update
- *  TODO: find out what this is, I guess timestamp of when it was updated
+ *  timestamp from when the default checklist was updated
  * @var {JSON} checklist
  *  a json string containing the already existing checklist items
  */

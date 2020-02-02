@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+
 import {Storage} from '@ionic/storage';
+
 import {Checklist} from '../model/checklist.model';
 import {ChecklistItem} from '../model/checklist-item.model';
 import {ObjectChecklist} from '../model/object-checklist.model';
@@ -29,6 +31,11 @@ import {NetworkQueryService} from './network-query.service';
  *  an array with all object checklists that are already sent
  * @var {Storage} defaultChecklistDb
  *  internal database to save the default checklists from the webservice
+ * @var {number} DELAY_TIME
+ *  the time the program waits for all data to be loaded
+ * @var {boolean} dataLoaded
+ *  whether all data is loaded or not, is set after having downloaded all
+ *  sent object checklists from the webservice
  */
 export class ObjectChecklistService {
 
@@ -42,7 +49,11 @@ export class ObjectChecklistService {
   private dataLoaded = false;
 
   /**
-   * The constructor creates a new ionic storage as employee database.
+   * The constructor creates a new ionic storage as checklist database which also
+   * contains two columns for sent checklists and pending ones.
+   * Furthermore, it creates a new ionic storage to store the default checklists in
+   * which are fetched from the webservice and used as checklist template.
+   *
    * @param http the HttpClient to interact with the webservice
    * @param propertyService the PropertyService to connect the checklists to the respective objects/properties
    * @param networkService the NetworkService to check if there is online access available
@@ -82,6 +93,7 @@ export class ObjectChecklistService {
    * This method adds a new checklist to the database by first pushing it to the `toSend` array and then
    * syncing the array with the database.
    * If there is online access, it directly sends the object checklist to the webservice.
+   *
    * @param checklist the checklist to be added
    */
   async addChecklist(checklist: ObjectChecklist) {
@@ -95,6 +107,7 @@ export class ObjectChecklistService {
 
   /**
    * This method gets all checklists, no matter if to send or already sent.
+   *
    * @return a promise containing an array of all the ObjectChecklists
    */
   async getAllChecklists(): Promise<ObjectChecklist[]> {
@@ -120,6 +133,7 @@ export class ObjectChecklistService {
 
   /**
    * Returns an object checklist from the default database.
+   *
    * @param objectId the object-uid to which the checklist belongs
    */
   getDefaultChecklist(objectId: string): Promise<ObjectChecklist> {
@@ -147,6 +161,7 @@ export class ObjectChecklistService {
 
   /**
    * This method sends a checklist to the webservice.
+   *
    * @param objectChecklist the checklist to be sent
    */
   private async sendChecklist(objectChecklist: ObjectChecklist) {
@@ -194,6 +209,7 @@ export class ObjectChecklistService {
 
   /**
    * A helper method to convert the JSON data from the checklist webservice to an ObjectChecklist.
+   *
    * @param data the ObjectDefaultChecklist to be converted into an ObjectChecklist
    * @return a promise with the converted ObjectChecklist
    */

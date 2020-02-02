@@ -16,6 +16,8 @@ import {SettingsService} from './settings.service';
  *
  * @var {Storage} employeeDb
  *  the internal database containing all existing employees, fetched from the webservice
+ * @var {any[]} controlListObserve
+ *  a list of all methods that are supposed to be executed when the controlListEnabled setting is changed
  */
 export class EmployeeService {
 
@@ -24,6 +26,7 @@ export class EmployeeService {
 
   /**
    * The constructor creates a new ionic storage as employee database.
+   *
    * @param http the HttpClient to interact with the webservice
    * @param settingsService the SettingsService to set and get currently logged in employee
    */
@@ -37,6 +40,7 @@ export class EmployeeService {
 
   /**
    * This method lists all employee objects contained in the database.
+   *
    * @return promise with an array containing all employees
    */
   getAllEmployees(): Promise<Employee[]> {
@@ -52,6 +56,7 @@ export class EmployeeService {
 
   /**
    * This method is for getting an Employee object by its uid.
+   *
    * @param uid the uid of the employee you want to get
    * @return a promise containing an employee object
    */
@@ -65,6 +70,7 @@ export class EmployeeService {
 
   /**
    * This method syncs the local wrapper database with the webservices database to get the freshest data.
+   *
    * @return an empty promise
    */
   updateEmployees(): Promise<void> {
@@ -79,6 +85,7 @@ export class EmployeeService {
 
   /**
    * This method gets the currently logged in employee.
+   *
    * @return promise with employee object
    */
   getCurrentEmployee(): Promise<Employee> {
@@ -93,21 +100,36 @@ export class EmployeeService {
 
   /**
    * This method sets the currently logged in employee.
+   *
    * @param employee the employee object to be set as current
    */
   setCurrentEmployee(employee: Employee) {
     this.settingsService.putSetting('employeeId', employee.uid);
   }
 
+  /**
+   * This method checks if the currently logged in employee is allowed to have access to the control list.
+   */
   async isControlListEnabled(): Promise<boolean> {
     return await this.settingsService.getSetting('controlList') === 'true';
   }
 
+  /**
+   * This method adds a given function to a list of functions that is to be executed when control list access
+   * is enabled and if the setting for controlListEnabled is true also already executes the method.
+   */
   controlListEnabledObserve(func) {
     this.controlListObserve.push(func);
     this.isControlListEnabled().then(func);
   }
 
+  /**
+   * This method sets the setting for control list access of the employee.
+   * It also executes every method that got put into the controlListObserve array
+   * to be executed upon changing the control list setting.
+   *
+   * @param b whether control list access is enabled or not
+   */
   async setControlListEnabled(b: boolean) {
     for (const func of this.controlListObserve) {
       func(b);
@@ -116,7 +138,8 @@ export class EmployeeService {
   }
 
   /**
-   * A helper method to insert an array of employees into the employee wrappyer database.
+   * A helper method to insert an array of employees into the employee wrapper database.
+   *
    * @param data the array of employees to be inserted into the database
    */
   private async insertIntoDb(data: Employee[]) {

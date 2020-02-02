@@ -11,7 +11,7 @@ import { IonInput, Platform } from '@ionic/angular';
 })
 
 export class ObjectManagerControlNewPage implements OnInit {
-    private labels: Array<string> = [""];
+    private labels: Array<string> = [''];
     private valid = false;
     private validName = false;
 
@@ -23,40 +23,40 @@ export class ObjectManagerControlNewPage implements OnInit {
         this.checkValidate();
     }
     ionViewDidEnter() {
-        //Verringern der angezeigten Einträge auf 1 zuzüglich des Namens
+        // Verringern der angezeigten Einträge auf 1 zuzüglich des Namens
         this.labels.splice(1);
         const input = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
-        const x = document.getElementById("NameOfLabel") as unknown as IonInput;
-        //setzt gespeicherte Werte auf ""
-        x.value = "";
-        for (let i = 0; i < input.length; i++) {
-            input[i].value = "";
+        const x = document.getElementById('NameOfLabel') as unknown as IonInput;
+        // setzt gespeicherte Werte auf ""
+        x.value = '';
+        for (const inputItem of input) {
+            inputItem.value = '';
         }
         this.checkValidate();
 
-        //Handle für device back button
+        // Handle für device back button
         this.platform.backButton.subscribeWithPriority(0, () => {
             this.router.navigateByUrl('/tabs/object-manager-control-list');
         });
     }
     /**
      * setzt den Namen des zu erstellenden ChecklistItems
-     * @param s 
+     * @param s
      */
     setName(s: string) {
-        const x = document.getElementById("NameOfLabel") as unknown as IonInput;
+        const x = document.getElementById('NameOfLabel') as unknown as IonInput;
         x.value = s;
         this.checkValidate();
     }
     /**
      * setzt die Bezeichung der Eigenschaften des zu erstellenden ChecklistItems
-     * @param s 
-     * @param target 
+     * @param s
+     * @param target
      */
     setValue(s: string, target) {
         const x = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
         for (let i = 0; i < x.length; i++) {
-            if (x[i].name == target) {
+            if (x[i].name === target) {
                 this.labels[i] = x[i].value;
             }
         }
@@ -68,7 +68,7 @@ export class ObjectManagerControlNewPage implements OnInit {
      */
     submit() {
         const checklist = new Checklist();
-        const Kname = document.getElementById("NameOfLabel") as unknown as IonInput;
+        const Kname = document.getElementById('NameOfLabel') as unknown as IonInput;
         const x = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
         checklist.name = Kname.value;
         if (this.labels.length > 0) {
@@ -78,8 +78,8 @@ export class ObjectManagerControlNewPage implements OnInit {
                 checklist.items.push(item);
             }
 
-            //Füge Dummy für device Zurück hinzu, wird unter view ausgewertet und gelöscht
-            const item: ChecklistItem = { name: "backToNew", description: '', images: [], is_ok: false };
+            // Füge Dummy für device Zurück hinzu, wird unter view ausgewertet und gelöscht
+            const item: ChecklistItem = { name: 'backToNew', description: '', images: [], is_ok: false };
             checklist.items.push(item);
 
             this.router.navigate(['/tabs/object-manager-control-view'], { state: { checklist } });
@@ -89,14 +89,13 @@ export class ObjectManagerControlNewPage implements OnInit {
      * überprüfen ob benötigte Bezeichner eingegeben sind
      */
     checkValidate() {
-        const Kname = document.getElementById("NameOfLabel") as unknown as IonInput;
+        const Kname = document.getElementById('NameOfLabel') as unknown as IonInput;
         const input = document.getElementsByClassName('Klabels') as unknown as Array<IonInput>;
         this.valid = false;
         this.validName = false;
         if (Kname.value !== '') {
             this.validName = true;
-        }
-        else {
+        } else {
             this.validName = false
         }
         if (this.labels.length > 0) {
@@ -106,15 +105,13 @@ export class ObjectManagerControlNewPage implements OnInit {
                 } else {
                     if (this.labels[i] !== '') {
                         this.valid = true;
-                    }
-                    else {
+                    } else {
                         this.valid = false;
                         break;
                     }
                 }
             }
-        }
-        else {
+        } else {
             this.valid = false;
         }
         if (this.valid && this.validName) {
@@ -127,16 +124,16 @@ export class ObjectManagerControlNewPage implements OnInit {
      * Hinzufügen einer neuen Eigenschaft ohne Bezeichner
      */
     addControl() {
-        this.labels.push("");
+        this.labels.push('');
         document.getElementById('sub').setAttribute('disabled', 'true');
     }
     /**
      * Löschen der angeklickten Eigenschaft
-     * @param control 
+     * @param control
      */
     removeControl(control) {
         for (let i = 0; i < this.labels.length; i++) {
-            if (i == control.key) {
+            if (i === control.key) {
                 this.labels.splice(i, 1);
             }
         }
@@ -145,8 +142,8 @@ export class ObjectManagerControlNewPage implements OnInit {
     }
     /**
      * zur eindeutigen Identifizierung der Labels
-     * @param index 
-     * @param obj 
+     * @param index
+     * @param obj
      */
     customTrackBy(index: number, obj: any): any {
         return index;

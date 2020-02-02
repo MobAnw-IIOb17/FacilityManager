@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { Base64 } from '@ionic-native/base64/ngx';
-import {SettingsService} from '../services/settings.service';
+
+import {SettingsService} from './settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,36 +22,38 @@ export class AppCameraService {
   constructor(
     private camera: Camera,
     private base64: Base64,
-    private file: File, 
+    private file: File,
     private settingsService: SettingsService
   ) { }
 
   async ngOnInit() {
     const save: string = await this.settingsService.getSetting('saveLocally');
-    if (save === 'false') this.setSaveToPhotoAlbum(false);
+    if (save === 'false') {
+      this.setSaveToPhotoAlbum(false);
+    }
   }
 
   setCameraOptions(cameraOptions: CameraOptions) {
     this.options = cameraOptions;
   }
 
-  setSaveToPhotoAlbum (value: boolean) {
+  setSaveToPhotoAlbum(value: boolean) {
     this.options.saveToPhotoAlbum = value;
   }
 
-  setPictureQuality (value:number) {
+  setPictureQuality(value: number) {
     this.options.quality = value;
   }
 
   async importPicture() {
     this.options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
-    let imageData = await this.camera.getPicture(this.options);
+    const imageData = await this.camera.getPicture(this.options);
     return imageData;
   }
 
   async takePicture() {
     this.options.sourceType = this.camera.PictureSourceType.CAMERA;
-    let imageData = await this.camera.getPicture(this.options);
+    const imageData = await this.camera.getPicture(this.options);
     return imageData;
   }
 }

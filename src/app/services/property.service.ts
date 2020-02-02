@@ -22,6 +22,7 @@ export class PropertyService {
 
   /**
    * This constructor creates a new ionic storage as property database.
+   *
    * @param http the HttpClient to access the webservice
    */
   constructor(private http: HttpClient) {
@@ -34,6 +35,7 @@ export class PropertyService {
 
   /**
    * This method gets all properties/objects contained in the internal property database.
+   *
    * @return a promise containing an array with all properties/objects
    */
   getAllProperties(): Promise<Property[]> {
@@ -49,6 +51,7 @@ export class PropertyService {
 
   /**
    * This method gets a single property/object by its uid.
+   *
    * @param uid the uid of the object/property you want to get
    */
   getProperty(uid: string): Promise<Property> {
@@ -60,7 +63,8 @@ export class PropertyService {
   }
 
   /**
-   * This method returns all properties/objects for a given city
+   * This method returns all properties/objects for a given city.
+   *
    * @param city the city's name
    * @return a promise containing an array with all properties/objects located in the city
    */
@@ -79,6 +83,7 @@ export class PropertyService {
 
   /**
    * This method gets all cities in which properties/objects are located.
+   *
    * @return a promise containing a string array with the city names
    */
   getPropertyCities(): Promise<string[]> {
@@ -109,6 +114,11 @@ export class PropertyService {
     });
   }
 
+  /**
+   * This method creates an empty template for a property.
+   *
+   * @return a property with all necessary attributes which have yet to be filled
+   */
   getEmptyProperty(): Property {
     return {
       uid: '',
@@ -125,7 +135,7 @@ export class PropertyService {
       administrator: null,
       elektriker: null,
       heizung: null,
-      sanitaer: null,
+      sanitaeter: null,
       schluesseldienst: null,
       schornsteinfeger: null,
       brandschutz: null,
@@ -136,6 +146,7 @@ export class PropertyService {
 
   /**
    * This is a helper method to insert a list of properties/objects into the propertyDb.
+   *
    * @param data the array of properties/objects to be inserted
    */
   private async insertIntoDb(data: Property[]) {
@@ -155,7 +166,7 @@ export class PropertyService {
         administrator: o.administrator,
         elektriker: o.elektriker,
         heizung: o.heizung,
-        sanitaer: o.sanitaer,
+        sanitaeter: o.sanitaeter,
         schluesseldienst: o.schluesseldienst,
         schornsteinfeger: o.schornsteinfeger,
         brandschutz: o.brandschutz,

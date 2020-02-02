@@ -27,7 +27,7 @@ export class ViewPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    //Handle für device back button
+    // Handle für device back button
     this.platform.backButton.subscribeWithPriority(0, () => {
       this.router.navigateByUrl('/tabs/object-explorer');
     });

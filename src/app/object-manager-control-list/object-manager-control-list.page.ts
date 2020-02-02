@@ -68,8 +68,8 @@ export class ObjectManagerControlListPage implements OnInit {
 
                     // Hinzufügen eines neuen Elementes
                     let used = false;
-                    for (let i = 0; i < this.usedControlListItems.length; i++) {
-                        if (this.usedControlListItems[i].name === check.name) {
+                    for (const usedControlListItem of this.usedControlListItems) {
+                        if (usedControlListItem.name === check.name) {
                             used = true;
                         }
                     }
@@ -183,8 +183,8 @@ export class ObjectManagerControlListPage implements OnInit {
     async createPopOver() {
         const missingControllistItems: Array<Checklist> = [];
         this.objectSearchService.copyAnArray(missingControllistItems, this.controlListItems.filter((item) => {
-            for (let i = 0; i < this.usedControlListItems.length; i++) {
-                if (this.usedControlListItems[i].name === item.name) {
+            for (const usedControlListItem of this.usedControlListItems) {
+                if (usedControlListItem.name === item.name) {
                     return false;
                 }
             }
@@ -222,9 +222,9 @@ export class ObjectManagerControlListPage implements OnInit {
         let button = null;
         const text = {head: '', subHead: '', msg: ''};
         if (this.finishedUsedControlListItems.length > 0) {
-            for (let i = 0; i < this.finishedUsedControlListItems.length; i++) {
-                if (!this.finishedUsedControlListItems[i].boolean) {
-                    missingItems.push(this.finishedUsedControlListItems[i]);
+            for (const finishedControlListItem of this.finishedUsedControlListItems) {
+                if (!finishedControlListItem.boolean) {
+                    missingItems.push(finishedControlListItem);
                 }
             }
             if (missingItems.length === 0) {

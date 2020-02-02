@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+
+import {ToastController} from '@ionic/angular';
+
 import {PropertyService} from './property.service';
 import {Property} from '../model/property.model';
-import {Router} from '@angular/router';
-import {ToastController} from '@ionic/angular';
 
 @Injectable({
     providedIn: 'root'
@@ -19,6 +21,7 @@ export class ObjectSearchService {
     /**
      * Löscht den Inahlt einer Liste
      * Call-by-Reference zerstört keine Referenzen
+     *
      * @param list Liste, welche geleert werden soll
      */
     clearAnArray(list: Array<any>) {
@@ -30,18 +33,20 @@ export class ObjectSearchService {
 
     /**
      * Kopiert sourceList in targetList ohne Referenzen zu zerstören
+     *
      * @param targetList Liste in die rein kopiert wird
      * @param sourceList Liste, welche kopiert wird
      */
     public copyAnArray(targetList: Array<any>, sourceList: Array<any>) {
         this.clearAnArray(targetList);
-        for (let i = 0; i < sourceList.length; i++) {
-            targetList.push(sourceList[i]);
+        for (const sourceListItem of sourceList) {
+            targetList.push(sourceListItem);
         }
     }
 
     /**
      * Warte Funktion
+     *
      * @param ms Zeit die gewartet werden soll in Millisekunden
      * @returns Promise, welches nach ms Millisekunden erfüllt wird
      */
@@ -53,6 +58,7 @@ export class ObjectSearchService {
      * Leert list nach 150 ms, damit sie in der Oberfläche verschwindet, jedoch die Elemente noch kurz verbleiben
      * Benötigt Verzögerung, damit man ein Item aus der Liste auswählen kann,
      * ansonsten würde die Liste verschwinden bevor man ein Item anklicken kann
+     *
      * @param list Liste, welche geleert wird
      */
     async hideItems(list: Array<string>) {
@@ -62,6 +68,7 @@ export class ObjectSearchService {
 
     /**
      * Läd die Städte aus der Datenbank in eine Liste
+     *
      * @param firmList Liste, welche mit den Städten gefüllt wird
      */
     loadCities(firmList: Array<string>) {
@@ -76,6 +83,7 @@ export class ObjectSearchService {
 
     /**
      * Läd die verfügbaren Straßen in der ausgewählten Stadt @param city in die Liste @param firmList
+     *
      * @param city String, welcher den Stadtnamen repräsentiert
      * @param firmList Liste, in die die gefundenen Objekte gespeichert werden
      * @param objects Liste, welche zur Anzeige in der GUI dient
@@ -130,6 +138,7 @@ export class ObjectSearchService {
 
     /**
      * Gibt das erste Objekt aus der Liste @param list wieder, für welches der eingegebene Stadt- und Straßenname übereinstimmt
+     *
      * @param list Liste, in der gesucht wird
      * @param cityName String: gesuchter Stadtname
      * @param streetName String: gesuchter Straßenname
@@ -146,6 +155,7 @@ export class ObjectSearchService {
 
     /**
      * Schreibt das Ergebnis des Filterns der Liste firmList mit dem Text des event Ereignisses in die list Liste
+     *
      * @param event wird benötigt,um den Inhalt der Searchbar zu ermitteln
      * @param list Liste, welche sortiert werden soll
      * @param firmList Liste, welche sortiert wird
@@ -168,6 +178,7 @@ export class ObjectSearchService {
 
     /**
      * Zeigt einen Toast in der Bildschrimmitte mit dem Eingabetext text für time Millisekunden.
+     *
      * @param text anzuzeigender Text
      * @param time Anzeigedauer in ms
      */
@@ -182,6 +193,7 @@ export class ObjectSearchService {
 
     /**
      * Überprüft, ob ein Objekt in einer Objekt-Liste enthalten ist
+     *
      * @param list Liste, in welcher gesucht wird
      * @param prop Objekt, welches gesucht wird
      * @return boolean Wenn Element in der Liste true, ansonsten false

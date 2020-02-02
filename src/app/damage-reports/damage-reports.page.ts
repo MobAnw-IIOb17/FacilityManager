@@ -14,12 +14,17 @@ import { DamagereportspopoverComponent } from './damagereportspopover/damagerepo
 export class DamageReportsPage {
   private damages: Damage[] = [];
   private damage: Damage;
-  private sortCity: boolean = false;
-  private sortDate: boolean = false;
-  private sortStatus: boolean = false;
+  private sortCity = false;
+  private sortDate = false;
+  private sortStatus = false;
   private dateYesterday: Date = new Date();
 
-  constructor(public damageService: DamageService, private loadingController: LoadingController, private popoverController: PopoverController, private router: Router, private platform: Platform) { }
+  constructor(
+      public damageService: DamageService,
+      private loadingController: LoadingController,
+      private popoverController: PopoverController,
+      private router: Router, private platform: Platform
+  ) { }
 
   @ViewChild(IonContent, { static: false }) theContent: IonContent;
 
@@ -31,7 +36,7 @@ export class DamageReportsPage {
     this.refreshDamages(true);
     this.theContent.scrollToTop(500);
 
-    //Handle für device back button
+    // Handle für device back button
     this.platform.backButton.subscribeWithPriority(0, () => {
       navigator['app'].exitApp();
     });
@@ -39,9 +44,9 @@ export class DamageReportsPage {
 
   /**
    * Setzt aktuelle zeit - 1 Tag für Anzeige maximal 24h
-  * Aktualisiert das Checklist Objekt für die Anzeige
-  * vorher wird es gelöscht
-  */
+   * Aktualisiert das Checklist Objekt für die Anzeige
+   * vorher wird es gelöscht
+   */
   async refreshDamages(loader: boolean) {
     this.dateYesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date);
 
@@ -70,7 +75,7 @@ export class DamageReportsPage {
   }
 
   openDamage(damage: Damage) {
-    let navigationExtras: NavigationExtras = {
+    const navigationExtras: NavigationExtras = {
       state: {
         damage
       }

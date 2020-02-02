@@ -29,6 +29,7 @@ export class SettingsService {
 
   /**
    * This method creates or edits a setting.
+   *
    * @param key the unique name of the setting
    * @param value the value of the setting
    */
@@ -38,6 +39,7 @@ export class SettingsService {
 
   /**
    * This method returns the value of a given setting.
+   *
    * @param key the unique name of the setting
    * @return a promise containing the value
    */

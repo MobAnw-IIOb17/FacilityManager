@@ -25,6 +25,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   entryComponents: [ControlListPopoverComponentComponent],
-  declarations: [ObjectManagerControlListPage, ControlListPopoverComponentComponent, NetworkListenerDirective]
+  declarations: [ObjectManagerControlListPage, ControlListPopoverComponentComponent]
 })
 export class ObjectManagerControlListPageModule { }

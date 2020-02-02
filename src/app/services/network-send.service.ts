@@ -1,25 +1,26 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 import {Network} from '@ionic-native/network';
-import {HttpClient} from '@angular/common/http';
+import {LoadingController} from '@ionic/angular';
+
 import {DamageService} from './damage.service';
 import {EmployeeService} from './employee.service';
 import {PropertyService} from './property.service';
 import {ObjectChecklistService} from './object-checklist.service';
-import {LoadingController} from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 
 /**
- * This services can be used to inquire whether there is a network connection
- * and it provides functionality to initiate all routines which can be executed as soon as there's online access.
+ * This service provides functionality to initiate all routines which can be executed as soon as there's online access.
  */
 export class NetworkSendService {
 
   /**
    * The constructor adds all needed services.
+   *
    * @param http the HttpClient which right now is only needed for testing posting to the webservice
    * @param damageService the DamageService the NetworkService connects to for initiating the sending of pending damages
    * @param objectChecklistService the objectChecklistService to send pending object checklists
@@ -56,6 +57,7 @@ export class NetworkSendService {
 
   /**
    * This method sends pending damage reports and checklists and syncs the wrapper databases.
+   * As long as it's syncing it shows a loading indicator for the user.
    */
   private async syncData() {
     const loading: HTMLIonLoadingElement = await this.loadingController.create({

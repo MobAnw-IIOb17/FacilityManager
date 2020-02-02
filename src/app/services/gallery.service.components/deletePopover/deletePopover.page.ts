@@ -11,23 +11,23 @@ export class DeletePopoverPage implements OnInit, AfterViewInit {
   public index;
   public galleryService;
   public src;
-  public deletable: boolean = false;
+  public deletable = false;
 
-  constructor(private popover:PopoverController) {
+  constructor(private popover: PopoverController) {
   }
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
-    document.getElementById("Base64Img").setAttribute("src",this.src);
+    document.getElementById('Base64Img').setAttribute('src', this.src);
   }
 
-  dismiss(){
+  dismiss() {
     this.popover.dismiss();
   }
 
-  delete(){
+  delete() {
     this.galleryService.deleteFromGallery(this.index);
     this.popover.dismiss();
   }

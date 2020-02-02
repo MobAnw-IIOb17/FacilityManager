@@ -11,6 +11,12 @@ import {NetworkSendService} from './services/network-send.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
+
+/**
+ * This is a class which is created upon opening the app
+ * and contains all necessary initialising methods for example
+ * hiding the splash screen and probing for a network connection.
+ */
 export class AppComponent {
   constructor(
     private platform: Platform,
@@ -22,6 +28,14 @@ export class AppComponent {
     this.initializeApp();
   }
 
+  /**
+   * This method waits until the ionic platform is ready,
+   * then performs default actions like styling the status bar
+   * and hiding the splash screen.
+   * In our case there's also a self-defined method being executed
+   * here which is the query if our device has internet access in which
+   * case we perform all online actions like getting fresh data from the webservice.
+   */
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleLightContent();

@@ -46,16 +46,16 @@ export class DamageFormPage {
   }
 
   ionViewDidEnter() {
-    this.date = new Date;
-    let dateString = this.date.getDate() + "." + (this.date.getMonth() + 1) + "." + this.date.getFullYear();
-    document.getElementById('date_input').setAttribute("value", dateString);
+    this.date = new Date();
+    const dateString = this.date.getDate() + '.' + (this.date.getMonth() + 1) + '.' + this.date.getFullYear();
+    document.getElementById('date_input').setAttribute('value', dateString);
 
     this.employeeService.getCurrentEmployee().then(async (item) => {
       if (item != null) {
         this.employee = item;
-        document.getElementById('employee_input').setAttribute("value", this.employee.name);
+        document.getElementById('employee_input').setAttribute('value', this.employee.name);
       } else {
-        document.getElementById('employee_input').setAttribute("value", "Kein Mitarbeiter angemeldet!");
+        document.getElementById('employee_input').setAttribute('value', 'Kein Mitarbeiter angemeldet!');
         const alert = await this.alertController.create({
           header: 'Achtung!',
           message: 'Es wurde kein Mitarbeiter angemeldet.',
@@ -85,8 +85,8 @@ export class DamageFormPage {
 
   async alertOnChangetoDamageReportsPage() {
     const alert = await this.alertController.create({
-      header: "Möchten Sie diese Seite wirklich verlassen?",
-      message: "Alle hier vorgenommenen Änderungen werden verworfen",
+      header: 'Möchten Sie diese Seite wirklich verlassen?',
+      message: 'Alle hier vorgenommenen Änderungen werden verworfen',
       buttons: [
         {
           text: 'Zurück',
@@ -102,6 +102,7 @@ export class DamageFormPage {
   }
 
   getPropertyByCityAndStreet(list: Array<Property>, cityName: string, streetName: string) {
+    // tslint:disable-next-line:variable-name
     let loc_prop = new Property();
     loc_prop = list.filter((values) => {
       return (values.city === cityName && values.street === streetName);
@@ -127,18 +128,18 @@ export class DamageFormPage {
 
   submitForm() {
     if (this.checkForm()) {
-      var dmg = new Damage();
+      const dmg = new Damage();
 
       this.damageService.getAllDamages().then((damages) => {
         if (damages.length > 0) {
-          dmg.uid = "" + (1 + +(damages[damages.length - 1].uid));
+          dmg.uid = '' + (1 + +(damages[damages.length - 1].uid));
         } else {
-          dmg.uid = "0";
+          dmg.uid = '0';
         }
       });
 
-      dmg.createDate = this.date.getDate() + "." + (this.date.getMonth() + 1) + "." + this.date.getFullYear() + " " +
-        this.date.getHours() + ":" + this.date.getMinutes();
+      dmg.createDate = this.date.getDate() + '.' + (this.date.getMonth() + 1) + '.' + this.date.getFullYear() + ' ' +
+        this.date.getHours() + ':' + this.date.getMinutes();
       dmg.property = this.object;
       dmg.employee = this.employee;
       dmg.description = this.description;
@@ -150,8 +151,8 @@ export class DamageFormPage {
       this.damageService.addDamage(dmg);
       this.location = '';
       this.description = '';
-      document.getElementById('#df_object_searchbar').setAttribute("value", "");
-      document.getElementById('#df_city_searchbar').setAttribute("value", "");
+      document.getElementById('#df_object_searchbar').setAttribute('value', '');
+      document.getElementById('#df_city_searchbar').setAttribute('value', '');
       this.city = '';
       this.object = new Property();
       this.pictures = [];

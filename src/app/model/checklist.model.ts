@@ -2,6 +2,7 @@ import {ChecklistItem} from './checklist-item.model';
 
 /**
  * This class provides the basis for an object checklist.
+ *
  * @var {string} name
  *  the name of the checklist
  * @var {ChecklistItem[]} items

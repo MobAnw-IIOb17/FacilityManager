@@ -24,7 +24,7 @@ export class DamageDetailsPage {
     ionViewDidEnter() {
         this.galleryService.makeGallery(document.getElementById('gallery-grid_02'), this.damage.images, false);
 
-        //Handle für device back button
+        // Handle für device back button
         this.platform.backButton.subscribeWithPriority(0, () => {
             this.router.navigateByUrl('/tabs/damage-reports');
         });

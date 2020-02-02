@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+
+import { IonCheckbox, IonTextarea, IonContent, Platform } from '@ionic/angular';
+
 import { Checklist } from '../model/checklist.model';
 import { GalleryService } from '../services/gallery.service';
-import { IonCheckbox, IonTextarea, IonContent, Platform } from '@ionic/angular';
-import { ChecklistItem } from "../model/checklist-item.model";
+import { ChecklistItem } from '../model/checklist-item.model';
 
 @Component({
     selector: 'app-object-manager-control-view',
@@ -20,7 +22,7 @@ export class ObjectManagerControlViewPage implements OnInit {
     private checklist = new Checklist();
     private valid = false;
     private grids: Array<HTMLElement> = [];
-    private backRoute: string = "/tabs/object-manager-control-list";
+    private backRoute = '/tabs/object-manager-control-list';
 
     constructor(
         private route: ActivatedRoute,
@@ -32,14 +34,14 @@ export class ObjectManagerControlViewPage implements OnInit {
             if (state) {
                 this.checklist = state.checklist;
 
-                //Wenn Item.name backToNew da ist, dann zurück nach new setzen und löschen, sonst nach list
+                // Wenn Item.name backToNew da ist, dann zurück nach new setzen und löschen, sonst nach list
                 this.checklist.items.forEach((item) => {
-                    if (item.name === "backToNew") {
-                        this.backRoute = "/tabs/object-manager-control-new";
+                    if (item.name === 'backToNew') {
+                        this.backRoute = '/tabs/object-manager-control-new';
                         this.checklist.items.pop();
                     }
                 });
-                //Setzt die Variablen, welche zum Erstellen des HTML benötigt werden
+                // Setzt die Variablen, welche zum Erstellen des HTML benötigt werden
                 this.name = this.checklist.name;
                 this.labels = this.checklist.items;
             }
@@ -66,7 +68,7 @@ export class ObjectManagerControlViewPage implements OnInit {
             this.galleryService.makeGallery(this.grids[i], this.checklist.items[i].images, true);
         }
 
-        //Handle für device back button
+        // Handle für device back button
         this.platform.backButton.subscribeWithPriority(0, () => {
             this.router.navigateByUrl(this.backRoute);
         });
@@ -78,9 +80,9 @@ export class ObjectManagerControlViewPage implements OnInit {
     }
     /**
      * setzt das Value des Labels
-    * @param s
-    * @param thislabel
-    */
+     * @param s
+     * @param thislabel
+     */
     setValue(s: string, thislabel) {
         thislabel.description = s;
         this.checkValidation();
@@ -96,30 +98,30 @@ export class ObjectManagerControlViewPage implements OnInit {
     }
     /**
      * setzt die die Eigenschaft is_ok des checklistitems (item)
-     * @param item 
-     * @param checkbox 
+     * @param item
+     * @param checkbox
      */
     checkCheckbox(item, checkbox) {
         if (checkbox.checked) {
-            for (let i = 0; i < this.labels.length; i++) {
-                if (item.name === this.labels[i].name) {
-                    this.labels[i].is_ok = true;
+            for (const label of this.labels) {
+                if (item.name === label.name) {
+                    label.is_ok = true;
                 }
             }
         } else {
-            for (let i = 0; i < this.labels.length; i++) {
-                if (item.name === this.labels[i].name) {
-                    this.labels[i].is_ok = false;
+            for (const label of this.labels) {
+                if (item.name === label.name) {
+                    label.is_ok = false;
                 }
             }
         }
         this.checkValidation();
     }
     /**
-    * Überprüft ob die jeweilig nötigen Eingaben gefertigt wurden
-    * wenn ja: Fertig-Button wird klickbar
-    * wenn nein: Fertig-Button bleibt nichtklickbar 
-    */
+     * Überprüft ob die jeweilig nötigen Eingaben gefertigt wurden
+     * wenn ja: Fertig-Button wird klickbar
+     * wenn nein: Fertig-Button bleibt nichtklickbar
+     */
      checkValidation() {
         const text = document.getElementsByClassName('descr') as unknown as Array<IonTextarea>;
         const check = document.getElementsByClassName('checkboxes') as unknown as Array<IonCheckbox>;
@@ -142,11 +144,11 @@ export class ObjectManagerControlViewPage implements OnInit {
     }
     /**
      * öffnet Kamera
-     * @param item 
+     * @param item
      */
     openCamera(item: ChecklistItem) {
         for (let i = 0; i < this.labels.length; i++) {
-            if (item.name == this.labels[i].name) {
+            if (item.name === this.labels[i].name) {
                 this.galleryService.makeGallery(this.grids[i], this.checklist.items[i].images, true);
             }
         }
@@ -154,12 +156,12 @@ export class ObjectManagerControlViewPage implements OnInit {
     }
     /**
      * öffnet Gallerie
-     * @param item 
+     * @param item
      */
     openGallery(item: ChecklistItem) {
 
         for (let i = 0; i < this.labels.length; i++) {
-            if (item.name == this.labels[i].name) {
+            if (item.name === this.labels[i].name) {
                 this.galleryService.makeGallery(this.grids[i], this.checklist.items[i].images, true);
             }
         }
@@ -175,8 +177,8 @@ export class ObjectManagerControlViewPage implements OnInit {
     }
     /**
      * zur eindeutigen Identifizierung der Labels
-     * @param index 
-     * @param obj 
+     * @param index
+     * @param obj
      */
     customTrackBy(index: number, obj: any): any {
         return index;
