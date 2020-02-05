@@ -133,7 +133,7 @@ export class ObjectManagerControlNewPage implements OnInit {
      */
     removeControl(control) {
         for (let i = 0; i < this.labels.length; i++) {
-            if (i === control.key) {
+            if (i == control.key) {
                 this.labels.splice(i, 1);
             }
         }
