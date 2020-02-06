@@ -91,6 +91,7 @@ export class DamageFormPage {
         {
           text: 'Zurück',
           handler: data => {
+            this.resetForm();
             this.router.navigate(['/tabs/damage-reports']);
           }
         },
@@ -101,22 +102,17 @@ export class DamageFormPage {
     await alert.present();
   }
 
-  getPropertyByCityAndStreet(list: Array<Property>, cityName: string, streetName: string) {
-    // tslint:disable-next-line:variable-name
-    let loc_prop = new Property();
-    loc_prop = list.filter((values) => {
-      return (values.city === cityName && values.street === streetName);
-    })[0];
-    return loc_prop;
-  }
-
+  /** 
+    * Checks the Form-Input 
+    * @return true if the Input is valid, false if not
+  */
   checkForm(): boolean {
     let check = false;
     if (this.date) {
       if (this.objectSearchService.validateObject(undefined, this.city, this.firmCities, this.object, this.firmObjects)) {
         if (this.employee) {
           if (this.description && this.description.length > 0) {
-            if (this.pictures.length >= 0) {
+            if (this.pictures.length > 0) {
               check = true;
             } else { this.objectSearchService.showToast('Bitte fügen Sie mindestens ein Bild hinzu!', 2000); }
           } else { this.objectSearchService.showToast('Bitte fügen Sie eine Beschreibung hinzu!', 2000); }
@@ -126,6 +122,9 @@ export class DamageFormPage {
     return check;
   }
 
+  /**
+    * Trys to submit the Damage to the DamageService if the conditions are met
+  */
   submitForm() {
     if (this.checkForm()) {
       const dmg = new Damage();
@@ -147,17 +146,23 @@ export class DamageFormPage {
       dmg.location = this.location;
       dmg.sent = false;
       dmg.sentTimestamp = null;
-
       this.damageService.addDamage(dmg);
-      this.location = '';
-      this.description = '';
-      document.getElementById('#df_object_searchbar').setAttribute('value', '');
-      document.getElementById('#df_city_searchbar').setAttribute('value', '');
-      this.city = '';
-      this.object = new Property();
-      this.pictures = [];
+      this.resetForm();
       this.router.navigateByUrl('/tabs/damage-reports');
     }
+  }
+
+  /**  
+    * Resets the Form to a blank state
+  */
+  resetForm() {
+    this.location = '';
+    this.description = '';
+    document.getElementById('#df_object_searchbar').setAttribute('value', '');
+    document.getElementById('#df_city_searchbar').setAttribute('value', '');
+    this.city = '';
+    this.object = new Property();
+    this.pictures = [];
   }
 
   chooseItem(chosenObject: string, firmList: Array<any>, s: string) {
