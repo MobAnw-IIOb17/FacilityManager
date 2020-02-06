@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { GalleryService } from '../../gallery.service';
 
@@ -7,6 +7,11 @@ import { GalleryService } from '../../gallery.service';
   templateUrl: './deletePopover.page.html',
   styleUrls: ['./deletePopover.page.scss'],
 })
+
+/**
+ * Popover für das Löschen von mit GalleryService erzeugten Bildern
+ */
+
 export class DeletePopoverPage {
 
   public index: number;
