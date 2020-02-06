@@ -52,7 +52,7 @@ export class GalleryService {
 
   private imgBase64: string[] = [];
   private galleryHTML: HTMLElement;
-  private deletable = false;
+  private deletable: boolean = false;
   private columns: number;
 
   constructor(
@@ -62,11 +62,6 @@ export class GalleryService {
   ) {
     this.platform.ready().then(() => {
       this.columns = Math.floor(this.platform.width() / 100);
-
-      platform.resize.subscribe(() => {
-        this.columns = Math.floor(this.platform.width() / 100);
-        this.buildGalleryHTML();
-      });
     });
   }
 
@@ -75,6 +70,12 @@ export class GalleryService {
     this.imgBase64 = images;
     this.deletable = deletable;
     this.buildGalleryHTML();
+  }
+
+  public setGallery(htmlGrid: HTMLElement, images: string[], deletable: boolean) {
+    this.galleryHTML = htmlGrid;
+    this.imgBase64 = images;
+    this.deletable = deletable;
   }
 
   public async addGalleryPicture() {
@@ -90,14 +91,13 @@ export class GalleryService {
   }
 
   // tslint:disable-next-line:variable-name
-  public openDeletePopover = (local_index: number, local_src: string, local_deletable: boolean) => {
+  public openDeletePopover = (local_index: number, local_array: string[], local_html: HTMLElement) => {
     this.popover.create({
       component: DeletePopoverPage,
       componentProps: {
         index: local_index,
-        src: local_src,
-        deletable: local_deletable,
-        galleryService: this
+        src_array: local_array,
+        root_html: local_html
       },
       showBackdrop: true
     }).then((popoverElement) => {
@@ -160,17 +160,21 @@ export class GalleryService {
   }
 
   private resetGallery() {
-    const gallery = this.galleryHTML;
+    let gallery = this.galleryHTML;
     while (gallery.lastChild) {
       gallery.removeChild(gallery.firstChild);
     }
   }
 
   private makeNewPicture(source: string, index: number) {
-    const newPicture = document.createElement('ion-img');
+    let newPicture = document.createElement('ion-img');
     source = 'data:image/png;base64,' + source;
     newPicture.setAttribute('src', source);
-    newPicture.addEventListener('click', () => { this.openDeletePopover(index, source, this.deletable); });
+    let src_array = this.imgBase64;
+    let root_html = this.galleryHTML;
+    if(this.deletable){
+      newPicture.addEventListener('click', () => { this.openDeletePopover(index, src_array, root_html); });
+    }
     return newPicture;
   }
 }

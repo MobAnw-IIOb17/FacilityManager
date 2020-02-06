@@ -1,13 +1,13 @@
 
 <ion-content>
   <div class="content">
-    <ion-img id="Base64Img"></ion-img>
+    <p>Bild wirklich Löschen?</p>
   </div>
   <section class="buttons">
     <ion-button fill='clear' (click)='dismiss()'>
       ABBRECHEN
     </ion-button>
-    <ion-button fill='solid' *ngIf='deletable' (click)='delete()'>
+    <ion-button fill='solid' (click)='delete()'>
       LÖSCHEN
     </ion-button>
   </section>
