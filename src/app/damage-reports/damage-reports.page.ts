@@ -73,7 +73,10 @@ export class DamageReportsPage {
       }
     });
   }
-
+  /*
+   * bei der auswahl eines objekts übergeben wir dessen parameter als argument an die funktion
+   * und holen das objekt aus der liste, zeigen es im formular an
+   */
   openDamage(damage: Damage) {
     const navigationExtras: NavigationExtras = {
       state: {
