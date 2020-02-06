@@ -60,37 +60,60 @@ export class GalleryService {
     private platform: Platform,
     public appCameraService: AppCameraService
   ) {
+    /**
+     * Initialisiere die Anzahl der Spalten abhängig von der Bildschirmbreite
+     */
     this.platform.ready().then(() => {
       this.columns = Math.floor(this.platform.width() / 100);
     });
   }
 
+  /**
+   * Erzeugt eine Galerie
+   * 
+   * @param htmlGrid Element in dem die Galerie erzeugt werden soll
+   * @param images Bilder die in der Galerie gezeigt werden sollen
+   * @param deletable Bilder in der Galerie können gelöscht werden
+   */
   public makeGallery(htmlGrid: HTMLElement, images: string[], deletable: boolean) {
-    this.galleryHTML = htmlGrid;
-    this.imgBase64 = images;
-    this.deletable = deletable;
+    this.setGallery(htmlGrid, images, deletable);
     this.buildGalleryHTML();
   }
 
+  /**
+   * Wählt eine bestimmte Galerie aus
+   * 
+   * @param htmlGrid Element in der die Galerie erzeugt wurde
+   * @param images Bilder in der Galerie
+   * @param deletable Bilder in der Galerie können gelöscht werden
+   */
   public setGallery(htmlGrid: HTMLElement, images: string[], deletable: boolean) {
     this.galleryHTML = htmlGrid;
     this.imgBase64 = images;
     this.deletable = deletable;
   }
 
+  /**
+   * Fügt ein Bild aus der Galerie des Gerätes zur Galerie hinzu
+   */
   public async addGalleryPicture() {
     const image = await this.appCameraService.importPicture();
     this.imgBase64.push(image);
     this.addToGallery(this.imgBase64[(this.imgBase64.length - 1)]);
   }
 
+  /**
+   * Lässt den Benutzer ein Foto machen um es der Galerie hinzuzufügen
+   */
   public async addCameraPicture() {
     const image = await this.appCameraService.takePicture();
     this.imgBase64.push(image);
     this.addToGallery(this.imgBase64[(this.imgBase64.length - 1)]);
   }
 
-  // tslint:disable-next-line:variable-name
+  /**
+   * Öffnet ein Popover um das gewählte Bild zu löschen
+   */
   public openDeletePopover = (local_index: number, local_array: string[], local_html: HTMLElement) => {
     this.popover.create({
       component: DeletePopoverPage,
@@ -105,11 +128,19 @@ export class GalleryService {
     });
   }
 
+  /**
+   * Löscht ein Bild aus der Galerie
+   * @param index Index des Bildes
+   */
   public deleteFromGallery(index: number) {
     this.imgBase64.splice(index, 1);
     this.buildGalleryHTML();
   }
 
+  /**
+   * Fügt der Galerie ein Bild hinzu
+   * @param src Base64 String des Bildes
+   */
   private addToGallery(src: string) {
     if (this.galleryHTML) {
       if ((this.imgBase64.length - 1) % this.columns === 0) {
@@ -130,10 +161,9 @@ export class GalleryService {
     }
   }
 
-  /*
-  * Builds a HTML gallery with all images in this.imgBase64
-  */
-
+  /**
+   * Baut die Galerie
+   */
   private buildGalleryHTML() {
     this.resetGallery();
     const images = this.imgBase64;
@@ -159,6 +189,9 @@ export class GalleryService {
     }
   }
 
+  /**
+   * Leere die Galerie
+   */
   private resetGallery() {
     let gallery = this.galleryHTML;
     while (gallery.lastChild) {
@@ -166,6 +199,11 @@ export class GalleryService {
     }
   }
 
+  /**
+   * Erzeugt ein HTML-Element mit dem Bild
+   * @param source Base64-String des Bildes
+   * @param index Index des Bildes
+   */
   private makeNewPicture(source: string, index: number) {
     let newPicture = document.createElement('ion-img');
     source = 'data:image/png;base64,' + source;
