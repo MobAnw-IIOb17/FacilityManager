@@ -20,8 +20,11 @@ export class ObjectManagerControlListPage implements OnInit {
     [x: string]: any;
 
     private property = new Property();
+    // Festes Template
     private controlListItems: Array<Checklist> = [];
+    // Gerade Angezeigt
     private usedControlListItems: Array<Checklist> = [];
+    // Bereits bearbeitet
     private finishedUsedControlListItems: Array<{ name: string, boolean: boolean }> = [];
     private saveItem: ObjectChecklist;
 
@@ -43,8 +46,12 @@ export class ObjectManagerControlListPage implements OnInit {
                 if (state.object) {
                     this.property = state.object;
                     this.objectChecklistService.getDefaultChecklist(this.property.uid).then((item) => {
-                        this.controlListItems = item.checklist;
-                        this.usedControlListItems = item.checklist;
+                        this.objectSearchService.clearAnArray(this.controlListItems);
+                        this.objectSearchService.clearAnArray(this.usedControlListItems);
+                        item.checklist.forEach(element => {
+                            this.controlListItems.push(element);
+                            this.usedControlListItems.push(element)
+                        });
                         this.saveItem = item;
                         this.employeeService.getCurrentEmployee().then((employee) => {
                             this.saveItem.employee = employee;

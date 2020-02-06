@@ -93,6 +93,11 @@ export class ObjectSearchService {
         this.propertyService.getPropertiesByCity(city).then((items) => {
             if (items.length !== 0) {
                 this.copyAnArray(firmList, items.map((val) => val));
+                firmList.sort((a: Property, b: Property) => {
+                    if (a.street < b.street) { return -1; }
+                    if (a.street > b.street) { return 1; }
+                    return 0;
+                  });
             } else {
                 this.clearAnArray(firmList);
             }

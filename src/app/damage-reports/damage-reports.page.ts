@@ -56,7 +56,7 @@ export class DamageReportsPage {
       loading = await this.loadingController.create({
         spinner: 'circles',
         message: 'Lade',
-        duration: 4000
+        duration: 2500
       });
 
       await loading.present();
